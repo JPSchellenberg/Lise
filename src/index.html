@@ -1,0 +1,39 @@
+<html>
+
+<head>
+  <script src="js/jquery.js"></script>
+
+  <script type="application/javascript">
+    window.electron = false;
+
+    if (typeof module === 'object' && typeof module.exports !== 'undefined') {
+      window.$ = window.jQuery = require('./js/jquery');
+      window.electron = true;
+    } // http://stackoverflow.com/questions/32414344/how-do-i-use-bootstrap-slider-in-electron && https://github.com/electron/electron/issues/254
+  </script>
+
+  <script src="js/socket.io.js"></script>
+  <script src="js/page.js"></script>
+  <script src="js/flotr2.js"></script>
+  <script src="js/bootstrap.js"></script>
+
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    (function() {
+      const script = document.createElement('script');
+      if (typeof process !== "undefined") {
+        script.src = (process.env.NODE_ENV === 'development') ? 'http://localhost:8080/app.js' : 'app.js';
+        require('./renderer.js');
+        document.write(script.outerHTML);
+      } else {
+        script.src = 'app.js';
+        document.write(script.outerHTML);
+      }
+    }());
+  </script>
+</body>
+
+</html>

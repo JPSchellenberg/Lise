@@ -1,0 +1,39 @@
+#!/usr/bin/env node
+
+var jsonfile = require('jsonfile');
+var semver = require('semver');
+var spawn = require('child_process').spawn;
+
+var args = process.argv;
+
+if (
+  (args[2] !== 'major' &&
+    args[2] !== 'minor' &&
+    args[2] !== 'patch' &&
+    args[2] !== 'prerelease') ||
+  !args[3]) {
+  console.log('Usage: version <major|minor|patch> <message>');
+  process.exit(0);
+}
+
+jsonfile.readFile(__dirname + '/../package.json', function(err, package) {
+
+  var newVersion = semver.inc(package.version, process.argv[2], 'prerelease');
+
+  package.version = newVersion;
+
+  jsonfile.writeFileSync(__dirname + '/../package.json', package, { spaces: 2 });
+
+  var gitstage, gitcommit, gittag;
+  gitstage = spawn('git', ['stage', '.']);
+  gitstage.on('close', () => {
+    gitcommit = spawn('git', ['commit', '-a', '-m', args[3]]);
+    gitcommit.on('close', () => {
+      gittag = spawn('git', ['tag', '-a', newVersion, '-m', args[3]]);
+      gittag.on('close', () => {
+        console.log('Updated version to: ' + newVersion);
+        process.exit(0);
+      });
+    });
+  });
+});

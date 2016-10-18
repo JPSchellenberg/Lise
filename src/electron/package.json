@@ -1,0 +1,30 @@
+{
+  "name": "Lise",
+  "version": "1.0.0-prerelease.0",
+  "description": "Lowcost interface for science experiments",
+  "main": "electron.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "keywords": [],
+  "author": "JPSchellenberg",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "devDependencies": {
+    "electron-builder": "^7.11.2",
+    "electron-prebuilt": "1.1.0",
+    "electron-rebuild": "1.1.0"
+  },
+  "dependencies": {
+    "avrgirl-arduino": "^1.9.8",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "serialport": "3.1.2"
+  }
+}

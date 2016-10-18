@@ -1,0 +1,7 @@
+dist
+app
+build
+node_modules
+typings
+.vscode
+tmp
