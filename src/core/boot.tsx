@@ -89,21 +89,25 @@ export default function boot() {
 			}
 		});
 
-		core.boot( flash );
-		flash.on('flash', (status, port) => {
-			const notification = new Notification('Arduino on port '+port+' flashed', 'success');
-			Store.dispatch( showNotification( notification ) );
-			setTimeout( () => { 
-				communication.connect(port); 
-				Store.dispatch( selectPort(port) );
-			
-		}, 2000);
-		});
+		if (window.electron) {
+				core.boot( flash );
+				flash.on('flash', (status, port) => {
+					const notification = new Notification('Arduino on port '+port+' flashed', 'success');
+					Store.dispatch( showNotification( notification ) );
+					setTimeout( () => { 
+						communication.connect(port); 
+						Store.dispatch( selectPort(port) );
+					
+				}, 2000);
+				});
 
-		flash.on('danger', () => {
-			const notification = new Notification('Arduino flashed failed', 'danger');
-			Store.dispatch( showNotification( notification ) );
-		});
+				flash.on('danger', () => {
+					const notification = new Notification('Arduino flashed failed', 'danger');
+					Store.dispatch( showNotification( notification ) );
+				});
+		}
+
+
 
 		core.finish(() => {
 			ReactDOM.render(

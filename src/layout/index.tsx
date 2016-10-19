@@ -16,6 +16,9 @@ import { selectPort } from '../state/ports/actions';
 
 import communication from '../lib/Communication';
 import flash 		from '../lib/Flash';
+
+declare var window: any; // remove and implement enviroment-module
+
 interface IProps {	
 	path?: string;
 	ports?: string;
@@ -62,6 +65,7 @@ export class Layout extends React.Component<IProps, IState> {
 						<div className="row">
 							<div className="col-xs-4">
 								<PortSelect 
+								electron={window.electron}
 								selectedPort={this.props.selectedPort} 
 								selectPort={this.connectToPort}
 								ports={this.props.ports}
