@@ -57,12 +57,8 @@ module.exports = {
       index: 'index.html'
     },
     proxy: {
-      '/api/v0/*': {
-        target: 'http://localhost:3000',
-        secure: false
-      },
       '/socket.io': {
-        target: 'http://localhost:3000',
+        target: 'http://arduino.local:3000',
         secure: false
       }
     }
