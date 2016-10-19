@@ -1,0 +1,21 @@
+{
+  "name": "Lise-yun-server",
+  "version": "1.0.0-prerelease.0",
+  "description": "Lowcost interface for science experiments - yun server",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JPSchellenberg/Lise"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "make"
+  },
+  "author": "Jan Philip Schellenberg",
+  "license": "",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "socket.io": "^1.4.6"
+  }
+}
