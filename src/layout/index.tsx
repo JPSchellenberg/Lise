@@ -17,6 +17,8 @@ import { selectPort } from '../state/ports/actions';
 import communication from '../lib/Communication';
 import flash 		from '../lib/Flash';
 
+import Reconstruction from '../modules/reconstruction';
+
 declare var window: any; // remove and implement enviroment-module
 
 interface IProps {	
@@ -56,6 +58,8 @@ export class Layout extends React.Component<IProps, IState> {
 				<Notifications />
 
 				<div className="container">
+					<Reconstruction />
+
 						{ route( this.props.path ) }
 				</div>
 
