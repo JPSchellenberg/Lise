@@ -2,8 +2,17 @@ build:
 	make clear
 	make copyassets
 	NODE_ENV=production VERSION=$(shell git describe) ./node_modules/.bin/webpack -p --config './webpack.production.js' --progress --colors
+
+yun:
+	make build
+	mkdir -p dist/yun
+	cp -r src/server/yun/* dist/yun
+	cp -r app dist/yun
+	cd dist/yun; npm install
+
+mac:
+	make build
 	./node_modules/.bin/build -m
-	cp -r app dist/web
 
 .PHONY: test test-watch
 test:
