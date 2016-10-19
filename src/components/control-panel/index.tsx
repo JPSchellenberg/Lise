@@ -23,7 +23,12 @@ export default class List extends React.Component<IProps, IState> {
 						<div className="btn-group">
 							<button 
 							className="btn btn-success"
-							onClick={() => { window.recording = true; }}
+							onClick={() => { 
+								window.recording = true; 
+								window.channel1 = [];
+								window.channel2 = [];
+								window.lastTime = false;
+							}}
 							> 
 								Start 
 							</button>
@@ -38,6 +43,7 @@ export default class List extends React.Component<IProps, IState> {
 							onClick={() => {
 								window.channel1 = [];
 								window.channel2 = [];
+								window.lastTime = false;
 							} }
 							>
 							 Reset 
