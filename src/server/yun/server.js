@@ -58,7 +58,7 @@ var server = http.createServer(function (request, response) {
 
 var socketServer = socketio(server);
 
-var serialConnection = new serialport.SerialPort('/dev/ttyATH0', {
+var serialConnection = new serialport.SerialPort( (process.env.SERIALPORT ? process.env.SERIALPORT : '/dev/ttyATH0'), { // /dev/ttyATH0 is standard port on arduino yun - for development use local server with: "SERIALPORT=/dev/cu.usbmodem1421 node server.js"
   baudRate: 9600,
   parser: serialport.parsers.readline("\n")
 });
