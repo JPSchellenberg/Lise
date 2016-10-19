@@ -1,17 +1,17 @@
 import { assign } from 'lodash';
-import { TimeSeriesState } from './state';
+import LineChartState from './state';
 
 import { 
-	TIMESERIES_SHOWSETTINGS,
-	TIMESERIES_SAVE
+	LINECHART_SHOWSETTINGS,
+	LINECHART_SAVE
 } from './constants';
 
-export default function(state: TimeSeriesState = new TimeSeriesState(), action): TimeSeriesState {
+export default function(state: LineChartState = new LineChartState(), action): LineChartState {
 	switch(action.type) {
-		case TIMESERIES_SHOWSETTINGS:
+		case LINECHART_SHOWSETTINGS:
 			return assign({}, state, { showSettings: !state.showSettings });
 
-		case TIMESERIES_SAVE:
+		case LINECHART_SAVE:
 			return assign({}, state, action.state, { showSettings: false});
 
 		default:
