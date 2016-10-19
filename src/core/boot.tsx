@@ -79,10 +79,12 @@ export default function boot() {
 		window.recording = false;
 
 		communication.on('data', (data) => {
+			
 			if (window.recording) {
 				data = JSON.parse( data.split(" ")[1] ); 
-				window.channel1.push([ data.time, data.channel1]);
-				window.channel2.push([ data.time, data.channel2]);
+				if (!window.lastTime) { window.lastTime = data.time; }
+				window.channel1.push([ ((data.time-window.lastTime)/1000), data.channel1]);
+				window.channel2.push([ ((data.time-window.lastTime)/1000), data.channel2]);
 
 				if (window.channel1.length > 300) { window.channel1.shift(); }
 				if (window.channel2.length > 300) { window.channel2.shift(); }
