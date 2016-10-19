@@ -6,7 +6,8 @@ import * as classnames from 'classnames';
 
 declare var $: any;
 
-interface IPortSelectProps {	
+interface IPortSelectProps {
+  electron: boolean;
   ports: any;
   connectionStatus: string;
   selectedPort: string;
@@ -46,8 +47,7 @@ export default class PortSelect extends React.Component<IPortSelectProps, IPortS
 				<div className="dropup">
 				<div className="btn-group">
 				<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					{ this.props.selectedPort }
-					<span className="caret"></span>
+					{ this.props.electron ? <span>{this.props.selectedPort} <span className="caret"></span></span>  : 'Websockets' }
 				</button>
 				<ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
 					{
