@@ -17,6 +17,8 @@ import { selectPort } from '../state/ports/actions';
 import communication from '../lib/Communication';
 import flash 		from '../lib/Flash';
 
+import { showSettings } 	from '../modules/line-chart/actions';
+
 declare var window: any; // remove and implement enviroment-module
 
 interface IProps {	
@@ -26,6 +28,10 @@ interface IProps {
 	selectPort?: (comName: string) => void;
 	connectionStatus?: string;
 	connectionInfo?: any;
+	lineChartSettings?: any;
+	linechartToggleSettings?: any;
+	linechartShowSettings?: any;
+	linechartSettings?: any;
 }
 
 interface IState {
@@ -56,7 +62,16 @@ export class Layout extends React.Component<IProps, IState> {
 				<Notifications />
 
 				<div className="container">
-						{ route( this.props.path ) }
+						<LineChart 
+							settings={{
+								xaxis: this.props.linechartSettings.xAxis,
+								yaxis: this.props.linechartSettings.yAxis
+							}}
+
+							showSettings={this.props.linechartShowSettings}
+
+							toggleSettings={this.props.linechartToggleSettings}
+				/>
 				</div>
 
 
@@ -88,31 +103,22 @@ export class Layout extends React.Component<IProps, IState> {
 	}
 };
 
-function route(path) {
-	switch (path) {
-
-		case '/settings':
-		case '/webserver':
-		case '/':
-		case '/measurement':
-		default:
-			return (<LineChart />);
-	}
-}
-
 function mapStateToProps(state): IProps {   
     return {        
 		path: state.page.path,
 		ports: state.ports.portList,
 		selectedPort: state.ports.selectedPort,
 		connectionStatus: state.ports.connectionStatus,
-		connectionInfo: state.ports.connectionInfo
+		connectionInfo: state.ports.connectionInfo,
+		linechartShowSettings: state.LineChart.showSettings,
+		linechartSettings: state.LineChart.settings
     };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-	  selectPort: (comName: string) => dispatch( selectPort(comName) )
+	  selectPort: (comName: string) => dispatch( selectPort(comName) ),
+	  linechartToggleSettings: () => dispatch( showSettings() )
   };
 }
 

@@ -1,10 +1,12 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { showSettings } from './actions';
 
 import Settings from './Settings';
 
 interface IProps {
+	settings: any;
+	showSettings: boolean;
+	toggleSettings: () => void;
 }
 
 interface IState {
@@ -13,20 +15,16 @@ interface IState {
 declare var Flotr: any;
 declare var window: any;
 
-class LineChart extends React.Component < IProps, IState > {
+export default class LineChart extends React.Component < IProps, IState > {
 	constructor(props: IProps) {
 		super(props);
-		this.dataStore = new Array();
 
 		this.update = this.update.bind(this);
 	}
 
-	dataStore: Array< Array<number> >;
 	updatingInterval: any;
 
 	componentDidMount() {
-		var self = this;
-
 		this.updatingInterval = setInterval(this.update, 80);
 		this.update();
 	}
@@ -40,25 +38,15 @@ class LineChart extends React.Component < IProps, IState > {
 	}
 
 	update() {
-			if (true) {
 			Flotr.draw(
 				document.getElementById('flotrGraph'), [
 					{ data : window.channel1, label : 'Channel 1', color: '#000000'},
 					{ data : window.channel2, label : 'Channel 2', color: '#FF0000'},
 					]
 					, {
-					yaxis: {
-						max: 2000,
-						min: -2000,
-						title: 'y'
-					},
-					xaxis: {
-						showLabels: true,
-							title: 'TIME'
-					}
+					yaxis: this.props.settings.yaxis,
+					xaxis: this.props.settings.xaxis
 				});
-			}
-			
 	}
 
 
@@ -74,37 +62,30 @@ class LineChart extends React.Component < IProps, IState > {
 							Line Chart
 						</div>
 						<div className="col-xs-1">
-							<div className="btn-group">
-								<button 
-								onClick={() => console.log('IMPLEMENT: time-series show settings') }
-								className="btn btn-default">
-									{ false ? <i className="glyphicon glyphicon-picture"></i> : <i className="glyphicon glyphicon-cog"></i> }
-								</button>
-							</div>
+							
 						</div>
 					</div>
 				</div> 
 				<div className="panel-body" style={{height: "500px"}}>
-					{ false ? <Settings /> : <div id="flotrGraph" style={{height: "100%", width: "100%"}}></div> }
+					<div id="flotrGraph" style={{height: "100%", width: "100%"}}></div>
 				</div>
+				<div className="panel-footer">
+					<div className="row">
+						<div className="col-md-1 col-md-offset-11">
+							<div className="btn-group">
+									<button 
+									onClick={() => this.props.toggleSettings() }
+									className="btn btn-default">
+										{ false ? <i className="glyphicon glyphicon-picture"></i> : <i className="glyphicon glyphicon-cog"></i> }
+									</button>
+								</div>
+						</div>
+					</div>
+				{ this.props.showSettings ?  <Settings xaxis={this.props.settings.xaxis} yaxis={this.props.settings.yaxis} />: null }
+				 </div>
 			</div>
 			</div>
 			</div>
 		);
 	}
 };
-
-function mapStateToProps(state): IProps {   
-    return {        
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-  };
-}
-
-export default connect<IProps, {}, {}>(
-  mapStateToProps,
-  mapDispatchToProps
-)(LineChart);
