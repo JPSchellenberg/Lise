@@ -8,11 +8,20 @@ interface IBootscreenProps {
 }
 
 interface IBootscreenState {
+	display: string;
 }
 
 export default class Bootscreen extends React.Component<IBootscreenProps, IBootscreenState> {
 	constructor(props: IBootscreenProps) {
 		super(props);
+
+		this.state = {
+			display: 'static'
+		}
+	}
+
+	componentDidMount() {
+		setTimeout(() => this.setState({display: 'none'}), 2500);
 	}
 	
 	render() {
@@ -28,7 +37,7 @@ export default class Bootscreen extends React.Component<IBootscreenProps, IBoots
 		const percent = (successModules / numModules)*100 + "%"
 
 		return (
-			<div className="boot-screen">
+			<div className="boot-screen" style={{ display: this.state.display, zIndex: 9000, position:'fixed' }}>
 			
 				<div className="container">
 
