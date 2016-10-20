@@ -10,6 +10,8 @@ interface IProps {
 }
 
 interface IState {
+	xaxis: any;
+	yaxis: any;
 }
 
 declare var Flotr: any;
@@ -18,6 +20,11 @@ declare var window: any;
 export default class LineChart extends React.Component < IProps, IState > {
 	constructor(props: IProps) {
 		super(props);
+
+		this.state = {
+			xaxis: this.props.settings.xaxis,
+			yaxis: this.props.settings.yaxis
+		}
 
 		this.update = this.update.bind(this);
 	}
@@ -44,8 +51,8 @@ export default class LineChart extends React.Component < IProps, IState > {
 					{ data : window.channel2, label : 'Channel 2', color: '#FF0000'},
 					]
 					, {
-					yaxis: this.props.settings.yaxis,
-					xaxis: this.props.settings.xaxis
+					yaxis: this.state.yaxis,
+					xaxis: this.state.xaxis
 				});
 	}
 
