@@ -74,7 +74,7 @@ export class Layout extends React.Component<IProps, IState> {
 				/>
 				</div>
 
-
+				<div className='row' style={{ marginBottom: '75px'}}></div>
 				<footer className="footer">
 					<div className="container">
 						<div className="row">
