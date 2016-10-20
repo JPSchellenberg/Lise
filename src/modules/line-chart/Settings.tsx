@@ -36,8 +36,8 @@ export default class LineChartSettings extends React.Component<IProps, IState> {
 	}
 
 	handleChange(value: string, event) { 
-		let newState = {}; 
-		newState[value] = event.target.value;
+		let newState = {};  newState[this.state.tab] = {};
+		newState[this.state.tab][value] = event.target.value;
 		this.setState( assign(this.state, newState) ); 
 	}
 
@@ -65,22 +65,26 @@ export default class LineChartSettings extends React.Component<IProps, IState> {
 					</div>
 				</div>
 
-				<Settings settings={this.state[this.state.tab]} />
+				<Settings 
+				settings={this.state[this.state.tab]} 
+				handleChange={this.handleChange}
+				/>
 			</div>
 		);
 	}
 }
 
-interface ITest {
+interface ISettingsProps {
 	settings: any;
+	handleChange: any;
 }
 
-interface IState2 {
+interface ISettingsState {
 
 }
 
-class Settings extends React.Component<ITest, IState2> {
-	constructor(props: ITest) {
+class Settings extends React.Component<ISettingsProps, ISettingsState> {
+	constructor(props: ISettingsProps) {
 		super(props);
 
 		this.handleChange = this.handleChange.bind(this);
@@ -96,10 +100,13 @@ class Settings extends React.Component<ITest, IState2> {
 
 		let settings = [];
 		for (let key in this.props.settings) {
-			settings.push(<div className="form-group">
+			settings.push(<div 
+								key={key}
+								className="form-group">
 							<label htmlFor="inputEmail" className="control-label col-xs-2">{key}</label>
 							<div className="col-xs-10">
 								<input 
+								onChange={(e) => { this.props.handleChange(key, e) } }
 								value={this.props.settings[key]}
 								type="text" 
 								className="form-control"
