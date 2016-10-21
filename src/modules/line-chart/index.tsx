@@ -1,7 +1,10 @@
 import * as React from 'react';
+
+import { assign } from 'lodash'; 
 import { showSettings } from './actions';
 
 import Settings from './Settings';
+import Chart from './Chart';
 
 interface IProps {
 	settings: any;
@@ -10,11 +13,9 @@ interface IProps {
 }
 
 interface IState {
-	xaxis: any;
-	yaxis: any;
+	settings: any;
 }
 
-declare var Flotr: any;
 declare var window: any;
 
 export default class LineChart extends React.Component < IProps, IState > {
@@ -22,40 +23,20 @@ export default class LineChart extends React.Component < IProps, IState > {
 		super(props);
 
 		this.state = {
-			xaxis: this.props.settings.xaxis,
-			yaxis: this.props.settings.yaxis
+			settings: this.props.settings
 		}
 
-		this.update = this.update.bind(this);
+		this.changeValue = this.changeValue.bind(this);
 	}
 
-	updatingInterval: any;
+	changeValue(tab: string, settings: any) {
+		const newSettings = {
+			'settings': this.state.settings
+		};
+		newSettings.settings[tab] = settings;
 
-	componentDidMount() {
-		this.updatingInterval = setInterval(this.update, 80);
-		this.update();
+		this.setState( assign({}, this.state, newSettings) );
 	}
-
-	componentWillUnmount() {
-		clearInterval(this.updatingInterval);
-	}
-
-	componentDidUpdate() {
-		this.update();
-	}
-
-	update() {
-			Flotr.draw(
-				document.getElementById('flotrGraph'), [
-					{ data : window.channel1, label : 'Channel 1', color: '#000000'},
-					{ data : window.channel2, label : 'Channel 2', color: '#FF0000'},
-					]
-					, {
-					yaxis: this.state.yaxis,
-					xaxis: this.state.xaxis
-				});
-	}
-
 
 
 	render() {
@@ -74,7 +55,7 @@ export default class LineChart extends React.Component < IProps, IState > {
 					</div>
 				</div> 
 				<div className="panel-body" style={{height: "500px"}}>
-					<div id="flotrGraph" style={{height: "100%", width: "100%"}}></div>
+					<Chart xaxis={this.state.settings.XAxis} yaxis={this.state.settings.YAxis} general={this.state.settings.General} />
 				</div>
 				<div className="panel-footer">
 					<div className="row">
@@ -88,7 +69,13 @@ export default class LineChart extends React.Component < IProps, IState > {
 								</div>
 						</div>
 					</div>
-				{ this.props.showSettings ?  <Settings xaxis={this.props.settings.xaxis} yaxis={this.props.settings.yaxis} />: null }
+				{ this.props.showSettings ?  <Settings settings=
+					{ 
+						this.state.settings
+					}
+					changeValue={this.changeValue}
+						
+						/>: null }
 				 </div>
 			</div>
 			</div>
@@ -96,3 +83,12 @@ export default class LineChart extends React.Component < IProps, IState > {
 		);
 	}
 };
+
+// <Settings settings={
+// 	{ 
+// 		'General': {
+// 			title: 'Test',
+// 			'ABC': 'Hallo'
+// 		}
+// 	}
+// } />
