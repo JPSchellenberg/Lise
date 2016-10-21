@@ -63,10 +63,7 @@ export class Layout extends React.Component<IProps, IState> {
 
 				<div className="container">
 						<LineChart 
-							settings={{
-								xaxis: this.props.linechartSettings.xAxis,
-								yaxis: this.props.linechartSettings.yAxis
-							}}
+							settings={this.props.linechartSettings}
 
 							showSettings={this.props.linechartShowSettings}
 
