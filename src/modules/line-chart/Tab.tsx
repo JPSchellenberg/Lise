@@ -32,7 +32,7 @@ export default class Tab extends React.Component<IProps, IState> {
 
 		let settings = [];
 		for (let key in this.props.settings) {
-			const type = this.props.settings[key].constructor.name ;
+			// const type = this.props.settings[key].constructor.name ;
 			settings.push(<div 
 								key={key}
 								className="form-group">
