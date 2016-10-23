@@ -75,7 +75,7 @@ export class Layout extends React.Component<IProps, IState> {
 				<footer className="footer">
 					<div className="container">
 						<div className="row">
-							<div className="col-xs-4">
+							<div className="hidden-xs hidden-sm col-md-4">
 								<PortSelect 
 								electron={window.electron}
 								selectedPort={this.props.selectedPort} 
@@ -86,10 +86,10 @@ export class Layout extends React.Component<IProps, IState> {
 								flash={this.flash}
 								/>
 							</div>
-							<div className="col-xs-4">
+							<div className="col-xs-12 col-md-4">
 								<ControlPanel />
 							</div>
-							<div className="col-xs-2 pull-right col-xs-offset-2">
+							<div className="hidden-xs hidden-sm col-md-2 col-md-offset-2">
 								<Version version={process.env.VERSION} />
 							</div>
 						</div>
