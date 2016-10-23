@@ -16,11 +16,9 @@ import { selectPort } from '../state/ports/actions';
 
 import communication from '../lib/Communication';
 import flash 		from '../lib/Flash';
-
 import Reconstruction from '../modules/reconstruction';
-
 declare var window: any; // remove and implement enviroment-module
-
+import { showSettings } 	from '../modules/line-chart/actions';
 interface IProps {	
 	path?: string;
 	ports?: string;
@@ -28,6 +26,10 @@ interface IProps {
 	selectPort?: (comName: string) => void;
 	connectionStatus?: string;
 	connectionInfo?: any;
+	lineChartSettings?: any;
+	linechartToggleSettings?: any;
+	linechartShowSettings?: any;
+	linechartSettings?: any;
 }
 
 interface IState {
@@ -59,15 +61,18 @@ export class Layout extends React.Component<IProps, IState> {
 
 				<div className="container">
 					<Reconstruction />
-
-						{ route( this.props.path ) }
+						<LineChart 
+							settings={this.props.linechartSettings}
+							showSettings={this.props.linechartShowSettings}
+							toggleSettings={this.props.linechartToggleSettings}
+				/>
 				</div>
 
-
+				<div className='row' style={{ marginBottom: '75px'}}></div>
 				<footer className="footer">
 					<div className="container">
 						<div className="row">
-							<div className="col-xs-4">
+							<div className="hidden-xs hidden-sm col-md-4">
 								<PortSelect 
 								electron={window.electron}
 								selectedPort={this.props.selectedPort} 
@@ -78,10 +83,10 @@ export class Layout extends React.Component<IProps, IState> {
 								flash={this.flash}
 								/>
 							</div>
-							<div className="col-xs-4">
+							<div className="col-xs-12 col-md-4">
 								<ControlPanel />
 							</div>
-							<div className="col-xs-2 pull-right col-xs-offset-2">
+							<div className="hidden-xs hidden-sm col-md-2 col-md-offset-2">
 								<Version version={process.env.VERSION} />
 							</div>
 						</div>
@@ -92,31 +97,22 @@ export class Layout extends React.Component<IProps, IState> {
 	}
 };
 
-function route(path) {
-	switch (path) {
-
-		case '/settings':
-		case '/webserver':
-		case '/':
-		case '/measurement':
-		default:
-			return (<LineChart />);
-	}
-}
-
 function mapStateToProps(state): IProps {   
     return {        
 		path: state.page.path,
 		ports: state.ports.portList,
 		selectedPort: state.ports.selectedPort,
 		connectionStatus: state.ports.connectionStatus,
-		connectionInfo: state.ports.connectionInfo
+		connectionInfo: state.ports.connectionInfo,
+		linechartShowSettings: state.LineChart.showSettings,
+		linechartSettings: state.LineChart.settings
     };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-	  selectPort: (comName: string) => dispatch( selectPort(comName) )
+	  selectPort: (comName: string) => dispatch( selectPort(comName) ),
+	  linechartToggleSettings: () => dispatch( showSettings() )
   };
 }
 

@@ -1,20 +1,36 @@
-export class TimeSeriesState {
+export default class LineChartState {
 	constructor() {
 		this.showSettings = false;
-		this.xAxisTitle = 'Time [s]';
-		this.yAxisTitle = 'y';
-		this.yAxisMin = -10;
-		this.yAxisMax = 10;
-		this.width = "100%";
-		this.height = "100%";
-
+		this.settings = {
+			General: {
+				title: ''
+			},
+			XAxis: new AxisSettings('Time [s]'),
+			YAxis: new AxisSettings('Y', -10, 10)
+		};
 	}
 
 	showSettings: boolean;
-	xAxisTitle: string;
-	yAxisTitle: string;
-	yAxisMin: number;
-	yAxisMax: number;
-	width: string;
-	height: string;
+	settings: {
+		General: {};
+		XAxis: AxisSettings;
+		YAxis : AxisSettings;
+	}
 }
+
+class AxisSettings {
+	constructor(title: string, min?: number, max?: number) {
+		this.title = title;
+		this.showLabels = true;
+		this.min = min || null;
+		this.max = max || null;
+		this.titleAngle = 0;
+	}
+
+	title: string;
+	showLabels: boolean;
+	min: number;
+	max: number;
+	titleAngle: number;
+}
+

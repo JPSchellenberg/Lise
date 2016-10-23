@@ -1,72 +1,48 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
+
+import { assign } from 'lodash'; 
 import { showSettings } from './actions';
 
-import Settings from './Settings';
+import Settings from '../../components/settings';
+import Chart from './Chart';
 
 interface IProps {
+	settings: any;
+	showSettings: boolean;
+	toggleSettings: () => void;
 }
 
 interface IState {
+	settings: any;
 }
 
-declare var Flotr: any;
 declare var window: any;
 
-class LineChart extends React.Component < IProps, IState > {
+export default class LineChart extends React.Component < IProps, IState > {
 	constructor(props: IProps) {
 		super(props);
-		this.dataStore = new Array();
 
-		this.update = this.update.bind(this);
+		this.state = {
+			settings: this.props.settings
+		}
+
+		this.changeValue = this.changeValue.bind(this);
 	}
 
-	dataStore: Array< Array<number> >;
-	updatingInterval: any;
+	changeValue(tab: string, settings: any) {
+		const newSettings = {
+			'settings': this.state.settings
+		};
+		newSettings.settings[tab] = settings;
 
-	componentDidMount() {
-		var self = this;
-
-		this.updatingInterval = setInterval(this.update, 80);
-		this.update();
+		this.setState( assign({}, this.state, newSettings) );
 	}
-
-	componentWillUnmount() {
-		clearInterval(this.updatingInterval);
-	}
-
-	componentDidUpdate() {
-		this.update();
-	}
-
-	update() {
-			if (true) {
-			Flotr.draw(
-				document.getElementById('flotrGraph'), [
-					{ data : window.channel1, label : 'Channel 1', color: '#000000'},
-					{ data : window.channel2, label : 'Channel 2', color: '#FF0000'},
-					]
-					, {
-					yaxis: {
-						max: 2000,
-						min: -2000,
-						title: 'y'
-					},
-					xaxis: {
-						showLabels: true,
-							title: 'TIME'
-					}
-				});
-			}
-			
-	}
-
 
 
 	render() {
 		return ( 
-		<div className="row" style={{'marginTop': '75px'}}>
-									<div className="col-xs-10 col-xs-offset-1">
+		<div className="row">
+									<div className="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
 			<div className = "panel panel-default" >
 				<div className = "panel-heading" > 
 					<div className="row">
@@ -74,19 +50,33 @@ class LineChart extends React.Component < IProps, IState > {
 							Line Chart
 						</div>
 						<div className="col-xs-1">
-							<div className="btn-group">
-								<button 
-								onClick={() => console.log('IMPLEMENT: time-series show settings') }
-								className="btn btn-default">
-									{ false ? <i className="glyphicon glyphicon-picture"></i> : <i className="glyphicon glyphicon-cog"></i> }
-								</button>
-							</div>
+							
 						</div>
 					</div>
 				</div> 
 				<div className="panel-body" style={{height: "500px"}}>
-					{ false ? <Settings /> : <div id="flotrGraph" style={{height: "100%", width: "100%"}}></div> }
+					<Chart xaxis={this.state.settings.XAxis} yaxis={this.state.settings.YAxis} general={this.state.settings.General} />
 				</div>
+				<div className="panel-footer">
+					<div className="row">
+						<div className="col-md-1 col-md-offset-11">
+							<div className="btn-group">
+									<button 
+									onClick={() => this.props.toggleSettings() }
+									className="btn btn-default">
+										{ false ? <i className="glyphicon glyphicon-picture"></i> : <i className="glyphicon glyphicon-cog"></i> }
+									</button>
+								</div>
+						</div>
+					</div>
+				{ this.props.showSettings ?  <Settings settings=
+					{ 
+						this.state.settings
+					}
+					changeValue={this.changeValue}
+						
+						/>: null }
+				 </div>
 			</div>
 			</div>
 			</div>
@@ -94,17 +84,11 @@ class LineChart extends React.Component < IProps, IState > {
 	}
 };
 
-function mapStateToProps(state): IProps {   
-    return {        
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-  };
-}
-
-export default connect<IProps, {}, {}>(
-  mapStateToProps,
-  mapDispatchToProps
-)(LineChart);
+// <Settings settings={
+// 	{ 
+// 		'General': {
+// 			title: 'Test',
+// 			'ABC': 'Hallo'
+// 		}
+// 	}
+// } />

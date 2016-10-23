@@ -7,9 +7,9 @@ var serialport = require('serialport');
 
 var server = http.createServer(function (request, response) {
 
-    var filePath = './app' + request.url;
-    if (filePath == './app/')
-        filePath = './app/index.html';
+    var filePath = __dirname+'/app' + request.url;
+    if (filePath == __dirname+'/app/')
+        filePath = dirname+'/app/index.html';
 
     var extname = path.extname(filePath);
     var contentType = 'text/html';
