@@ -54,9 +54,10 @@ export default class ReconstructionGraph extends React.Component < IProps, IStat
 
       if (test.scales) {
         let rows = [];
-			    if (window.channel1.length > 5*2) {
-            for (let i=5*2; i < window.channel1.length; i++) {
-              rows.push({x: window.channel1[i][1]/1000, y: window.channel1[i-5][1]/1000, z: window.channel1[i-(5*2)][1]/1000});
+			    if (window.channel1.length > this.props.count*2) {
+            let length = window.channel1.length > this.props.length ? this.props.length : window.channel1.length;
+            for (let i=this.props.count*2; i < length; i++) {
+              rows.push({x: window.channel1[i][1]/1000, y: window.channel1[i-this.props.count][1]/1000, z: window.channel1[i-(this.props.count*2)][1]/1000});
             }
             plotData(rows, test.scales, test.axisKeys, test.scene);
           } else {

@@ -7,7 +7,7 @@ var server = http.createServer(function (request, response) {
 var socketServer = socketio(server);
 
 setInterval(() => {
-	socketServer.emit('data', "data {\"time\":"+new Date().getTime()+",\"channel1\":"+Math.random()*10+",\"channel2\":"+Math.random()*10+"}");
-}, 1000);
+	socketServer.emit('data', "data {\"time\":"+new Date().getTime()+",\"channel1\":"+Math.random()*1000+",\"channel2\":"+Math.random()*1000+"}");
+}, 10);
 
 console.log('Server running at http://127.0.0.1:3000/');

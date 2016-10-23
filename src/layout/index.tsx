@@ -19,6 +19,8 @@ import flash 		from '../lib/Flash';
 import Reconstruction from '../modules/reconstruction';
 declare var window: any; // remove and implement enviroment-module
 import { showSettings } 	from '../modules/line-chart/actions';
+import { showSettings as reconstruction_showSettings } from '../modules/reconstruction/actions';
+
 interface IProps {	
 	path?: string;
 	ports?: string;
@@ -30,6 +32,10 @@ interface IProps {
 	linechartToggleSettings?: any;
 	linechartShowSettings?: any;
 	linechartSettings?: any;
+
+	reconstructionSettings?: any;
+	reconstructionShowSettings?: any;
+	reconstructionToggleSettings?: any;
 }
 
 interface IState {
@@ -60,7 +66,11 @@ export class Layout extends React.Component<IProps, IState> {
 				<Notifications />
 
 				<div className="container">
-					<Reconstruction />
+					<Reconstruction 
+						settings={this.props.reconstructionSettings}
+						showSettings={this.props.reconstructionShowSettings}
+						toggleSettings={this.props.reconstructionToggleSettings}
+					/>
 						<LineChart 
 							settings={this.props.linechartSettings}
 							showSettings={this.props.linechartShowSettings}
@@ -105,14 +115,18 @@ function mapStateToProps(state): IProps {
 		connectionStatus: state.ports.connectionStatus,
 		connectionInfo: state.ports.connectionInfo,
 		linechartShowSettings: state.LineChart.showSettings,
-		linechartSettings: state.LineChart.settings
+		linechartSettings: state.LineChart.settings,
+
+		reconstructionSettings: state.reconstruction.settings,
+		reconstructionShowSettings: state.reconstruction.showSettings
     };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
 	  selectPort: (comName: string) => dispatch( selectPort(comName) ),
-	  linechartToggleSettings: () => dispatch( showSettings() )
+	  linechartToggleSettings: () => dispatch( showSettings() ),
+	  reconstructionToggleSettings: () => dispatch( reconstruction_showSettings() )
   };
 }
 
