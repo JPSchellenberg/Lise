@@ -23,14 +23,14 @@ export function saveState(state) {
 	}
 }
 
-const persistentState = process.env.NODE_ENV !== 'development' ? loadState() : undefined;
+const persistentState = /*process.env.NODE_ENV !== 'development' ? loadState() :*/ undefined;
 
 declare var window: any;
 
 const store = createStore<any>(rootReducer, persistentState, window.devToolsExtension && window.devToolsExtension());
 
-		store.subscribe(throttle( () => {
-			saveState( store.getState() );
-		}, 1000) );
+		// store.subscribe(throttle( () => {
+		// 	saveState( store.getState() );
+		// }, 1000) );
 
 export default store;
