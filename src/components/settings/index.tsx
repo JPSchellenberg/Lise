@@ -1,14 +1,11 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 import { assign } from 'lodash';
-
-// import store from '../../core/store';
-import { save } from './actions';
+import * as classnames from 'classnames';
 
 import TabBar 		from './TabBar';
 import Tab 			from './Tab';
 
-import * as classnames from 'classnames';
+
 
 interface IProps {	
 	settings: any;

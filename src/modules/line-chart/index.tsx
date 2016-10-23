@@ -3,7 +3,7 @@ import * as React from 'react';
 import { assign } from 'lodash'; 
 import { showSettings } from './actions';
 
-import Settings from './Settings';
+import Settings from '../../components/settings';
 import Chart from './Chart';
 
 interface IProps {
