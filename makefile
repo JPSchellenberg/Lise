@@ -1,7 +1,7 @@
 build:
 	make clear
 	make copyassets
-	NODE_ENV=production VERSION=$(shell git describe) ./node_modules/.bin/webpack -p --config './webpack.production.js' --progress --colors
+	NODE_ENV=production VERSION=$(shell git describe) ./node_modules/.bin/webpack -p --config './webpack.js' --progress --colors
 
 yun:
 	make build
@@ -30,7 +30,7 @@ copyassets:
 dev:
 	make clear
 	make copyassets
-	./node_modules/.bin/concurrently "NODE_ENV=development VERSION=$(shell git describe --dirty) ./node_modules/.bin/webpack-dev-server --port 8080 --config './webpack.development.js' --progress --colors" "NODE_ENV=development ./node_modules/.bin/electron ./app"
+	./node_modules/.bin/concurrently "NODE_ENV=development VERSION=$(shell git describe --dirty) ./node_modules/.bin/webpack-dev-server --port 8080 --config './webpack.js' --progress --colors" "NODE_ENV=development ./node_modules/.bin/electron ./app"
 
 clear:
 	rm -rf dist

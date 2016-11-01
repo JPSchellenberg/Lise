@@ -1,15 +1,17 @@
 var webpack = require('webpack');
 
+console.log( process.env.NODE_ENV );
+
 module.exports = {
-  entry: [
+  entry: process.env.NODE_ENV === 'development' ? [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
     './src/index.ts',
     './src/stylesheets/main.scss'
-  ],
+  ] : ['./src/index.ts', './src/stylesheets/main.scss'],
   output: {
     path: __dirname + '/app',
-    publicPath: 'http://localhost:8080/',
+    publicPath: process.env.NODE_ENV === 'development' ? 'http://localhost:8080/' : '',
     filename: "app.js",
   },
 
@@ -67,7 +69,7 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
   'process.env':{
-    'NODE_ENV': JSON.stringify( 'development' ),
+    'NODE_ENV': JSON.stringify( process.env.NODE_ENV ),
     'VERSION': JSON.stringify( process.env.VERSION )
   }
 }),
