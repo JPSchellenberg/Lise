@@ -58,7 +58,6 @@ export default function boot() {
 		// initiate boot sequence:
 		core.boot( page );
 
-		core.boot( communication );
 		communication.on('portUpdate', (ports) => {
 			Store.dispatch( updatePorts(ports) );
 
@@ -90,26 +89,6 @@ export default function boot() {
 				if (window.channel2.length > 300) { window.channel2.shift(); }
 			}
 		});
-
-		if (window.electron) {
-				core.boot( flash );
-				flash.on('flash', (status, port) => {
-					const notification = new Notification('Arduino on port '+port+' flashed', 'success');
-					Store.dispatch( showNotification( notification ) );
-					setTimeout( () => { 
-						communication.connect(port); 
-						Store.dispatch( selectPort(port) );
-					
-				}, 2000);
-				});
-
-				flash.on('danger', () => {
-					const notification = new Notification('Arduino flashed failed', 'danger');
-					Store.dispatch( showNotification( notification ) );
-				});
-		}
-
-
 
 		core.finish(() => {
 			ReactDOM.render(
