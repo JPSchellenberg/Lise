@@ -5,6 +5,8 @@ import {
 	PORTS_CONNECTIONINFO
 } from '../action-types';
 
+import Communication from '../../lib/Communication';
+
 export function updatePorts(ports: any) {
 	return {
 		type: PORTS_UPDATEPORTS,
@@ -13,6 +15,9 @@ export function updatePorts(ports: any) {
 }
 
 export function selectPort(comName: string) {
+	
+	Communication.emit('connect_port', comName);
+
 	return {
 		type: PORTS_SELECTPORT,
 		comName
