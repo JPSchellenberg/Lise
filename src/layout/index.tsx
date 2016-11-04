@@ -77,7 +77,7 @@ export class Layout extends React.Component<IProps, IState> {
 						<div className="row">
 							<div className="hidden-xs hidden-sm col-md-4">
 								<PortSelect 
-								electron={window.electron}
+								electron={true}
 								selectedPort={this.props.selectedPort} 
 								selectPort={this.connectToPort}
 								ports={this.props.ports}
