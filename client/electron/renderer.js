@@ -1,13 +1,12 @@
-// This file is required by the index.html file and will
-// be executed in the renderer process for that window.
-// All of the Node.js APIs are available in this process.
-
-// window.bootSerialport = function() {
 var serialport = require('serialport');
-// }
-var socketConnection;
+var express = require('express');
+var bodyParser = require('body-parser');
+var socketio = require('socket.io');
+var avrgirl = require('avrgirl-arduino');
 
-window.avrgirl = require('avrgirl-arduino');
+var socketConnection;
+var app = express();
+
 
 window.flash = function(port, cb) {
 	let flasher = new window.avrgirl({
@@ -24,10 +23,6 @@ window.flash = function(port, cb) {
 	});
 }
 
-var express = require('express');
-var bodyParser = require('body-parser');
-var socketio = require('socket.io');
-var app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({

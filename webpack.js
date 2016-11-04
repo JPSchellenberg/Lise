@@ -6,9 +6,9 @@ module.exports = {
   entry: process.env.NODE_ENV === 'development' ? [
     'webpack-dev-server/client?http://localhost:8080',
     'webpack/hot/only-dev-server',
-    './src/index.ts',
-    './src/stylesheets/main.scss'
-  ] : ['./src/index.ts', './src/stylesheets/main.scss'],
+    './client/index.ts',
+    './client/stylesheets/main.scss'
+  ] : ['./client/index.ts', './client/stylesheets/main.scss'],
   output: {
     path: __dirname + '/app',
     publicPath: process.env.NODE_ENV === 'development' ? 'http://localhost:8080/' : '',
