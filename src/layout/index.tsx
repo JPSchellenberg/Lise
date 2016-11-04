@@ -45,7 +45,7 @@ export class Layout extends React.Component<IProps, IState> {
 	}
 
 	connectToPort(comName: string) {
-		communication.connect(comName);
+		communication.emit('flash',comName);
 		this.props.selectPort(comName);
 	}
 
