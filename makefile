@@ -14,7 +14,10 @@ mac:
 	make build
 	./node_modules/.bin/build -m
 
-.PHONY: test test-watch
+server:
+	./node_modules/.bin/tsc server/index.ts --sourceMap --inlineSources --module commonjs --outDir build/server
+
+.PHONY: test test-watch server
 test:
 	NODE_ENV=test ./node_modules/.bin/mocha --require ts-node/register --recursive $(TEST_FILES) #./build/**/*.test.js --recursive
 
