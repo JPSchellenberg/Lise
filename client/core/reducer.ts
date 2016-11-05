@@ -4,14 +4,14 @@ import controlPanel         from '../state/control-panel/reducer';
 import LineChart           from '../modules/line-chart/reducer';
 import page                 from '../state/page/reducer';
 import notifications        from '../state/notifications/reducer';
-import ports              from '../state/ports/reducer';
+import serialport              from '../state/serialport/reducer';
 
 const rootReducer = combineReducers({
     controlPanel: controlPanel,
     LineChart,
     page,
     notifications,
-    ports
+    serialport
 });
 
 export default rootReducer;

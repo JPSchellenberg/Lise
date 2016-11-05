@@ -20,15 +20,16 @@ import flash from '../lib/Flash';
 import {
 	updatePorts,
 	connectionStatus,
-	connectionInfo
-} from '../state/ports/actions';
+	GET_list,
+	GET_connection
+} from '../state/serialport/actions';
 
 import { 
 	showNotification,
 	hideNotification
  } from '../state/notifications/actions';
 
- import { selectPort } from '../state/ports/actions';
+ import { selectPort } from '../state/serialport/actions';
 
 import Notification from '../state/notifications/notification';
 
@@ -68,7 +69,7 @@ export default function boot() {
 			}, 2000);
 		} );
 
-		communication.on('version', (version) => { Store.dispatch( connectionInfo(version) ) });
+		// communication.on('version', (version) => { Store.dispatch( connectionInfo(version) ) });
 		communication.on('connection', (status) => { Store.dispatch( connectionStatus( status ) ) });
 
 
@@ -100,7 +101,8 @@ export default function boot() {
 		});
 
 
-
+		Store.dispatch( GET_list() );
+		Store.dispatch( GET_connection() );
 	console.log('booting succesful');
 }
 

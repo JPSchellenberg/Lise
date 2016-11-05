@@ -7,6 +7,7 @@ import * as classnames from 'classnames';
 declare var $: any;
 
 interface IPortSelectProps {
+	serialport: any;
   electron: boolean;
   ports: any;
   connectionStatus: string;

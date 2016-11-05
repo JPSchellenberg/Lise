@@ -11,12 +11,13 @@ export default function(state = {
 	selectedPort: 'No Port selected',
 	connectionStatus: 'default',
 	connectionInfo: {},
-	portList: []
+	connection: [],
+	list: []
 }, action) {
 	switch (action.type) {
 
 		case PORTS_UPDATEPORTS:
-			return assign({}, state, { portList: action.ports });
+			return assign({}, state, { list: action.ports });
 
 		case PORTS_SELECTPORT:
 			return assign({}, state, { selectedPort: action.comName });
@@ -25,7 +26,7 @@ export default function(state = {
 			return assign({}, state, { connectionStatus: action.status });
 
 		case PORTS_CONNECTIONINFO:
-			return assign({}, state, { connectionInfo: action.info });
+			return assign({}, state, { connection: action.connection });
 
 		default:
 			return state;

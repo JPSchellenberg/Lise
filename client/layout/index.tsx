@@ -12,7 +12,7 @@ import LineChart 			from '../modules/line-chart';
 import ControlPanel 		from '../components/control-panel';
 import PortSelect 			from '../components/PortSelect';
 
-import { selectPort } from '../state/ports/actions';
+import { selectPort } from '../state/serialport/actions';
 
 import communication from '../lib/Communication';
 import flash 		from '../lib/Flash';
@@ -32,6 +32,7 @@ interface IProps {
 	linechartToggleSettings?: any;
 	linechartShowSettings?: any;
 	linechartSettings?: any;
+	serialport?: any;
 }
 
 interface IState {
@@ -77,6 +78,7 @@ export class Layout extends React.Component<IProps, IState> {
 						<div className="row">
 							<div className="hidden-xs hidden-sm col-md-4">
 								<PortSelect 
+								serialport={this.props.serialport}
 								electron={true}
 								selectedPort={this.props.selectedPort} 
 								selectPort={this.connectToPort}
@@ -103,12 +105,13 @@ export class Layout extends React.Component<IProps, IState> {
 function mapStateToProps(state): IProps {   
     return {        
 		path: state.page.path,
-		ports: state.ports.portList,
-		selectedPort: state.ports.selectedPort,
-		connectionStatus: state.ports.connectionStatus,
-		connectionInfo: state.ports.connectionInfo,
+		ports: state.serialport.list,
+		selectedPort: state.serialport.selectedPort,
+		connectionStatus: state.serialport.connectionStatus,
+		connectionInfo: state.serialport.connectionInfo,
 		linechartShowSettings: state.LineChart.showSettings,
-		linechartSettings: state.LineChart.settings
+		linechartSettings: state.LineChart.settings,
+		serialport: state.serialport
     };
 }
 
