@@ -60,7 +60,11 @@ module.exports = {
     },
     proxy: {
       '/socket.io': {
-        target: process.env.ARDUINO ? 'http://arduino.local:3000' : 'http://localhost:3000',
+        target: 'http://localhost:3000',
+        secure: false
+      },
+      '/api/v0/*': {
+        target: 'http://localhost:3000',
         secure: false
       }
     }
