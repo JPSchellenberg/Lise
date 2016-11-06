@@ -41,7 +41,6 @@
     "avrgirl-arduino": "^1.9.8",
     "body-parser": "^1.15.2",
     "classnames": "^2.2.5",
-    "eventemitter3": "^2.0.2",
     "express": "^4.14.0",
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^4.15.0",

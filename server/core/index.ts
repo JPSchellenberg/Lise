@@ -99,8 +99,11 @@ class Core {
 				this.socket_channels.filter(channel => channel.name === '/serialport')[0].emit('heartbeat', new Date().getTime());
 			},1000);
 
-			this.writeSampleRate( this.sketch_sampleRate );
-			this.connection.write('v');
+			setTimeout(() => {
+				this.writeSampleRate( this.sketch_sampleRate );
+				this.writeGain( this.sketch_gain );
+				this.connection.write('v');
+			}, 500);
 
 			console.log('CORE: SERIALPORT: new connection to ',this.connection);
 			return true;
