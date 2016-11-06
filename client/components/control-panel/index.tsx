@@ -20,8 +20,8 @@ export default class List extends React.Component<IProps, IState> {
 	
 	render() {
 		return (
-						<div className="btn-group">
-							<button 
+					<ul className="nav navbar-nav">
+							<li
 							className="btn btn-success"
 							onClick={() => { 
 								window.recording = true; 
@@ -31,14 +31,14 @@ export default class List extends React.Component<IProps, IState> {
 							}}
 							> 
 								Start 
-							</button>
-							<button 
+							</li>
+							<li 
 							className="btn btn-warning"
 							onClick={() => { window.recording = false; }}
 							>
 							Stop
-							</button>
-							<button
+							</li>
+							<li
 							className="btn btn-danger"
 							onClick={() => {
 								window.channel1 = [];
@@ -47,8 +47,8 @@ export default class List extends React.Component<IProps, IState> {
 							} }
 							>
 							 Reset 
-							</button>
-						</div>
+							</li>
+					</ul>
 		);
 	}
 }

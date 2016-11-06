@@ -11,6 +11,8 @@ import LineChart 			from '../modules/line-chart';
 
 import ControlPanel 		from '../components/control-panel';
 import PortSelect 			from '../components/PortSelect';
+import Samplerate 			from '../components/Samplerate';
+import Gain 				from '../components/Gain';
 
 import { selectPort } from '../state/serialport/actions';
 
@@ -18,6 +20,13 @@ import communication from '../lib/Communication';
 import flash 		from '../lib/Flash';
 
 import { showSettings } 	from '../modules/line-chart/actions';
+
+import {
+	post_samplerate as sketch_post_samplerate,
+	post_gain as sketch_post_gain,
+	get_gain as sketch_get_gain,
+	get_samplerate as sketch_get_samplerate
+}							from '../state/sketch/actions';
 
 declare var window: any; // remove and implement enviroment-module
 
@@ -33,6 +42,12 @@ interface IProps {
 	linechartShowSettings?: any;
 	linechartSettings?: any;
 	serialport?: any;
+	sketch?: any;
+
+	sketch_post_samplerate?: any;
+	sketch_post_gain?: any;
+	sketch_get_gain?: any;
+	sketch_get_samplerate?: any;
 }
 
 interface IState {
@@ -73,8 +88,8 @@ export class Layout extends React.Component<IProps, IState> {
 				</div>
 
 				<div className='row' style={{ marginBottom: '75px'}}></div>
-				<footer className="footer">
-					<div className="container">
+					<div className="navbar navbar-inverse navbar-fixed-bottom">
+						<div className="container-fluid">
 						<div className="row">
 							<div className="hidden-xs hidden-sm col-md-4">
 								<PortSelect 
@@ -88,15 +103,34 @@ export class Layout extends React.Component<IProps, IState> {
 								flash={this.flash}
 								/>
 							</div>
-							<div className="col-xs-12 col-md-4">
-								<ControlPanel />
+							<div className="col-xs-10 col-md-4">
+								<div className="navbar-form">
+									<ControlPanel />
+								</div>
 							</div>
-							<div className="hidden-xs hidden-sm col-md-2 col-md-offset-2">
-								<Version version={process.env.VERSION} />
-							</div>
+							<ul className="nav navbar-nav navbar-right">
+								<li>
+									<div className="navbar-form">
+										<Samplerate 
+										get_samplerate={this.props.sketch_get_samplerate}
+										sketch={this.props.sketch} 
+										setSamplerate={this.props.sketch_post_samplerate}
+										/>
+									</div>
+								</li>
+							<li>
+								<div className="navbar-form">
+									<Gain
+									get_gain={this.props.sketch_get_gain}
+									setGain={this.props.sketch_post_gain}
+									gain={this.props.sketch.gain}
+									/>
+								</div>
+							</li>
+							</ul>
 						</div>
 					</div>
-				</footer>
+					</div>
 			</div>
 			);
 	}
@@ -111,14 +145,21 @@ function mapStateToProps(state): IProps {
 		connectionInfo: state.serialport.connectionInfo,
 		linechartShowSettings: state.LineChart.showSettings,
 		linechartSettings: state.LineChart.settings,
-		serialport: state.serialport
+		serialport: state.serialport,
+		sketch: state.sketch
     };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
 	  selectPort: (comName: string) => dispatch( selectPort(comName) ),
-	  linechartToggleSettings: () => dispatch( showSettings() )
+	  linechartToggleSettings: () => dispatch( showSettings() ),
+
+	  sketch_post_samplerate: (samplerate: number) => dispatch( sketch_post_samplerate(samplerate) ),
+	  sketch_post_gain: (gain: number) => dispatch( sketch_post_gain(gain) ),
+
+	  sketch_get_gain: () => dispatch( sketch_get_gain() ),
+	  sketch_get_samplerate: () => dispatch( sketch_get_samplerate() )
   };
 }
 
