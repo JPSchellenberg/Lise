@@ -50,7 +50,7 @@ export default class Reconstruction extends React.Component < IProps, IState > {
 				<div className="panel-body" >
         			<div className="row">
 						<div className="col-xs-12">
-							<Graph count={ this.state.settings.General.Zeitdifferenz} length={ this.state.settings.General['Anzahl der Messpunkte']} sphereRadius={this.state.settings.General.Kugelradius} />
+							<Graph count={ this.state.settings.General.Zeitdifferenz} length={ this.state.settings.General['Anzahl der Messpunkte']} sphereRadius={this.state.settings.General.Kugelradius} color={this.state.settings.General.Farbe}/>
 						</div>
 					</div>
 				</div>

@@ -54,6 +54,7 @@ class Core {
 
 		this.sketch_gain = 1;
 		this.sketch_sampleRate = 20;
+
 	}
 
 	connection: serialport.SerialPort;
@@ -70,12 +71,19 @@ class Core {
 		try {
 			this.connection = connection; 
 			const self = this;
-			this.connection.on('data', 
-				(data) => 
-				this.socket_channels
-				.filter(channel => channel.name === '/serialport')[0]
-				.emit('data', data)
-			);
+			if (process.env.TEST) {
+				setInterval(() => {
+						this.socket_channels.filter(channel => channel.name === '/serialport')[0].emit('data', "data "+JSON.stringify({"time":new Date().getTime(), "channel1": Math.floor((Math.random() * 1000) + 1), "channel2": Math.floor((Math.random() * 10) + 1) }));
+				}, 200);
+			} else {
+				this.connection.on('data', 
+					(data) => 
+					this.socket_channels
+					.filter(channel => channel.name === '/serialport')[0]
+					.emit('data', data)
+				);
+			}
+			
 			this.connection.on('error', 
 				(err) => 
 				this.socket_channels
