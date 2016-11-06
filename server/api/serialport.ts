@@ -36,7 +36,7 @@ export default function (server: express.Application) {
 			}));
 
 			core.getConnection().on('error', (err) => res.status(503).end(err.toString()));
-			core.getConnection().on('open', () => res.status(200).end());
+			core.getConnection().on('open', () => res.status(200).json( core.getConnection() ));
 
 		} catch (err) {
 			res.status(503).end(err);
@@ -54,7 +54,6 @@ export default function (server: express.Application) {
 
 	server.post('/api/v0/serialport/flash', (req: express.Request, res: express.Response, next: express.NextFunction) => {
 		if (os.type() === 'Linux' && os.arch() === 'mips') { res.status(503).end('Flashing does not work on openWRT.')}
-
 	});
 
 }

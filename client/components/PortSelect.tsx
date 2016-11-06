@@ -69,9 +69,9 @@ export default class PortSelect extends React.Component<IPortSelectProps, IPortS
 							$('[data-toggle="tooltip"]').tooltip();}
 						}
 						onClick={() => {
-							if (this.props.connectionStatus === 'danger') {
-								this.props.flash(this.props.selectedPort);
-							}
+							// if (this.props.connectionStatus === 'danger') {
+							// 	this.props.flash(this.props.selectedPort);
+							// }
 						}}
 						className={"btn btn-"+this.props.connectionStatus}> 
 						<i className="glyphicon glyphicon-flash"></i> 

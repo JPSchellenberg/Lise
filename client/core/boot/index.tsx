@@ -1,37 +1,36 @@
-/// <reference path="../../typings/index.d.ts" />
+/// <reference path="../../../typings/index.d.ts" />
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import * as socketio 		from 'socket.io-client';
 import {Provider}           from 'react-redux';
 
-import Layout from '../layout';
+import Layout from '../../layout';
 
-import Store from './store';
+import Store from '../store';
 
-import page from './page';
+import page from '../page';
 
-import Bootscreen from '../components/Bootscreen';
-import Core from './index';
+import Bootscreen from '../../components/Bootscreen';
+import Core from '../index';
 
-import communication from '../lib/Communication';
-
-import flash from '../lib/Flash';
+import communication from '../../lib/Communication';
 
 import {
 	updatePorts,
 	connectionStatus,
 	GET_list,
 	GET_connection
-} from '../state/serialport/actions';
+} from '../../state/serialport/actions';
 
 import { 
 	showNotification,
 	hideNotification
- } from '../state/notifications/actions';
+ } from '../../state/notifications/actions';
 
- import { selectPort } from '../state/serialport/actions';
+ import { selectPort } from '../../state/serialport/actions';
 
-import Notification from '../state/notifications/notification';
+import Notification from '../../state/notifications/notification';
 
 declare var window: any;
 
@@ -78,7 +77,9 @@ export default function boot() {
 		window.channel2 = [];
 		window.recording = false;
 
-		communication.on('data', (data) => {
+		const socket_channel_serialport = socketio.connect( window.location.href + 'serialport' );
+
+		socket_channel_serialport.on('data', (data) => {
 			
 			if (window.recording) {
 				data = JSON.parse( data.split(" ")[1] ); 

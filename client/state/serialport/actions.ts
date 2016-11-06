@@ -28,6 +28,8 @@ export function GET_list() {
 export function GET_connection() {
 	return (dispatch) => {
 
+			dispatch( connectionStatus('warning') );
+
 			API.GET_connection()
 			.then(res => { 
 				console.log(res);
@@ -36,9 +38,32 @@ export function GET_connection() {
 			})
 			.then((json) => {
 				dispatch( updateConnection(json) );
-				console.log(json);
+				dispatch( connectionStatus('success') );
 			})
-			.catch(err => { console.log(err) });  
+			.catch(err => {
+				dispatch( updateConnection({}) );
+				dispatch( connectionStatus('danger') );
+			 });  
+		}
+}
+
+export function POST_connection(connection: any) {
+	return (dispatch) => {
+
+			dispatch( connectionStatus('warning') );
+
+			API.POST_connection(connection)
+			.then(res => { 
+				return res.json()
+			})
+			.then((json) => {
+				dispatch( updateConnection(json) );
+				dispatch( connectionStatus('success') );
+			})
+			.catch(err => { 
+				dispatch( updateConnection({}) );
+				dispatch( connectionStatus('danger') );
+			 });  
 		}
 }
 
@@ -51,12 +76,12 @@ export function updatePorts(ports: any) {
 }
 
 export function selectPort(comName: string) {
-	
-	Communication.emit('connect_port', comName);
-
-	return {
-		type: PORTS_SELECTPORT,
-		comName
+	return (dispatch) => {
+		dispatch( POST_connection({"comName": comName}) );
+		dispatch( {
+			type: PORTS_SELECTPORT,
+			comName
+			} );
 	}
 }
 

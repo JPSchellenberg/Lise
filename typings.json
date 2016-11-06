@@ -20,6 +20,7 @@
     "redux-thunk": "registry:dt/redux-thunk#2.1.0+20160703120921",
     "serialport": "registry:dt/serialport#0.0.0+20160627065358",
     "serve-static": "registry:dt/serve-static#0.0.0+20160606155157",
-    "socket.io": "registry:dt/socket.io#1.4.4+20160909205835"
+    "socket.io": "registry:dt/socket.io#1.4.4+20160909205835",
+    "socket.io-client": "registry:dt/socket.io-client#1.4.4+20160317120654"
   }
 }
