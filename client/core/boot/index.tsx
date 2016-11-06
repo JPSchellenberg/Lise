@@ -38,7 +38,13 @@ export default function boot() {
 
 		const core = new Core( (modules) => {
 			ReactDOM.render(
-				<Bootscreen version={process.env.VERSION} modules={modules}/> ,
+				<Provider store={Store}>
+					<div>
+						<Bootscreen version={process.env.VERSION} modules={modules}/>
+						<Layout />
+					</div>
+				</Provider>
+				 ,
 				document.getElementById('root')
 			); 
 		});
@@ -56,7 +62,7 @@ export default function boot() {
 
 
 		// initiate boot sequence:
-		core.boot( page );
+		// core.boot( page );
 
 		communication.on('portUpdate', (ports) => {
 			Store.dispatch( updatePorts(ports) );
@@ -95,14 +101,14 @@ export default function boot() {
 			}
 		});
 
-		core.finish(() => {
-			ReactDOM.render(
-				<Provider store={Store}>
-					<Layout />
-				</Provider> ,
-			document.getElementById('root')
-			); 
-		});
+		// core.finish(() => {
+		// 	ReactDOM.render(
+		// 		<Provider store={Store}>
+		// 			<Layout />
+		// 		</Provider> ,
+		// 	document.getElementById('root')
+		// 	); 
+		// });
 
 
 		Store.dispatch( GET_list() );

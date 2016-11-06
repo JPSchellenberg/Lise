@@ -8,7 +8,7 @@ import Version 		 		from '../components/Version';
 import Notifications 		from '../components/Notifications';
 
 import LineChart 			from '../modules/line-chart';
-
+import Reconstruction 		from '../modules/reconstruction';
 import ControlPanel 		from '../components/control-panel';
 import PortSelect 			from '../components/PortSelect';
 import Samplerate 			from '../components/Samplerate';
@@ -27,6 +27,9 @@ import {
 	get_gain as sketch_get_gain,
 	get_samplerate as sketch_get_samplerate
 }							from '../state/sketch/actions';
+
+import { showSettings as reconstruction_showSettings } from '../modules/reconstruction/actions';
+
 
 declare var window: any; // remove and implement enviroment-module
 
@@ -48,6 +51,10 @@ interface IProps {
 	sketch_post_gain?: any;
 	sketch_get_gain?: any;
 	sketch_get_samplerate?: any;
+
+	reconstructionSettings?: any;
+	reconstructionShowSettings?: any;
+	reconstructionToggleSettings?: any;
 }
 
 interface IState {
@@ -78,6 +85,13 @@ export class Layout extends React.Component<IProps, IState> {
 				<Notifications />
 
 				<div className="container">
+
+						<Reconstruction 
+						settings={this.props.reconstructionSettings}
+						showSettings={this.props.reconstructionShowSettings}
+						toggleSettings={this.props.reconstructionToggleSettings}
+						/>
+
 						<LineChart 
 							settings={this.props.linechartSettings}
 
@@ -146,7 +160,10 @@ function mapStateToProps(state): IProps {
 		linechartShowSettings: state.LineChart.showSettings,
 		linechartSettings: state.LineChart.settings,
 		serialport: state.serialport,
-		sketch: state.sketch
+		sketch: state.sketch,
+
+		reconstructionSettings: state.reconstruction.settings,
+		reconstructionShowSettings: state.reconstruction.showSettings
     };
 }
 
@@ -159,7 +176,9 @@ function mapDispatchToProps(dispatch) {
 	  sketch_post_gain: (gain: number) => dispatch( sketch_post_gain(gain) ),
 
 	  sketch_get_gain: () => dispatch( sketch_get_gain() ),
-	  sketch_get_samplerate: () => dispatch( sketch_get_samplerate() )
+	  sketch_get_samplerate: () => dispatch( sketch_get_samplerate() ),
+
+	  reconstructionToggleSettings: () => dispatch( reconstruction_showSettings() )
   };
 }
 
