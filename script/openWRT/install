@@ -5,14 +5,15 @@ echo Installing Lise-yun
 echo Installing node binaries
 cp ./bin/* /usr/bin/
 echo Installing libraries
-cp -r ./lib/node_modules /usr/lib/
+cp -r ./lib/* /usr/lib/node_modules
 
 echo Adding server to startup-routine
-echo /usr/bin/node $(pwd)/server.js > /etc/rc.local
+echo /usr/bin/node $(pwd)/server/index.js > /etc/rc.local
 
 echo Disabling bridge
 
 echo Installation succesful. Server will be available at http://arduino.local:3000/
+echo Please make sure to flash correct sketch.
 echo Rebooting.. please wait.
 
 reboot
