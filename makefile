@@ -1,4 +1,4 @@
-build:
+client:
 	make clear
 	make copyassets
 	NODE_ENV=production VERSION=$(shell git describe) ./node_modules/.bin/webpack -p --config './webpack.js' --progress --colors
@@ -22,10 +22,20 @@ server-dist:
 	make server
 	mkdir -p dist/server
 	cp -r build/server dist/
-	cp -r sketch/hex dist/server
-	rsync -r ~/dev/lise/dist/server/ root@arduino.local:/mnt/sda1/srv/node/lise/server
 
-.PHONY: test test-watch server server-dist
+openwrt:
+	make client
+	make server
+	mkdir -p dist/openWRT/server
+	cp -r build/server dist/openWRT
+	cp -r app/ dist/openWRT/app
+	cp -r bin/openWRT/ dist/openWRT/bin/
+	cp -r lib/openWRT/ dist/openWRT/lib/
+	cp script/openWRT/install dist/openWRT/install
+	cp server/package.json dist/openWRT/server
+	cd dist/openWRT/server; npm install
+
+.PHONY: test test-watch server server-dist openwrt client
 test:
 	NODE_ENV=test ./node_modules/.bin/mocha --require ts-node/register --recursive $(TEST_FILES) #./build/**/*.test.js --recursive
 
