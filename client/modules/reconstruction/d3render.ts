@@ -179,7 +179,7 @@ export function d3render( parent )
 }
 
 
-  export function plotData( rows: Array<any>, scales: Array<any>, axisKeys: Array<string>, scene: any ) {
+  export function plotData( rows: Array<any>, scales: Array<any>, axisKeys: Array<string>, scene: any, sphereRadius = 0.1 ) {
     
     if (!rows) {
      console.log("no rows to plot.")
@@ -187,7 +187,6 @@ export function d3render( parent )
     }
 
     var x = scales[0], y = scales[1], z = scales[2];
-    var sphereRadius = 0.1;
 
     // Draw a sphere at each x,y,z coordinate.
     var datapoints = scene.selectAll(".datapoint").data( rows );

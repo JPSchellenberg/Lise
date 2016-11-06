@@ -4,7 +4,8 @@ export default class LineChartState {
 		this.settings = {
 			General: {
 				Zeitdifferenz: 8,
-				'Anzahl der Messpunkte': 200
+				'Anzahl der Messpunkte': 200,
+				'Kugelradius': 0.1
 			}
 		};
 	}
@@ -14,6 +15,7 @@ export default class LineChartState {
 		General: {
 			Zeitdifferenz: number;
 			'Anzahl der Messpunkte': number;
+			'Kugelradius': number;
 		};
 	}
 }
