@@ -26,12 +26,14 @@ server-dist:
 openwrt:
 	make client
 	make server
-	mkdir -p dist/openWRT
+	mkdir -p dist/openWRT/server
 	cp -r build/server dist/openWRT
 	cp -r app/ dist/openWRT/app
 	cp -r bin/openWRT/ dist/openWRT/bin/
 	cp -r lib/openWRT/ dist/openWRT/lib/
 	cp script/openWRT/install dist/openWRT/install
+	cp server/package.json dist/openWRT/server
+	cd dist/openWRT/server; npm install
 
 .PHONY: test test-watch server server-dist openwrt client
 test:
