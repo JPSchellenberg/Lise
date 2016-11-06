@@ -1,6 +1,6 @@
 {
   "name": "Lise",
-  "version": "1.0.0-prerelease.1",
+  "version": "1.0.0-prerelease.2",
   "description": "Lowcost interface for science experiments",
   "main": "src/index.ts",
   "repository": {
