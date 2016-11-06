@@ -51,6 +51,9 @@ class Core {
 				});
 			}, 1000);
 		}
+
+		this.sketch_gain = 1;
+		this.sketch_sampleRate = 20;
 	}
 
 	connection: serialport.SerialPort;
@@ -59,6 +62,9 @@ class Core {
 	ports: Array<serialport.portConfig>;
 	
 	socket_channels: Array<SocketIO.Namespace>;
+
+	sketch_sampleRate: number;
+	sketch_gain: number;
 
 	setConnection(connection: serialport.SerialPort): boolean { 
 		try {
@@ -93,6 +99,9 @@ class Core {
 				this.socket_channels.filter(channel => channel.name === '/serialport')[0].emit('heartbeat', new Date().getTime());
 			},1000);
 
+			this.writeSampleRate( this.sketch_sampleRate );
+			this.connection.write('v');
+
 			console.log('CORE: SERIALPORT: new connection to ',this.connection);
 			return true;
 		} catch (err) {
@@ -113,6 +122,33 @@ class Core {
 	}
 
 	getPorts(): Array<serialport.portConfig> { return this.ports; }
+
+	writeSampleRate(sampleRate: number): boolean {
+		if (this.connection) { 
+			this.connection.write('s'+sampleRate);
+			return true;
+		}
+		return false;
+	}
+	setSampleRate(sampleRate: number): boolean {
+		this.sketch_sampleRate = sampleRate;
+		return this.writeSampleRate(this.sketch_sampleRate);
+	}
+
+	writeGain(gain: number): boolean {
+		if (this.connection) {
+			this.connection.write('g'+gain);
+			return true;
+		}
+		return false;
+	}
+	setGain(gain: number): boolean {
+		this.sketch_gain = gain;
+		return this.writeGain(gain);
+	}
+
+	getSampleRate(): number { return this.sketch_sampleRate; }
+	getGain(): number { return this.sketch_gain; }
 	boot(): void { console.log('booting core') }
 }
 
