@@ -1,27 +1,19 @@
 client:
-	make clear
 	make copyassets
 	NODE_ENV=production VERSION=$(shell git describe) ./node_modules/.bin/webpack -p --config './webpack.js' --progress --colors
-
-yun:
-	make build
-	mkdir -p dist/yun
-	cp -r client/server/yun/* dist/yun
-	cp -r app dist/yun
-	cd dist/yun; npm install
-
-mac:
-	make build
-	./node_modules/.bin/build -m
 
 server:
 	./node_modules/.bin/tsc server/index.ts --sourceMap --inlineSources --module commonjs --outDir build/server
 
-server-dist:
+electron:
+	cp electron/* build/
+
+mac:
 	make clear
+	make client
 	make server
-	mkdir -p dist/server
-	cp -r build/server dist/
+	cp electron/* build/
+	# ./node_modules/.bin/build -m
 
 openwrt:
 	make client
@@ -35,7 +27,7 @@ openwrt:
 	cp server/package.json dist/openWRT/server
 	cd dist/openWRT/server; npm install
 
-.PHONY: test test-watch server server-dist openwrt client
+.PHONY: test test-watch server server-dist openwrt client electron
 test:
 	NODE_ENV=test ./node_modules/.bin/mocha --require ts-node/register --recursive $(TEST_FILES) #./build/**/*.test.js --recursive
 
@@ -55,6 +47,7 @@ dev:
 clear:
 	rm -rf dist
 	rm -rf build
+	rm -rf app
 
 install:
 	npm install
