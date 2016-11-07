@@ -17,5 +17,6 @@ export default function (server: express.Application) {
 	api(server);
 	
 	console.log("CORE: BOOT: static-fileserver");
-	server.get('*', express.static(__dirname+'/../../app'));
+	console.log( __dirname+'/client')
+	server.get('*', express.static(__dirname+'/../../client'));
 }
