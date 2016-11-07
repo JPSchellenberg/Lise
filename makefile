@@ -13,7 +13,8 @@ mac:
 	make client
 	make server
 	cp electron/* build/
-	# ./node_modules/.bin/build -m
+	mv build app
+	./node_modules/.bin/build -m
 
 openwrt:
 	make client
