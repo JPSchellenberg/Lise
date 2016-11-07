@@ -43,10 +43,9 @@ test-watch:
 	NODE_ENV=test ./node_modules/.bin/mocha --watch --watch-extensions tsx,ts,test.ts --require ts-node/register --recursive ./client/**/*.test.ts 
 
 copyassets:
-	mkdir -p app/
-	cp client/index.html app/index.html
-	cp ./client/electron/* app/
-	cp -r assets/* app/
+	mkdir -p build/client
+	cp client/index.html build/client/index.html
+	cp -r client/assets/* build/client/
 
 dev:
 	make clear

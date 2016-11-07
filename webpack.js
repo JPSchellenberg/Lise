@@ -10,7 +10,7 @@ module.exports = {
     './client/stylesheets/main.scss'
   ] : ['./client/index.ts', './client/stylesheets/main.scss'],
   output: {
-    path: __dirname + '/app',
+    path: __dirname + '/build/client',
     publicPath: process.env.NODE_ENV === 'development' ? 'http://localhost:8080/' : '',
     filename: "app.js",
   },
@@ -53,7 +53,7 @@ module.exports = {
     // "react-dom": "ReactDOM"
   },
   devServer: {
-    contentBase: './app',
+    contentBase: './build/client',
     hot: true,
     historyApiFallback: {
       index: 'index.html'
