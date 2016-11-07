@@ -179,7 +179,7 @@ export function d3render( parent )
 }
 
 
-  export function plotData( rows: Array<any>, scales: Array<any>, axisKeys: Array<string>, scene: any, sphereRadius = 0.1 ) {
+  export function plotData( rows: Array<any>, scales: Array<any>, axisKeys: Array<string>, scene: any, sphereRadius = 0.1, color = '#2980b9' ) {
     
     if (!rows) {
      console.log("no rows to plot.")
@@ -206,7 +206,7 @@ export function d3render( parent )
        //.attr("radius", sphereRadius)
 
     datapoints.selectAll("shape appearance material")
-        .attr("diffuseColor", 'steelblue' )
+        .attr("diffuseColor", color )
 
     datapoints.transition().ease('linear').duration(0)
         .attr("translation", function(row) { 
