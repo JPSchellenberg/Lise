@@ -1,6 +1,10 @@
 import * as React from 'react';
 import { assign } from 'lodash';
 
+declare var window: any;
+const d3 = require('./d3');
+window.d3 = d3;
+
 import Settings from '../../components/settings';
 
 import Graph from './Graph';
