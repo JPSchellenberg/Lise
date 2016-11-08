@@ -3,7 +3,8 @@ client:
 	NODE_ENV=production VERSION=$(shell git describe) ./node_modules/.bin/webpack -p --config './webpack.js' --progress --colors
 
 server:
-	./node_modules/.bin/tsc server/index.ts --sourceMap --inlineSources --module commonjs --outDir build/server
+	./node_modules/.bin/tsc server/index.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir build/server
+	# ./node_modules/.bin/tsc server/index.ts --project tsconfig.json --outDir build/server
 
 electron:
 	cp electron/* build/
