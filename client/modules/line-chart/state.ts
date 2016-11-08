@@ -6,7 +6,7 @@ export default class LineChartState {
 				title: ''
 			},
 			XAxis: new AxisSettings('Time [s]'),
-			YAxis: new AxisSettings('Spannung [mV]', -10, 10)
+			YAxis: new AxisSettings('Spannung [V]', -10, 10)
 		};
 	}
 
