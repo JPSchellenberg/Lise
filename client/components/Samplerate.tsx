@@ -46,14 +46,17 @@ export default class Samplerate extends React.Component<ISamplerateProps, ISampl
 				"form-group": true,
 				"has-error": !this.state.samplerate
 			})}>
-				<input 
-				onBlur={this.setSamplerate}
-				onChange={this.handleChange}
-				type="number" 
-				className="form-control" 
-				placeholder="Samplerate" 
-				value={ this.state.samplerate || this.props.sketch.samplerate } 
-				/>
+				<div className="input-group">
+					<input 
+					onBlur={this.setSamplerate}
+					onChange={this.handleChange}
+					type="number" 
+					className="form-control" 
+					placeholder="Samplerate" 
+					value={ this.state.samplerate || this.props.sketch.samplerate } 
+					/>
+				<span className="input-group-addon">1/s</span>
+				</div>
 			</div>
 			);
 	}
