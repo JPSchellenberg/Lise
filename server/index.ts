@@ -1,8 +1,12 @@
 /// <reference path="../typings/index.d.ts" />
 
-console.log('CORE: Starting bootsequence');
-import core from './core';
+// console.log('CORE: Starting bootsequence');
+// import core from './core';
 
-core.boot();
+// core.boot();
 
-export default core;
+// export default core;
+
+import boot from './boot';
+
+boot();
