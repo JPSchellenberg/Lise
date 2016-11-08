@@ -38,7 +38,7 @@ export function post_connection(req: express.Request, res: express.Response, nex
 
 
 	} catch (err) {
-		res.status(503).end(err);
+		res.status(503).end(JSON.stringify(err));
 	}
 }
 

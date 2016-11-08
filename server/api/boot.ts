@@ -32,7 +32,7 @@ export default function(server: express.Application) {
 	server.get('/api/v0/sketch/samplerate', get_samplerate);
 	server.post('/api/v0/sketch/samplerate/:samplerate', post_samplerate);
 	server.get('/api/v0/sketch/gain', get_gain);
-	server.post('/api/v0/sketch/gain', post_gain);
+	server.post('/api/v0/sketch/gain/:gain', post_gain);
 
 	server.get('/api/v0/test', get_test);
 	server.post('/api/v0/test', post_test);
