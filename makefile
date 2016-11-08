@@ -22,7 +22,7 @@ openwrt:
 	make server
 	mkdir -p dist/openWRT/server
 	cp -r build/server dist/openWRT
-	cp -r app/ dist/openWRT/app
+	cp -r build/client/ dist/openWRT/client
 	cp -r bin/openWRT/ dist/openWRT/bin/
 	cp -r lib/openWRT/ dist/openWRT/lib/
 	cp script/openWRT/install dist/openWRT/install
