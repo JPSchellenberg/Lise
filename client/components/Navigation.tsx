@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import Export   from './Export';
+
 interface INavbarProps {	
 }
 
@@ -30,6 +32,7 @@ export default class Navbar extends React.Component<INavbarProps, INavbarState> 
           <ul className="nav navbar-nav">
           </ul>
           <ul className="nav navbar-nav navbar-right">
+            <Export />
           </ul>
         </div>
       </div>
