@@ -86,19 +86,19 @@ export class Layout extends React.Component<IProps, IState> {
 
 				<div className="container">
 
-						<Reconstruction 
-						settings={this.props.reconstructionSettings}
-						showSettings={this.props.reconstructionShowSettings}
-						toggleSettings={this.props.reconstructionToggleSettings}
-						/>
-
 						<LineChart 
 							settings={this.props.linechartSettings}
 
 							showSettings={this.props.linechartShowSettings}
 
 							toggleSettings={this.props.linechartToggleSettings}
-				/>
+						/>
+
+						<Reconstruction 
+							settings={this.props.reconstructionSettings}
+							showSettings={this.props.reconstructionShowSettings}
+							toggleSettings={this.props.reconstructionToggleSettings}
+						/>
 				</div>
 
 				<div className='row' style={{ marginBottom: '75px'}}></div>

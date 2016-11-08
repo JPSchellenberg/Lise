@@ -3,7 +3,7 @@ Installation
 Dies ist eine Anleitung zum Installieren auf einem Arduino-Yun. Vorraussetzung für die Installation ist, dass sich der Ardunio-Yun angeschaltet im Netzwerk befindet.
 
   1. Download der Arduino-Entwicklungumgebung von [https://www.arduino.cc/en/Main/Software](https://www.arduino.cc/en/Main/Software)
-  2. Download der Adafruit-Library von [https://github.com/adafruit/Adafruit_ADS1X15/archive/1.0.0.zip](https://www.arduino.cc/en/Main/Software)
+  2. Download der Adafruit-Library von [https://github.com/adafruit/Adafruit_ADS1X15/archive/1.0.0.zip](https://github.com/adafruit/Adafruit_ADS1X15/archive/1.0.0.zip)
   3. In der Arduino-Entwicklungumgebung muss nun die Adafruit-Library hinzugefügt werden:
   	![add lib](img/arduino_add_lib.png)
   4. Download des Sketches von [https://github.com/JPSchellenberg/Lise/blob/development/sketch/ino/adafruit_differential_yun/adafruit_differential_yun.ino](https://github.com/JPSchellenberg/Lise/blob/development/sketch/ino/adafruit_differential_yun/adafruit_differential_yun.ino)

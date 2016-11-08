@@ -13,15 +13,12 @@ export function GET_list() {
 
 			API.GET_list()
 			.then(res => { 
-				console.log(res);
-				// dispatch( success() )
 				return res.json()
 			})
 			.then((json) => {
 				dispatch( updatePorts(json) );
-				console.log(json);
 			})
-			.catch(err => { console.log(err) });  
+			.catch(err => { debugger; });  
 		}
 }
 
@@ -32,8 +29,6 @@ export function GET_connection() {
 
 			API.GET_connection()
 			.then(res => { 
-				console.log(res);
-				// dispatch( success() )
 				return res.json()
 			})
 			.then((json) => {

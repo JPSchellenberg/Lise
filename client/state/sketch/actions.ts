@@ -53,6 +53,7 @@ export function get_samplerate() {
 				}
 			})
 			.then(samplerate => {
+				samplerate = 1/(samplerate/1000);
 				dispatch( update_samplerate( samplerate ) );
 			})
 			.catch(err => { debugger; });  

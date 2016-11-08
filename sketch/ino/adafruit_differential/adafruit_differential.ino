@@ -14,13 +14,14 @@ void setup(void)
 }
 
 int _sampleRate = 1000;
+float multiplier = 0.125F;
 
 void loop(void)
 {   
     while (Serial.available() > 0) {
       char command = (char)Serial.read();
       
-      if (command == 'v') { Serial.print("version {\"sketch\":\"adafruit_differential\",\"version\":\"0.0.2\"}"); Serial.print("\n"); Serial.flush(); }
+      if (command == 'v') { Serial.print("version {\"sketch\":\"adafruit_differential\",\"version\":\"0.0.3\"}"); Serial.print("\n"); Serial.flush(); }
       
       if (command == 's') { 
         _sampleRate = Serial.parseInt();
@@ -32,21 +33,27 @@ void loop(void)
         switch (gain) {
           case 0:
              ads.setGain(GAIN_TWOTHIRDS);
+             multiplier = 0.1875F;
            break;
            case 1:
              ads.setGain(GAIN_ONE);
+             multiplier = 0.125F;
            break;
            case 2:
              ads.setGain(GAIN_TWO);
+             multiplier = 0.0625F;
            break;
            case 4:
              ads.setGain(GAIN_FOUR);
+             multiplier = 0.03125F;
            break;
            case 8:
              ads.setGain(GAIN_EIGHT);
+             multiplier = 0.15625F;
            break;
            case 16:
              ads.setGain(GAIN_SIXTEEN);
+             multiplier = 0.0078125F;
            break;
            default:
              Serial.print("info gain No such gain"); Serial.print("\n"); Serial.flush();
@@ -64,9 +71,9 @@ void loop(void)
   Serial.print("{\"time\":");
   Serial.print( millis() );
   Serial.print(",\"channel1\":");
-  Serial.print(results1);
+  Serial.print(results1 * multiplier);
   Serial.print(",\"channel2\":");
-  Serial.print(results2);
+  Serial.print(results2 * multiplier);
   Serial.print("}");
   Serial.print("\n");
   

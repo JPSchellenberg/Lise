@@ -25,6 +25,8 @@
     "avrgirl-arduino": "^1.9.8",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "serialport": "3.1.2"
+    "mime": "^1.3.4",
+    "serialport": "3.1.2",
+    "socket.io": "^1.5.1"
   }
 }
