@@ -21,8 +21,8 @@ export default function(server) {
 
 	if (process.env.TEST) { 
 		setInterval(() => {
-            channel['serialport'].emit('data', "data "+JSON.stringify({"time":new Date().getTime(), "channel1": Math.floor((Math.random() * 1000) + 1), "channel2": Math.floor((Math.random() * 10) + 1) })); 
-		}, 1000);
+            channel['serialport'].emit('data', "data "+JSON.stringify({"time":new Date().getTime(), "channel1": Math.floor((Math.random() * 6000) + 1), "channel2": Math.floor((Math.random() * 10) + 1) })); 
+		}, 100);
 	}
 }
 
