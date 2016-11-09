@@ -30,6 +30,10 @@ import {
 
  import { selectPort } from '../../state/serialport/actions';
 
+import {
+	get_os
+} from '../../state/os/actions';
+
 import Notification from '../../state/notifications/notification';
 
 declare var window: any;
@@ -113,6 +117,7 @@ export default function boot() {
 
 		Store.dispatch( GET_list() );
 		Store.dispatch( GET_connection() );
+		Store.dispatch( get_os() );
 	console.log('booting succesful');
 }
 
