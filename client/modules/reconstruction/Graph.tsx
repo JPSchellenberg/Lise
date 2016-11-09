@@ -17,6 +17,7 @@ interface IProps {
   length: number;
   sphereRadius: number;
   color: string;
+  normalizationValue: number;
 }
 
 interface IState {
@@ -59,7 +60,7 @@ export default class ReconstructionGraph extends React.Component < IProps, IStat
 			    if (window.channel1.length > this.props.count*2) {
             let length = window.channel1.length > this.props.length ? this.props.length : window.channel1.length;
             for (let i=this.props.count*2; i < length; i++) {
-              rows.push({x: window.channel1[i][1], y: window.channel1[i-this.props.count][1], z: window.channel1[i-(this.props.count*2)][1]});
+              rows.push({x: window.channel1[i][1]/this.props.normalizationValue, y: window.channel1[i-this.props.count][1]/this.props.normalizationValue, z: window.channel1[i-(this.props.count*2)][1]/this.props.normalizationValue});
             }
             plotData(rows, test.scales, test.axisKeys, test.scene, this.props.sphereRadius, this.props.color);
           } else {

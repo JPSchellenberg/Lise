@@ -95,8 +95,8 @@ export default function boot() {
 				try {
 					data = JSON.parse( data.split(" ")[1] ); 
 					if (!window.lastTime) { window.lastTime = data.time; }
-					window.channel1.push([ ((data.time-window.lastTime)/1000), data.channel1]);
-					window.channel2.push([ ((data.time-window.lastTime)/1000), data.channel2]);
+					window.channel1.push([ ((data.time-window.lastTime)/1000), data.channel1/1000]);
+					window.channel2.push([ ((data.time-window.lastTime)/1000), data.channel2/1000]);
 
 					if (window.channel1.length > 300) { window.channel1.shift(); }
 					if (window.channel2.length > 300) { window.channel2.shift(); }

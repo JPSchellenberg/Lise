@@ -96,6 +96,7 @@ export class Layout extends React.Component<IProps, IState> {
 						/>
 
 						<Reconstruction 
+							normalizationValue={this.props.linechartSettings.YAxis.max/10}
 							settings={this.props.reconstructionSettings}
 							showSettings={this.props.reconstructionShowSettings}
 							toggleSettings={this.props.reconstructionToggleSettings}
