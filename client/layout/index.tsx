@@ -46,6 +46,7 @@ interface IProps {
 	linechartSettings?: any;
 	serialport?: any;
 	sketch?: any;
+	os?: any;
 
 	sketch_post_samplerate?: any;
 	sketch_post_gain?: any;
@@ -106,9 +107,11 @@ export class Layout extends React.Component<IProps, IState> {
 						<div className="container-fluid">
 						<div className="row">
 							<div className="hidden-xs hidden-sm col-md-4">
+								{
+									(this.props.os.arch !== 'mips' && this.props.os.platform !== 'linux') 
+									?
 								<PortSelect 
 								serialport={this.props.serialport}
-								electron={true}
 								selectedPort={this.props.selectedPort} 
 								selectPort={this.connectToPort}
 								ports={this.props.ports}
@@ -116,6 +119,9 @@ export class Layout extends React.Component<IProps, IState> {
 								connectionInfo={this.props.connectionInfo}
 								flash={this.flash}
 								/>
+								: 
+								null
+							}
 							</div>
 							<div className="col-xs-10 col-md-4">
 								<div className="navbar-form">
@@ -161,6 +167,7 @@ function mapStateToProps(state): IProps {
 		linechartSettings: state.LineChart.settings,
 		serialport: state.serialport,
 		sketch: state.sketch,
+		os: state.os,
 
 		reconstructionSettings: state.reconstruction.settings,
 		reconstructionShowSettings: state.reconstruction.showSettings
