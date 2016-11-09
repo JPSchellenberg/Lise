@@ -25,6 +25,8 @@ openwrt:
 	cp -r build/client/ dist/openWRT/client
 	cp -r bin/openWRT/ dist/openWRT/bin/
 	cp -r lib/openWRT/ dist/openWRT/lib/
+	mkdir -p dist/openWRT/sketch/
+	cp sketch/ino/adafruit_differential_yun/adafruit_differential_yun.ino dist/openWRT/sketch/sketch.ino
 	cp script/openWRT/install dist/openWRT/install
 	cp server/package.json dist/openWRT/server
 	cd dist/openWRT/server; npm install
