@@ -85,6 +85,8 @@ export default function boot() {
 		// DUMMY MEASUREMENT
 		window.channel1 = [];
 		window.channel2 = [];
+		window.storage1 = [];
+		window.storage2 = [];
 		window.recording = false;
 
 		const socket_channel_serialport = socketio.connect( window.location.href + 'serialport' );
@@ -97,7 +99,8 @@ export default function boot() {
 					if (!window.lastTime) { window.lastTime = data.time; }
 					window.channel1.push([ ((data.time-window.lastTime)/1000), data.channel1/1000]);
 					window.channel2.push([ ((data.time-window.lastTime)/1000), data.channel2/1000]);
-
+					window.storage1.push([ ((data.time-window.lastTime)/1000), data.channel1/1000]);
+					window.storage2.push([ ((data.time-window.lastTime)/1000), data.channel2/1000]);
 					if (window.channel1.length > 300) { window.channel1.shift(); }
 					if (window.channel2.length > 300) { window.channel2.shift(); }
 				} catch(err) {}
