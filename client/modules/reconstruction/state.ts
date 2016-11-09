@@ -5,7 +5,7 @@ export default class LineChartState {
 			General: {
 				Zeitdifferenz: 8,
 				'Anzahl der Messpunkte': 200,
-				'Kugelradius': 0.1,
+				'Punktradius': 0.1,
 				'Farbe': '#2980b9'
 			}
 		};
@@ -16,7 +16,7 @@ export default class LineChartState {
 		General: {
 			Zeitdifferenz: number;
 			'Anzahl der Messpunkte': number;
-			'Kugelradius': number;
+			'Punktradius': number;
 			'Farbe': string;
 		};
 	}
