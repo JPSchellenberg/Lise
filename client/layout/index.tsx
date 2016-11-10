@@ -14,10 +14,9 @@ import PortSelect 			from '../components/PortSelect';
 import Samplerate 			from '../components/Samplerate';
 import Gain 				from '../components/Gain';
 
-import { selectPort } from '../state/serialport/actions';
+import { connectPort } from '../state/serialport/actions';
 
 import communication from '../lib/Communication';
-import flash 		from '../lib/Flash';
 
 import { showSettings } 	from '../modules/line-chart/actions';
 
@@ -37,7 +36,7 @@ interface IProps {
 	path?: string;
 	ports?: string;
 	selectedPort?: string;
-	selectPort?: (comName: string) => void;
+	connectPort?: (comName: string) => void;
 	connectionStatus?: string;
 	connectionInfo?: any;
 	lineChartSettings?: any;
@@ -64,17 +63,6 @@ interface IState {
 export class Layout extends React.Component<IProps, IState> {
 	constructor(props: IProps) {
 		super(props);
-
-		this.connectToPort = this.connectToPort.bind(this);
-	}
-
-	connectToPort(comName: string) {
-		communication.emit('flash',comName);
-		this.props.selectPort(comName);
-	}
-
-	flash(port: string) {
-		flash.flash(port);
 	}
 	
 	render() {
@@ -114,11 +102,10 @@ export class Layout extends React.Component<IProps, IState> {
 								<PortSelect 
 								serialport={this.props.serialport}
 								selectedPort={this.props.selectedPort} 
-								selectPort={this.connectToPort}
+								connectPort={this.props.connectPort}
 								ports={this.props.ports}
 								connectionStatus={this.props.connectionStatus}
 								connectionInfo={this.props.connectionInfo}
-								flash={this.flash}
 								/>
 								: 
 								null
@@ -177,7 +164,9 @@ function mapStateToProps(state): IProps {
 
 function mapDispatchToProps(dispatch) {
   return {
-	  selectPort: (comName: string) => dispatch( selectPort(comName) ),
+	  connectPort: (comName: string) => { 
+		  dispatch( connectPort(comName) ) 
+		},
 	  linechartToggleSettings: () => dispatch( showSettings() ),
 
 	  sketch_post_samplerate: (samplerate: number) => dispatch( sketch_post_samplerate(samplerate) ),

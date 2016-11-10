@@ -13,7 +13,7 @@ void setup(void)
   ads.setGain(GAIN_ONE);
 }
 
-int _sampleRate = 1000;
+int _sampleRate = 20;
 float multiplier = 0.125F;
 
 void loop(void)

@@ -28,7 +28,7 @@ import {
 	hideNotification
  } from '../../state/notifications/actions';
 
- import { selectPort } from '../../state/serialport/actions';
+ import { connectPort } from '../../state/serialport/actions';
 
 import {
 	get_os
@@ -68,20 +68,6 @@ export default function boot() {
 		// initiate boot sequence:
 		// core.boot( page );
 
-		communication.on('portUpdate', (ports) => {
-			Store.dispatch( updatePorts(ports) );
-
-			const notification = new Notification('SerialPorts', 'success');
-			Store.dispatch( showNotification( notification ) );
-			setTimeout(() => { 
-				Store.dispatch( hideNotification( notification.id ));
-			}, 2000);
-		} );
-
-		// communication.on('version', (version) => { Store.dispatch( connectionInfo(version) ) });
-		communication.on('connection', (status) => { Store.dispatch( connectionStatus( status ) ) });
-
-
 		// DUMMY MEASUREMENT
 		window.channel1 = [];
 		window.channel2 = [];
@@ -107,6 +93,19 @@ export default function boot() {
 
 			}
 		});
+
+		socket_channel_serialport.on('update_ports', (ports) => {
+			Store.dispatch( updatePorts(ports) );
+
+			const notification = new Notification('SerialPorts', 'success');
+			Store.dispatch( showNotification( notification ) );
+			setTimeout(() => { 
+				Store.dispatch( hideNotification( notification.id ));
+			}, 2000);
+		} );
+
+		// communication.on('version', (version) => { Store.dispatch( connectionInfo(version) ) });
+		socket_channel_serialport.on('connection', (status) => { Store.dispatch( connectionStatus( status ) ) });
 
 		// core.finish(() => {
 		// 	ReactDOM.render(
