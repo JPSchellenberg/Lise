@@ -32,8 +32,11 @@ export class Serialport extends EventEmitter {
 	}
 
 	public closeConnection(): void {
-		this.mConnection.close();
-		this.mConnection = null;
+		try {
+			this.mConnection.close();
+			this.mConnection = null;
+		} catch(err) {}
+		
 	}
 
 	private setupListeners(): void {

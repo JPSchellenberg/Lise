@@ -31,6 +31,11 @@ import { showSettings as reconstruction_showSettings } from '../modules/reconstr
 
 import Modal from '../components/Modal';
 
+import {
+	GET_list,
+	GET_connection
+} from '../state/serialport/actions';
+
 declare var window: any; // remove and implement enviroment-module
 
 interface IProps {	
@@ -48,6 +53,7 @@ interface IProps {
 	sketch?: any;
 	os?: any;
 	modal?: any;
+	get_serialport_list?: any;
 
 	sketch_post_samplerate?: any;
 	sketch_post_gain?: any;
@@ -114,6 +120,7 @@ export class Layout extends React.Component<IProps, IState> {
 								connectionStatus={this.props.connectionStatus}
 								connectionInfo={this.props.connectionInfo}
 								sketch={this.props.sketch}
+								get_list={this.props.get_serialport_list}
 								/>
 								: 
 								null
@@ -183,6 +190,8 @@ function mapDispatchToProps(dispatch) {
 
 	  sketch_get_gain: () => dispatch( sketch_get_gain() ),
 	  sketch_get_samplerate: () => dispatch( sketch_get_samplerate() ),
+
+	  get_serialport_list: () => dispatch( GET_list() ),
 
 	  reconstructionToggleSettings: () => dispatch( reconstruction_showSettings() )
   };

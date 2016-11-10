@@ -14,6 +14,7 @@ interface IPortSelectProps {
   connectPort: (comName: string) => void;
   connectionInfo: any;
   sketch: any;
+  get_list: any;
 }
 
 interface IPortSelectState {
@@ -28,7 +29,9 @@ export default class PortSelect extends React.Component<IPortSelectProps, IPortS
 		return ( 
 				<div className="dropup">
 				<div className="btn-group">
-				<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				<button 
+				onClick={() => { this.props.get_list() }}
+				className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span>{
 						this.props.serialport.connection
 						?
