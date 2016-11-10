@@ -1,4 +1,6 @@
 import server 			from '../core/server';
+import serialport		from '../core/serialport';
+import sketch			from '../core/sketch';
 
 import boot_server 		from './server';
 import boot_api 		from '../api/boot';
@@ -18,6 +20,8 @@ export default function() {
 	boot_socket(http_server);
 
 	boot_addon();
+
+	serialport.on('open', () => { sketch.getVersion() });
 	
 	console.log('BOOT: end sequence');
 }
