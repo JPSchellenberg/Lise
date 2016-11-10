@@ -10,8 +10,8 @@ import {
 export default function(state = {
 	selectedPort: 'No Port selected',
 	connectionStatus: 'default',
-	connectionInfo: {},
-	connection: [],
+	connectionInfo: null,
+	connection: null,
 	list: []
 }, action) {
 	switch (action.type) {

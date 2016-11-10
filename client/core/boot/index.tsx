@@ -34,6 +34,16 @@ import {
 	get_os
 } from '../../state/os/actions';
 
+import {
+	get_version,
+	set_sketch_status,
+	set_version
+} from '../../state/sketch/actions';
+
+import {
+	updateConnection
+} from '../../state/serialport/actions';
+
 import Notification from '../../state/notifications/notification';
 
 declare var window: any;
@@ -104,9 +114,26 @@ export default function boot() {
 			}, 2000);
 		} );
 
+		socket_channel_serialport.on('close', (connection) => {
+			Store.dispatch( updateConnection(connection) );
+			Store.dispatch(set_sketch_status('error'));
+		});
+
+
 		// communication.on('version', (version) => { Store.dispatch( connectionInfo(version) ) });
 		socket_channel_serialport.on('connection', (status) => { Store.dispatch( connectionStatus( status ) ) });
 
+		const socket_channel_sketch = socketio.connect( window.location.href + 'sketch' );
+
+		socket_channel_sketch.on('version', (version) => {
+			if (version.version !== '0.0.0') {
+				Store.dispatch(set_sketch_status('success'));
+			} else {
+				Store.dispatch(set_sketch_status('error'));
+			}
+			
+			Store.dispatch( set_version( version ) );
+		});
 		// core.finish(() => {
 		// 	ReactDOM.render(
 		// 		<Provider store={Store}>
@@ -120,6 +147,7 @@ export default function boot() {
 		Store.dispatch( GET_list() );
 		Store.dispatch( GET_connection() );
 		Store.dispatch( get_os() );
+		Store.dispatch( get_version() );
 	console.log('booting succesful');
 }
 

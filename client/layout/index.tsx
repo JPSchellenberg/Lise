@@ -106,6 +106,7 @@ export class Layout extends React.Component<IProps, IState> {
 								ports={this.props.ports}
 								connectionStatus={this.props.connectionStatus}
 								connectionInfo={this.props.connectionInfo}
+								sketch={this.props.sketch}
 								/>
 								: 
 								null
