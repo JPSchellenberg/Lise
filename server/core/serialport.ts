@@ -40,8 +40,13 @@ export class Serialport extends EventEmitter {
 		if (this.mConnection) {
 			this.mConnection.on('data', (data) => this.emit('data', data));
 			this.mConnection.on('error', (error) => this.emit('error', error));
-			this.mConnection.on('open', () => this.emit('open'));
-			this.mConnection.on('close', () => this.emit('close'));
+			this.mConnection.on('open', () => { 
+				this.emit('open') 
+			});
+			this.mConnection.on('close', () => { 
+				this.closeConnection();
+				this.emit('close');
+			});
 		}
 	}
 

@@ -13,6 +13,7 @@ interface IPortSelectProps {
   selectedPort: string;
   connectPort: (comName: string) => void;
   connectionInfo: any;
+  sketch: any;
 }
 
 interface IPortSelectState {
@@ -29,9 +30,9 @@ export default class PortSelect extends React.Component<IPortSelectProps, IPortS
 				<div className="btn-group">
 				<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span>{
-						(this.props.ports.some(port => port.comName === this.props.selectedPort)) 
+						this.props.serialport.connection
 						?
-						this.props.selectedPort
+						this.props.serialport.connection.path
 						:
 						'No Port selected'
 					} <span className="caret"></span></span>
@@ -50,15 +51,16 @@ export default class PortSelect extends React.Component<IPortSelectProps, IPortS
 							)
 					}
 				</ul>
-					{/*<div 
+					<div 
 						onClick={() => {}}
 						className={classnames({
 							'btn': true,
-							'btn-success': this.props.serialport.connection.comName === this.props.selectedPort,
-							'btn-danger': this.props.serialport.connection.comName !== this.props.selectedPort
+							'btn-success': (this.props.sketch.status === 'success'),
+							'btn-warning': (this.props.sketch.status === 'pending'),
+							'btn-danger': (this.props.sketch.status === "error")
 						})}> 
 						<i className="glyphicon glyphicon-flash"></i> 
-					</div>*/}
+					</div>
 				</div>
 			</div>
 			);

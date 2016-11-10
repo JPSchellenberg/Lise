@@ -34,6 +34,22 @@ import {
 	get_os
 } from '../../state/os/actions';
 
+import {
+	get_version,
+	set_sketch_status,
+	set_version,
+	post_flash
+} from '../../state/sketch/actions';
+
+import {
+	updateConnection
+} from '../../state/serialport/actions';
+
+import {
+	set_content,
+	show_modal
+} from '../../state/modal/actions';
+
 import Notification from '../../state/notifications/notification';
 
 declare var window: any;
@@ -104,9 +120,50 @@ export default function boot() {
 			}, 2000);
 		} );
 
+		socket_channel_serialport.on('close', (connection) => {
+			Store.dispatch( updateConnection(connection) );
+			Store.dispatch(set_sketch_status('error'));
+		});
+
+
 		// communication.on('version', (version) => { Store.dispatch( connectionInfo(version) ) });
 		socket_channel_serialport.on('connection', (status) => { Store.dispatch( connectionStatus( status ) ) });
 
+		const socket_channel_sketch = socketio.connect( window.location.href + 'sketch' );
+
+		socket_channel_sketch.on('version', (version) => {
+			if (version.version !== '0.0.0') {
+				Store.dispatch(set_sketch_status('success'));
+			} else {
+				Store.dispatch(set_sketch_status('error'));
+				
+				Store.dispatch( set_content(
+					<div>  
+						<div className="modal-header">
+        					<button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        					<h4 className="modal-title" id="myModalLabel">Kein kompatibler Sketch gefunden</h4>
+  						</div>
+      					<div className="modal-body">
+							Es wurde kein kompatibler Sketch auf dem Arduino gefunden. Möchten Sie den momentanen Sketch überschreiben?
+						</div>
+ 						<div className="modal-footer">
+       				 		<button type="button" className="btn btn-danger" data-dismiss="modal">Abbrechen</button>
+        					<button 
+							onClick={() => {
+									try {
+										Store.dispatch( post_flash( Store.getState().serialport.connection.path ) );
+									} catch(err) { debugger; }
+									
+								}}
+							type="button" className="btn btn-success" data-dismiss="modal">Überschreiben</button>
+      					</div>
+					</div>));
+
+	  			Store.dispatch( show_modal() );
+			}
+			
+			Store.dispatch( set_version( version ) );
+		});
 		// core.finish(() => {
 		// 	ReactDOM.render(
 		// 		<Provider store={Store}>
@@ -116,10 +173,12 @@ export default function boot() {
 		// 	); 
 		// });
 
+		console.log( Store.getState() );
 
 		Store.dispatch( GET_list() );
 		Store.dispatch( GET_connection() );
 		Store.dispatch( get_os() );
+		Store.dispatch( get_version() );
 	console.log('booting succesful');
 }
 

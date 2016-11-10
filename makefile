@@ -4,6 +4,8 @@ client:
 
 server:
 	./node_modules/.bin/tsc server/index.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir build/server
+	mkdir -p build/server/hex
+	cp sketch/hex/* build/server/hex/
 	# ./node_modules/.bin/tsc server/index.ts --project tsconfig.json --outDir build/server
 
 electron:

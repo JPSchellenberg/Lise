@@ -38,3 +38,11 @@ export function post_gain(req: express.Request, res: express.Response, next: exp
 		res.status(503).end(JSON.stringify(err));
 	}
 }
+
+export function get_version(req: express.Request, res: express.Response, next: express.NextFunction) {
+	try {
+		res.status(200).end(JSON.stringify(sketch.version));
+	} catch (err) {
+		res.json(err);
+	}
+}
