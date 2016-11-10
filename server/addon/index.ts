@@ -13,8 +13,8 @@ export default function() {
 	if (os.type() === 'Linux' && os.arch() === 'mips') { 
 		openWRT();
 	} else {
-		server.post('/api/v0/flash', post_flash);
-		server.get('/api/v0/flash', get_flash);
+		server.post('/api/v0/sketch/flash', post_flash);
+		server.get('/api/v0/sketch/flash', get_flash);
 	}
 
 	

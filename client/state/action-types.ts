@@ -20,3 +20,7 @@ export const SKETCH_SET_STATUS = 'SKETCH_SET_STATUS';
 
 export const OS_GET_OS = 'OS_GET_OS';
 export const OS_SET_OS = 'OS_SET_OS';
+
+export const MODAL_SHOW = 'MODAL_SHOW';
+export const MODAL_HIDE = 'MODAL_HIDE';
+export const MODAL_SET_CONTENT = 'MODAL_SET_CONTENT';

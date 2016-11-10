@@ -60,7 +60,7 @@ class Sketch extends EventEmitter {
 		this.mSerialport.connection.write('v');
 		this.mTimeoutTimer = setTimeout(() => {
 			this.version = { "name": "no sketch found", "version": "0.0.0" };
-		}, 5000);
+		}, 2000);
 	}
 }
 

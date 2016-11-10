@@ -113,3 +113,20 @@ export function set_sketch_status(status: string) {
 		status
 	}
 }
+
+export function post_flash(comName: string) {
+	return (dispatch) => {
+
+			API.POST_flash(comName)
+			.then(res => { 
+				if (res.status === 200) { 
+					dispatch( get_version() ); 
+				} else {
+					// dispatch()
+				}
+			})
+			.catch(err => {
+				debugger;
+			 });  
+		}
+}
