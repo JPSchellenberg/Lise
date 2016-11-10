@@ -14,10 +14,9 @@ import PortSelect 			from '../components/PortSelect';
 import Samplerate 			from '../components/Samplerate';
 import Gain 				from '../components/Gain';
 
-import { selectPort } from '../state/serialport/actions';
+import { connectPort } from '../state/serialport/actions';
 
 import communication from '../lib/Communication';
-import flash 		from '../lib/Flash';
 
 import { showSettings } 	from '../modules/line-chart/actions';
 
@@ -30,6 +29,12 @@ import {
 
 import { showSettings as reconstruction_showSettings } from '../modules/reconstruction/actions';
 
+import Modal from '../components/Modal';
+
+import {
+	GET_list,
+	GET_connection
+} from '../state/serialport/actions';
 
 declare var window: any; // remove and implement enviroment-module
 
@@ -37,7 +42,7 @@ interface IProps {
 	path?: string;
 	ports?: string;
 	selectedPort?: string;
-	selectPort?: (comName: string) => void;
+	connectPort?: (comName: string) => void;
 	connectionStatus?: string;
 	connectionInfo?: any;
 	lineChartSettings?: any;
@@ -46,6 +51,9 @@ interface IProps {
 	linechartSettings?: any;
 	serialport?: any;
 	sketch?: any;
+	os?: any;
+	modal?: any;
+	get_serialport_list?: any;
 
 	sketch_post_samplerate?: any;
 	sketch_post_gain?: any;
@@ -60,31 +68,26 @@ interface IProps {
 interface IState {
 }
 
+let test = false;
 export class Layout extends React.Component<IProps, IState> {
 	constructor(props: IProps) {
 		super(props);
-
-		this.connectToPort = this.connectToPort.bind(this);
-	}
-
-	connectToPort(comName: string) {
-		communication.emit('flash',comName);
-		this.props.selectPort(comName);
-	}
-
-	flash(port: string) {
-		flash.flash(port);
 	}
 	
 	render() {
 
 		return (
 			<div id="app">		
+				<Modal 
+				show={this.props.modal.show} 
+				content={this.props.modal.content}
+				/>
 				
-				<Navigation />
+				<Navigation/>
 				<Notifications />
 
 				<div className="container">
+				
 
 						<LineChart 
 							settings={this.props.linechartSettings}
@@ -93,8 +96,8 @@ export class Layout extends React.Component<IProps, IState> {
 
 							toggleSettings={this.props.linechartToggleSettings}
 						/>
-
 						<Reconstruction 
+							normalizationValue={this.props.linechartSettings.YAxis.max/10}
 							settings={this.props.reconstructionSettings}
 							showSettings={this.props.reconstructionShowSettings}
 							toggleSettings={this.props.reconstructionToggleSettings}
@@ -106,16 +109,22 @@ export class Layout extends React.Component<IProps, IState> {
 						<div className="container-fluid">
 						<div className="row">
 							<div className="hidden-xs hidden-sm col-md-4">
+								{
+									(this.props.os.arch !== 'mips' && this.props.os.platform !== 'linux') 
+									?
 								<PortSelect 
 								serialport={this.props.serialport}
-								electron={true}
 								selectedPort={this.props.selectedPort} 
-								selectPort={this.connectToPort}
+								connectPort={this.props.connectPort}
 								ports={this.props.ports}
 								connectionStatus={this.props.connectionStatus}
 								connectionInfo={this.props.connectionInfo}
-								flash={this.flash}
+								sketch={this.props.sketch}
+								get_list={this.props.get_serialport_list}
 								/>
+								: 
+								null
+							}
 							</div>
 							<div className="col-xs-10 col-md-4">
 								<div className="navbar-form">
@@ -161,6 +170,8 @@ function mapStateToProps(state): IProps {
 		linechartSettings: state.LineChart.settings,
 		serialport: state.serialport,
 		sketch: state.sketch,
+		os: state.os,
+		modal: state.modal,
 
 		reconstructionSettings: state.reconstruction.settings,
 		reconstructionShowSettings: state.reconstruction.showSettings
@@ -169,7 +180,9 @@ function mapStateToProps(state): IProps {
 
 function mapDispatchToProps(dispatch) {
   return {
-	  selectPort: (comName: string) => dispatch( selectPort(comName) ),
+	  connectPort: (comName: string) => { 
+		  dispatch( connectPort(comName) ) 
+		},
 	  linechartToggleSettings: () => dispatch( showSettings() ),
 
 	  sketch_post_samplerate: (samplerate: number) => dispatch( sketch_post_samplerate(samplerate) ),
@@ -177,6 +190,8 @@ function mapDispatchToProps(dispatch) {
 
 	  sketch_get_gain: () => dispatch( sketch_get_gain() ),
 	  sketch_get_samplerate: () => dispatch( sketch_get_samplerate() ),
+
+	  get_serialport_list: () => dispatch( GET_list() ),
 
 	  reconstructionToggleSettings: () => dispatch( reconstruction_showSettings() )
   };

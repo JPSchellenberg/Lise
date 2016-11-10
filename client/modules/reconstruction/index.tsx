@@ -13,6 +13,7 @@ interface IProps {
 	settings: any;
 	showSettings: boolean;
 	toggleSettings: () => void;
+	normalizationValue: number;
 }
 
 interface IState {
@@ -54,7 +55,7 @@ export default class Reconstruction extends React.Component < IProps, IState > {
 				<div className="panel-body" >
         			<div className="row">
 						<div className="col-xs-12">
-							<Graph count={ this.state.settings.General.Zeitdifferenz} length={ this.state.settings.General['Anzahl der Messpunkte']} sphereRadius={this.state.settings.General.Kugelradius} color={this.state.settings.General.Farbe}/>
+							<Graph count={ this.state.settings.General.Zeitdifferenz} length={ this.state.settings.General['Anzahl der Messpunkte']} sphereRadius={this.state.settings.General.Punktradius} color={this.state.settings.General.Farbe} normalizationValue={this.props.normalizationValue}/>
 						</div>
 					</div>
 				</div>

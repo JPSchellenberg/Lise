@@ -50,7 +50,7 @@ export default class Bootscreen extends React.Component<IBootscreenProps, IBoots
 
 						<div className="col-xs-12 col-sm-12 col-md-6 col-md-offset-3 ">
 						
-							<div className="panel panel-default">
+							{/*<div className="panel panel-default">
 								<div className="panel-body">
 
 									<h1>Booting ...</h1>
@@ -65,7 +65,7 @@ export default class Bootscreen extends React.Component<IBootscreenProps, IBoots
   										</div>
 									</div>
 								</div>
-							</div>
+							</div>*/}
 
 						</div>
 

@@ -16,7 +16,7 @@ export default class ExportMenu extends React.Component<IProps, IState> {
 	}
 
 	save() {
-		var data = window.channel1;
+		var data = window.storage1;
 		var csvContent = "data:text/csv;charset=utf-8,";
 		data.forEach(function(infoArray, index){
 			var dataString = infoArray.join(",");

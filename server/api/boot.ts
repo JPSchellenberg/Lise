@@ -11,8 +11,13 @@ import {
 	get_samplerate,
 	post_samplerate,
 	get_gain,
-	post_gain
+	post_gain,
+	get_version
 } from './sketch';
+
+import {
+	get_os
+} from './os';
 
 import {
 	get_test,
@@ -33,6 +38,9 @@ export default function(server: express.Application) {
 	server.post('/api/v0/sketch/samplerate/:samplerate', post_samplerate);
 	server.get('/api/v0/sketch/gain', get_gain);
 	server.post('/api/v0/sketch/gain/:gain', post_gain);
+	server.get('/api/v0/sketch/version', get_version);
+
+	server.get('/api/v0/os', get_os);
 
 	server.get('/api/v0/test', get_test);
 	server.post('/api/v0/test', post_test);

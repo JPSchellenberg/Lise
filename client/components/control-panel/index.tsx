@@ -43,6 +43,8 @@ export default class List extends React.Component<IProps, IState> {
 							onClick={() => {
 								window.channel1 = [];
 								window.channel2 = [];
+								window.storage1 = [];
+								window.storage2 = [];
 								window.lastTime = false;
 							} }
 							>

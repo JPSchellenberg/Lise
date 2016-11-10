@@ -4,6 +4,8 @@ client:
 
 server:
 	./node_modules/.bin/tsc server/index.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir build/server
+	mkdir -p build/server/hex
+	cp sketch/hex/* build/server/hex/
 	# ./node_modules/.bin/tsc server/index.ts --project tsconfig.json --outDir build/server
 
 electron:
@@ -25,6 +27,8 @@ openwrt:
 	cp -r build/client/ dist/openWRT/client
 	cp -r bin/openWRT/ dist/openWRT/bin/
 	cp -r lib/openWRT/ dist/openWRT/lib/
+	mkdir -p dist/openWRT/sketch/
+	cp sketch/ino/adafruit_differential_yun/adafruit_differential_yun.ino dist/openWRT/sketch/sketch.ino
 	cp script/openWRT/install dist/openWRT/install
 	cp server/package.json dist/openWRT/server
 	cd dist/openWRT/server; npm install

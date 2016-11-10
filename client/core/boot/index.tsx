@@ -28,7 +28,27 @@ import {
 	hideNotification
  } from '../../state/notifications/actions';
 
- import { selectPort } from '../../state/serialport/actions';
+ import { connectPort } from '../../state/serialport/actions';
+
+import {
+	get_os
+} from '../../state/os/actions';
+
+import {
+	get_version,
+	set_sketch_status,
+	set_version,
+	post_flash
+} from '../../state/sketch/actions';
+
+import {
+	updateConnection
+} from '../../state/serialport/actions';
+
+import {
+	set_content,
+	show_modal
+} from '../../state/modal/actions';
 
 import Notification from '../../state/notifications/notification';
 
@@ -64,23 +84,11 @@ export default function boot() {
 		// initiate boot sequence:
 		// core.boot( page );
 
-		communication.on('portUpdate', (ports) => {
-			Store.dispatch( updatePorts(ports) );
-
-			const notification = new Notification('SerialPorts', 'success');
-			Store.dispatch( showNotification( notification ) );
-			setTimeout(() => { 
-				Store.dispatch( hideNotification( notification.id ));
-			}, 2000);
-		} );
-
-		// communication.on('version', (version) => { Store.dispatch( connectionInfo(version) ) });
-		communication.on('connection', (status) => { Store.dispatch( connectionStatus( status ) ) });
-
-
 		// DUMMY MEASUREMENT
 		window.channel1 = [];
 		window.channel2 = [];
+		window.storage1 = [];
+		window.storage2 = [];
 		window.recording = false;
 
 		const socket_channel_serialport = socketio.connect( window.location.href + 'serialport' );
@@ -91,9 +99,10 @@ export default function boot() {
 				try {
 					data = JSON.parse( data.split(" ")[1] ); 
 					if (!window.lastTime) { window.lastTime = data.time; }
-					window.channel1.push([ ((data.time-window.lastTime)/1000), data.channel1]);
-					window.channel2.push([ ((data.time-window.lastTime)/1000), data.channel2]);
-
+					window.channel1.push([ ((data.time-window.lastTime)/1000), data.channel1/1000]);
+					window.channel2.push([ ((data.time-window.lastTime)/1000), data.channel2/1000]);
+					window.storage1.push([ ((data.time-window.lastTime)/1000), data.channel1/1000]);
+					window.storage2.push([ ((data.time-window.lastTime)/1000), data.channel2/1000]);
 					if (window.channel1.length > 300) { window.channel1.shift(); }
 					if (window.channel2.length > 300) { window.channel2.shift(); }
 				} catch(err) {}
@@ -101,6 +110,60 @@ export default function boot() {
 			}
 		});
 
+		socket_channel_serialport.on('update_ports', (ports) => {
+			Store.dispatch( updatePorts(ports) );
+
+			const notification = new Notification('SerialPorts', 'success');
+			Store.dispatch( showNotification( notification ) );
+			setTimeout(() => { 
+				Store.dispatch( hideNotification( notification.id ));
+			}, 2000);
+		} );
+
+		socket_channel_serialport.on('close', (connection) => {
+			Store.dispatch( updateConnection(connection) );
+			Store.dispatch(set_sketch_status('error'));
+		});
+
+
+		// communication.on('version', (version) => { Store.dispatch( connectionInfo(version) ) });
+		socket_channel_serialport.on('connection', (status) => { Store.dispatch( connectionStatus( status ) ) });
+
+		const socket_channel_sketch = socketio.connect( window.location.href + 'sketch' );
+
+		socket_channel_sketch.on('version', (version) => {
+			if (version.version !== '0.0.0') {
+				Store.dispatch(set_sketch_status('success'));
+			} else {
+				Store.dispatch(set_sketch_status('error'));
+				
+				Store.dispatch( set_content(
+					<div>  
+						<div className="modal-header">
+        					<button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        					<h4 className="modal-title" id="myModalLabel">Kein kompatibler Sketch gefunden</h4>
+  						</div>
+      					<div className="modal-body">
+							Es wurde kein kompatibler Sketch auf dem Arduino gefunden. Möchten Sie den momentanen Sketch überschreiben?
+						</div>
+ 						<div className="modal-footer">
+       				 		<button type="button" className="btn btn-danger" data-dismiss="modal">Abbrechen</button>
+        					<button 
+							onClick={() => {
+									try {
+										Store.dispatch( post_flash( Store.getState().serialport.connection.path ) );
+									} catch(err) { debugger; }
+									
+								}}
+							type="button" className="btn btn-success" data-dismiss="modal">Überschreiben</button>
+      					</div>
+					</div>));
+
+	  			Store.dispatch( show_modal() );
+			}
+			
+			Store.dispatch( set_version( version ) );
+		});
 		// core.finish(() => {
 		// 	ReactDOM.render(
 		// 		<Provider store={Store}>
@@ -110,9 +173,12 @@ export default function boot() {
 		// 	); 
 		// });
 
+		console.log( Store.getState() );
 
 		Store.dispatch( GET_list() );
 		Store.dispatch( GET_connection() );
+		Store.dispatch( get_os() );
+		Store.dispatch( get_version() );
 	console.log('booting succesful');
 }
 

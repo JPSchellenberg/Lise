@@ -13,7 +13,7 @@ void setup(void)
   ads.setGain(GAIN_ONE);
 }
 
-int _sampleRate = 1000;
+int _sampleRate = 20;
 float multiplier = 0.125F;
 
 void loop(void)
@@ -21,7 +21,7 @@ void loop(void)
     while (Serial.available() > 0) {
       char command = (char)Serial.read();
       
-      if (command == 'v') { Serial.print("version {\"sketch\":\"adafruit_differential\",\"version\":\"0.0.3\"}"); Serial.print("\n"); Serial.flush(); }
+      if (command == 'v') { Serial.print("version {\"name\":\"adafruit_differential\",\"version\":\"0.0.3\"}"); Serial.print("\n"); Serial.flush(); }
       
       if (command == 's') { 
         _sampleRate = Serial.parseInt();

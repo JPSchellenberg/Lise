@@ -5,6 +5,10 @@ import {
 	PORTS_CONNECTIONINFO
 } from '../action-types';
 
+import {
+	set_sketch_status
+} from '../sketch/actions';
+
 import Communication from '../../lib/Communication';
 import * as API 	from './api';
 
@@ -36,7 +40,7 @@ export function GET_connection() {
 				dispatch( connectionStatus('success') );
 			})
 			.catch(err => {
-				dispatch( updateConnection({}) );
+				dispatch( updateConnection( null ) );
 				dispatch( connectionStatus('danger') );
 			 });  
 		}
@@ -64,20 +68,28 @@ export function POST_connection(connection: any) {
 
 
 export function updatePorts(ports: any) {
-	return {
-		type: PORTS_UPDATEPORTS,
-		ports
+	return dispatch => {
+			dispatch({
+				type: PORTS_UPDATEPORTS,
+				ports
+			});
+
 	}
 }
 
-export function selectPort(comName: string) {
+export function connectPort(comName: string) {
 	return (dispatch) => {
+		dispatch( set_sketch_status('pending') );
 		dispatch( POST_connection({"comName": comName}) );
-		dispatch( {
-			type: PORTS_SELECTPORT,
-			comName
-			} );
+		dispatch( setPort(comName) );
 	}
+}
+
+export function setPort(comName: string) {
+		return {
+		type: PORTS_SELECTPORT,
+		comName
+	};
 }
 
 export function connectionStatus(status: string) {
