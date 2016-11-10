@@ -14,7 +14,7 @@ export default function(server) {
 	};
 
 	serialport.on('data', (data) => channel['serialport'].emit('data', data));
-	serialport.on('update_ports', (ports) => channel['serialport'].emit('upate_ports', ports));
+	serialport.on('update_ports', (ports) => channel['serialport'].emit('update_ports', ports));
 	serialport.on('error', (error) => channel['serialport'].emit('error', error));
 
 	test.on('test', (test) => channel['test'].emit('test', test));

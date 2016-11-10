@@ -11,9 +11,8 @@ interface IPortSelectProps {
   ports: any;
   connectionStatus: string;
   selectedPort: string;
-  selectPort: (comName: string) => void;
+  connectPort: (comName: string) => void;
   connectionInfo: any;
-  flash: any;
 }
 
 interface IPortSelectState {
@@ -22,24 +21,6 @@ interface IPortSelectState {
 export default class PortSelect extends React.Component<IPortSelectProps, IPortSelectState> {
 	constructor(props: IPortSelectProps) {
 		super(props);
-
-		this.tooltip = this.tooltip.bind(this);
-	}
-
-	tooltip() {
-		switch(this.props.connectionStatus) {
-			case 'warning':
-				return 'connecting...';
-
-			case 'success':
-				return "sketch: "+this.props.connectionInfo.sketch+" - v"+this.props.connectionInfo.version;
-
-			case 'danger':
-				return 'No sketch found - click to flash';
-
-			default:
-				return '';
-		}
 	}
 	
 	render() {
@@ -47,7 +28,13 @@ export default class PortSelect extends React.Component<IPortSelectProps, IPortS
 				<div className="dropup">
 				<div className="btn-group">
 				<button className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<span>{this.props.selectedPort} <span className="caret"></span></span>
+					<span>{
+						(this.props.ports.some(port => port.comName === this.props.selectedPort)) 
+						?
+						this.props.selectedPort
+						:
+						'No Port selected'
+					} <span className="caret"></span></span>
 				</button>
 				<ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
 					{
@@ -56,25 +43,22 @@ export default class PortSelect extends React.Component<IPortSelectProps, IPortS
 						.map(
 							port => 
 							<li 
-							onClick={ () => { this.props.selectPort(port.comName) } }
+							onClick={ () => { 
+								this.props.connectPort(port.comName) } 
+							}
 							key={port.comName}><a>{port.comName}</a></li>
 							)
 					}
 				</ul>
-					<div 
-						data-toggle="tooltip" data-placement="top" title={ this.tooltip() }
-						onMouseEnter={ () => { 
-							$('[data-toggle="tooltip"]').tooltip('destroy');
-							$('[data-toggle="tooltip"]').tooltip();}
-						}
-						onClick={() => {
-							// if (this.props.connectionStatus === 'danger') {
-							// 	this.props.flash(this.props.selectedPort);
-							// }
-						}}
-						className={"btn btn-"+this.props.connectionStatus}> 
+					{/*<div 
+						onClick={() => {}}
+						className={classnames({
+							'btn': true,
+							'btn-success': this.props.serialport.connection.comName === this.props.selectedPort,
+							'btn-danger': this.props.serialport.connection.comName !== this.props.selectedPort
+						})}> 
 						<i className="glyphicon glyphicon-flash"></i> 
-					</div>
+					</div>*/}
 				</div>
 			</div>
 			);

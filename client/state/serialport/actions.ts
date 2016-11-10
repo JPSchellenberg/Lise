@@ -64,20 +64,27 @@ export function POST_connection(connection: any) {
 
 
 export function updatePorts(ports: any) {
-	return {
-		type: PORTS_UPDATEPORTS,
-		ports
+	return dispatch => {
+			dispatch({
+				type: PORTS_UPDATEPORTS,
+				ports
+			});
+
 	}
 }
 
-export function selectPort(comName: string) {
+export function connectPort(comName: string) {
 	return (dispatch) => {
 		dispatch( POST_connection({"comName": comName}) );
-		dispatch( {
-			type: PORTS_SELECTPORT,
-			comName
-			} );
+		dispatch( setPort(comName) );
 	}
+}
+
+export function setPort(comName: string) {
+		return {
+		type: PORTS_SELECTPORT,
+		comName
+	};
 }
 
 export function connectionStatus(status: string) {
