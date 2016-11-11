@@ -63,7 +63,6 @@
     "win": {
       "iconUrl": "https://cdn0.iconfinder.com/data/icons/thin-hardware/24/thin-0332_computer_laptop_website_url_www-512.png"
     },
-    "nodeGypRebuild": true,
     "asar": false
   }
 }
