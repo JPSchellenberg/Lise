@@ -1,6 +1,11 @@
-import * as serialport		from 'serialport';
+/// <reference path="../../typings/index.d.ts" />
+const serialport = require('serialport-electron');
 import * as EventEmitter 	from 'eventemitter3';
 
+interface serialport {
+	SerialPort: any;
+
+}
 export class Serialport extends EventEmitter {
 	constructor() {
 		super();
@@ -13,15 +18,15 @@ export class Serialport extends EventEmitter {
 
 	}
 
-	private mConnection: serialport.SerialPort;
-	private mPorts: Array<serialport.portConfig>;
+	private mConnection: any;
+	private mPorts: Array<any>;
 
-	public get connection(): serialport.SerialPort { return this.mConnection; }
-	public get ports(): Array<serialport.portConfig> { return this.mPorts; }
+	public get connection(): any { return this.mConnection; }
+	public get ports(): Array<any> { return this.mPorts; }
 
-	public addPort(port: serialport.portConfig): number { return this.mPorts.push(port); }
+	public addPort(port: any): number { return this.mPorts.push(port); }
 
-	public connect(comName: string): serialport.SerialPort {
+	public connect(comName: string): any {
 		this.mConnection = new serialport.SerialPort(
 				comName, {
 				baudRate: 9600,
@@ -55,7 +60,7 @@ export class Serialport extends EventEmitter {
 
 	private poll_ports(): void {
 		try {
-			serialport.list((err: string, ports: serialport.portConfig[]) => {
+			serialport.list((err: string, ports: any) => {
 				if (err) { debugger; }
 
 				if (ports.length !== this.mPorts.length) { this.emit('update_ports', ports); }
