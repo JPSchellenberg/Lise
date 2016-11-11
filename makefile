@@ -19,6 +19,14 @@ mac:
 	mv build app
 	./node_modules/.bin/build -m
 
+win:
+	make clear
+	make client
+	make server
+	cp electron/* build/
+	mv build app
+	./node_modules/.bin/build -w
+
 openwrt:
 	make client
 	make server

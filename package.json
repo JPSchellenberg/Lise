@@ -57,6 +57,7 @@
   },
   "build": {
     "appId": "your.id",
-    "category": "your.app.category.type"
+    "category": "your.app.category.type",
+    "asar": false
   }
 }
