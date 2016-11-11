@@ -1,6 +1,6 @@
 Überspielen des Sketches auf den Arduino
 ================
-Dies ist eine Anleitung zum Installieren des Skecthes auf einem Arduino-Leonardo.
+Dies ist eine Anleitung zum Installieren des Sketches auf einem Arduino-Leonardo.
 
   1. Download der Arduino-Entwicklungumgebung von [https://www.arduino.cc/en/Main/Software](https://www.arduino.cc/en/Main/Software)
   2. Download der Adafruit-Library von [https://github.com/adafruit/Adafruit_ADS1X15/archive/1.0.0.zip](https://github.com/adafruit/Adafruit_ADS1X15/archive/1.0.0.zip)
