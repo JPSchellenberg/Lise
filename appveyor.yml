@@ -2,7 +2,7 @@ version: 0.4.{build}
 
 artifacts:
   - path: dist
-  	name: dist
+    name: dist
     type: zip
 
 platform:
