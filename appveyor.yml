@@ -24,7 +24,7 @@ build_script:
   - npm --version
   - node_modules\.bin\webpack -p --config webpack.js --progress --colors
   - node_modules\.bin\tsc server\index.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir app\server
-  - copy client\index.html app\index.html 
+  - copy client\index.html app\client\index.html 
   - copy electron\* app\ 
   - xcopy /E /I client\assets app\client\
   - node_modules\.bin\build -w
