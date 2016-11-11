@@ -2,5 +2,5 @@
 
 * [Introduction](README.md)
 * Sketch
-   * Upload
+   * [Upload](docs/sketch/upload.md)
 
