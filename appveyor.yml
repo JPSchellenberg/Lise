@@ -23,10 +23,11 @@ build_script:
   - node --version
   - npm --version
   - node_modules\.bin\webpack -p --config webpack.js --progress --colors
-  - node_modules\.bin\tsc server\index.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir app\server
-  - copy client\index.html app\client\index.html 
-  - copy electron\* app\ 
-  - xcopy /E /I client\assets app\client\
+  - node_modules\.bin\tsc server\index.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir build\server
+  - copy client\index.html build\client\index.html 
+  - copy electron\* build\ 
+  - xcopy /E /I client\assets build\client\
+  - rename build app
   - node_modules\.bin\build -w
 
 test: off
