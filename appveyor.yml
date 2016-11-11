@@ -1,8 +1,11 @@
 version: 0.4.{build}
 
 artifacts:
-  - path: dist
-    name: dist
+  - path: Lise-win32-ia32
+    name: win_ia32
+    type: zip
+  - path: Lise-win32-x64
+    name: win_x64
     type: zip
 
 platform:
@@ -28,6 +31,6 @@ build_script:
   - copy electron\* build\ 
   - xcopy /E /I client\assets build\client\
   - rename build app
-  - node_modules\.bin\build -w
+  - node_modules\.bin\electron-packager app\
 
 test: off
