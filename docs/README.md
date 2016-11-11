@@ -1,4 +1,6 @@
 * [Read Me](/README.md)
-* [Sketch](/docs/sketch/README.md)
+* [Arduino](/docs/Arduino/README.md)
+  * [Zusammebau](/docs/Arduino/Zusammenbau.md)
+  * [Sketch](/docs/Arduino/Sketch.md)
 * [openWRT](/docs/openWRT/README.md)
   * [Installation](/docs/openWRT/Installation.md)

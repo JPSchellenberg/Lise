@@ -1,7 +1,3 @@
-Lise
-================
+# Lise
 
-
-Installation
-================
-[openWRT / Arduino-Yun / Seeeduino-Cloud](docs/openWRT/)
+[Dokumentation](/docs/README.md)
