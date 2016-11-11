@@ -31,6 +31,6 @@ build_script:
   - copy electron\* build\ 
   - xcopy /E /I client\assets build\client\
   - rename build app
-  - node_modules\.bin\build -w
+  - node_modules\.bin\electron-packager app\
 
 test: off
