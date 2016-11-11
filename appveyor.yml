@@ -1,11 +1,8 @@
 version: 0.4.{build}
 
 artifacts:
-  - path: Lise-win32-ia32
-    name: win_ia32
-    type: zip
-  - path: Lise-win32-x64
-    name: win_x64
+  - path: dist
+  	name: dist
     type: zip
 
 platform:
