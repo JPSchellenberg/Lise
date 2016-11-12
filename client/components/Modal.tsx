@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import * as classnames from 'classnames';
+import * as $ from 'jquery';
 
 interface IModalProps {	
 	show: boolean;
