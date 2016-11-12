@@ -1,5 +1,1 @@
-# Summary
-
-* [Introduction](README.md)
-* Arduino
-
+docs/README.md
