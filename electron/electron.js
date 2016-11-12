@@ -1,7 +1,8 @@
 var electron = require('electron');
 if (require('electron-squirrel-startup')) return;
 
-const app2 = require('app');
+// Module to control application life.
+var app = electron.app
 
 // this should be placed at top of main.js to handle setup events quickly
 if (handleSquirrelEvent()) {
@@ -48,7 +49,7 @@ function handleSquirrelEvent() {
       // Install desktop and start menu shortcuts
       spawnUpdate(['--createShortcut', exeName]);
 
-      setTimeout(app2.quit, 1000);
+      setTimeout(app.quit, 1000);
       return true;
 
     case '--squirrel-uninstall':
@@ -58,7 +59,7 @@ function handleSquirrelEvent() {
       // Remove desktop and start menu shortcuts
       spawnUpdate(['--removeShortcut', exeName]);
 
-      setTimeout(app2.quit, 1000);
+      setTimeout(app.quit, 1000);
       return true;
 
     case '--squirrel-obsolete':
@@ -66,15 +67,12 @@ function handleSquirrelEvent() {
       // we update to the new version - it's the opposite of
       // --squirrel-updated
 
-      app2.quit();
+      app.quit();
       return true;
   }
 };
 
-var server   = require(__dirname+'/server');
 
-// Module to control application life.
-var app = electron.app
 // Module to create native browser window.
 var BrowserWindow = electron.BrowserWindow
 
@@ -106,6 +104,8 @@ function createWindow() {
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
   // server.boot();
+  var server   = require(__dirname+'/server');
+
   createWindow()
 });
 
