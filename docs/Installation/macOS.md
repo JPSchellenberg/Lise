@@ -1,5 +1,4 @@
 # Installation auf macOS
-Dies ist eine Anleitung zum Installieren auf einem Arduino-Yun. Vorraussetzung für die Installation ist, dass sich der Ardunio-Yun angeschaltet im Netzwerk befindet.
 
   1. Download der .dmg Datei von [Lise.education](http://lise.education/download/Lise.dmg)
   2. Öffnen der .dmg Datei - es erscheint ein neues Fenster

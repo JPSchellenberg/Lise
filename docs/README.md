@@ -1,6 +1,6 @@
 * [Read Me](/README.md)
 * [Installation](/docs/Installation/README.md)
-  * [macOs](/docs/Installation/macOS.md)
+  * [macOS](/docs/Installation/macOS.md)
   * [Windows](/docs/Installation/Windows.md)
   * [Arduino Yun](/docs/Installation/openWRT.md)
 * [Arduino](/docs/Arduino/README.md)
