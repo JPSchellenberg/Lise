@@ -54,7 +54,7 @@
     "redux": "^3.5.2",
     "redux-devtools-extension": "^1.0.0",
     "redux-thunk": "^2.1.0",
-    "serialport": "3.1.2",
+    "serialport": "4.0.6",
     "socket.io": "^1.5.1"
   },
   "build": {
