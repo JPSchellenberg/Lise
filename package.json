@@ -2,7 +2,7 @@
   "name": "Lise",
   "version": "1.0.0-prerelease.4",
   "description": "Lowcost interface for science experiments",
-  "main": "src/index.ts",
+  "main": "./app/electron.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/JPSchellenberg/Lise"
@@ -43,6 +43,8 @@
     "bootstrap": "^3.3.7",
     "classnames": "^2.2.5",
     "electron-packager": "^8.2.0",
+    "electron-squirrel-startup": "^1.0.0",
+    "eventemitter3": "^2.0.2",
     "express": "^4.14.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.1.1",
