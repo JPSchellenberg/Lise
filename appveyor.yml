@@ -1,7 +1,17 @@
+version: 1.0.0-prerelease.{build}
+
+enviroment:
+  VERSION: APPVEYOR_BUILD_VERSION
+
 artifacts:
   - path: dist
     name: dist
     type: zip
+
+branches:
+  only:
+    - master
+    - /build\/*/
 
 platform:
   - x64
@@ -18,6 +28,7 @@ install:
   - npm prune
 
 build_script:
+  - git describe --dirty
   - node --version
   - npm --version
   - node_modules\.bin\webpack -p --config webpack.js --progress --colors
