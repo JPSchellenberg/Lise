@@ -17,7 +17,7 @@
   },
   "homepage": "",
   "devDependencies": {
-    "electron-builder": "^7.11.2",
+    "electron-builder": "8.6.0",
     "electron-prebuilt": "1.4.6",
     "electron-rebuild": "1.1.0"
   },
