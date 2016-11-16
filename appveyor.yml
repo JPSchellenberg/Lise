@@ -1,6 +1,6 @@
 version: 1.0.0-prerelease.{build}
 
-enviroment:
+environment:
   VERSION: APPVEYOR_BUILD_VERSION
 
 artifacts:
