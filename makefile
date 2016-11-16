@@ -65,6 +65,7 @@ clear:
 
 install:
 	npm install
+	rm node_modules/eventemitter3/index.d.ts
 
 uninstall:
 	make clear
