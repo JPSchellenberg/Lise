@@ -31,6 +31,7 @@ build_script:
   - git describe --dirty
   - node --version
   - npm --version
+  - del node_modules\eventemitter3\index.d.ts
   - node_modules\.bin\webpack -p --config webpack.js --progress --colors
   - node_modules\.bin\tsc server\index.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir build\server
   - copy client\index.html build\client\index.html 
