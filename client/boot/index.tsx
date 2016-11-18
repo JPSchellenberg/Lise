@@ -4,7 +4,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import {Provider}           from 'react-redux';
 
-import Layout from '../layout';
+import Layout from '../core/root';
 import Store from '../core/store';
 import Bootscreen from '../components/Bootscreen';
 import boot_socket from './socket';
