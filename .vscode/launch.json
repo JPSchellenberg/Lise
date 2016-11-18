@@ -1,0 +1,26 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Server",
+			"type": "node",
+			"request": "launch",
+			"program": "${workspaceRoot}/server/index.ts",
+			"stopOnEntry": false,
+			"args": [],
+			"cwd": "${workspaceRoot}",
+			"preLaunchTask": "make",
+			"runtimeExecutable": null,
+			"runtimeArgs": [
+				"--nolazy"
+			],
+			"env": {
+				"NODE_ENV": "development",
+				"PORT": 3000
+			},
+			"console": "internalConsole",
+			"sourceMaps": true,
+			"outDir": "${workspaceRoot}/build/server"
+		}
+	]
+}
