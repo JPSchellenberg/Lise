@@ -1,6 +1,6 @@
 /// <reference path="../typings/index.d.ts" />
 
-import boot from './core/boot';
+import boot from './boot';
 declare var window: any;
 
 import * as jquery from 'jquery';

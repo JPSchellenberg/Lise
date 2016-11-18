@@ -2,7 +2,5 @@ dist
 app
 build
 node_modules
-!lib/openWRT/serialport/node_modules
 typings
-.vscode
 tmp

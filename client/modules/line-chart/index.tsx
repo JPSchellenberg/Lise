@@ -83,12 +83,3 @@ export default class LineChart extends React.Component < IProps, IState > {
 		);
 	}
 };
-
-// <Settings settings={
-// 	{ 
-// 		'General': {
-// 			title: 'Test',
-// 			'ABC': 'Hallo'
-// 		}
-// 	}
-// } />
