@@ -9,7 +9,6 @@ import {
 	set_sketch_status
 } from '../sketch/actions';
 
-import Communication from '../../lib/Communication';
 import * as API 	from './api';
 
 export function GET_list() {

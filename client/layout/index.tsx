@@ -15,9 +15,6 @@ import Samplerate 			from '../components/Samplerate';
 import Gain 				from '../components/Gain';
 
 import { connectPort } from '../state/serialport/actions';
-
-import communication from '../lib/Communication';
-
 import { showSettings } 	from '../modules/line-chart/actions';
 
 import {

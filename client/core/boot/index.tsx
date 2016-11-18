@@ -14,8 +14,6 @@ import page from '../page';
 import Bootscreen from '../../components/Bootscreen';
 import Core from '../index';
 
-import communication from '../../lib/Communication';
-
 import {
 	updatePorts,
 	connectionStatus,
