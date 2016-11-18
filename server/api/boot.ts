@@ -19,11 +19,6 @@ import {
 	get_os
 } from './os';
 
-import {
-	get_test,
-	post_test
-} from './test';
-
 
 export default function(server: express.Application) {
 
@@ -41,7 +36,5 @@ export default function(server: express.Application) {
 	server.get('/api/v0/sketch/version', get_version);
 
 	server.get('/api/v0/os', get_os);
-
-	server.get('/api/v0/test', get_test);
-	server.post('/api/v0/test', post_test);
+	
 }
