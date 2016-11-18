@@ -9,8 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "make",
-    "postinstall": "./node_modules/.bin/typings install"
+    "dev": "NODE_ENV=development VERSION=$(git describe --dirty) ./node_modules/.bin/webpack-dev-server --port 8080 --config './webpack.js' --progress --colors",
+    "postinstall": "rm node_modules/eventemitter3/index.d.ts && ./node_modules/.bin/typings install"
   },
   "author": "Jan Philip Schellenberg",
   "license": "",
