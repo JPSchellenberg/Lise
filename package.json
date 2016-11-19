@@ -1,16 +1,23 @@
 {
-  "name": "Lise",
+  "name": "lise",
   "version": "1.0.0-prerelease.4",
-  "description": "Lowcost interface for science experiments",
+  "description": "Low-cost interface for science experiments",
   "main": "./app/electron.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/JPSchellenberg/Lise"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "make",
-    "postinstall": "./node_modules/.bin/typings install"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --watch --watch-extensions tsx,ts,test.ts --require ts-node/register --recursive ./**/*.test.ts",
+    "clear": "rm -rf dist && rm -rf build",
+    "uninstall": "npm run clear && rm -rf node_modules && rm -rf typings",
+    "dev": "NODE_ENV=development VERSION=$(git describe --dirty) ./node_modules/.bin/webpack-dev-server --port 8080 --config './webpack.js' --progress --colors",
+    "build": "npm run build:server && npm run build:client",
+    "build:server": "./node_modules/.bin/tsc server/index.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir build/server && mkdir -p build/server/hex && cp sketch/hex/* build/server/hex/",
+    "build:client": "NODE_ENV=production VERSION=$(git describe) ./node_modules/.bin/webpack -p --config './webpack.js' --progress --colors",
+    "build:mac": "npm run build && cp electron/* build/ && mv build/ app/ && ./node_modules/.bin/build -m",
+    "build:win": "npm run build && cp electron/* build/ && mv build/ app/ && ./node_modules/.bin/build --win --ia32",
+    "postinstall": "rm node_modules/eventemitter3/index.d.ts && ./node_modules/.bin/typings install"
   },
   "author": "Jan Philip Schellenberg",
   "license": "",
@@ -61,12 +68,10 @@
     "socket.io": "^1.5.1"
   },
   "build": {
-    "appId": "your.id",
-    "category": "your.app.category.type",
+    "appId": "org.lise.education",
     "win": {
       "target": "nsis",
       "iconUrl": "https://cdn0.iconfinder.com/data/icons/thin-hardware/24/thin-0332_computer_laptop_website_url_www-512.png"
-    },
-    "asar": false
+    }
   }
 }
