@@ -11,5 +11,5 @@
   * [Structure](/docs/Development/Structure.md)
   * [Server](/docs/Development/Server.md)
   * [Client](/docs/Development/Client.md)
-  * [Software](/docs/Developments/Software.md)
+  * [Software](/docs/Development/Software.md)
   * [Workflow](/docs/Development/Workflow.md)
