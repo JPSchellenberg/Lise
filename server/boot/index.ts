@@ -3,7 +3,7 @@ import serialport		from '../core/serialport';
 import sketch			from '../core/sketch';
 
 import boot_server 		from './server';
-import boot_api 		from '../api/boot';
+import boot_api 		from '../api';
 import boot_socket 		from './socket';
 import boot_addon 		from '../addon';
 
