@@ -44,13 +44,16 @@ export function POST_gain(gain: number) {
 	});
 }
 
-export function POST_flash(comName: string) {
+export function POST_flash(comName: string, board: string) {
 	return fetch( window.location.href + 'api/v0/sketch/flash' , {
 		method: 'post',
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({ comName })
+		body: JSON.stringify({ 
+			comName,
+			board
+		})
 	});
 }

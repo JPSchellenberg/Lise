@@ -114,10 +114,10 @@ export function set_sketch_status(status: string) {
 	}
 }
 
-export function post_flash(comName: string) {
+export function post_flash(comName: string, board: string) {
 	return (dispatch) => {
 
-			API.POST_flash(comName)
+			API.POST_flash(comName, board)
 			.then(res => { 
 				if (res.status === 200) { 
 					dispatch( get_version() ); 
