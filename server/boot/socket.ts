@@ -16,6 +16,7 @@ export default function(server) {
 	serialport.on('update_ports', (ports) => channel['serialport'].emit('update_ports', ports));
 	serialport.on('error', (error) => channel['serialport'].emit('error', error));
 	serialport.on('close', () => channel['serialport'].emit('close', serialport.connection));
+	serialport.on('open', (connection) => channel['serialport'].emit('open', connection));
 
 	sketch.on('version', (version) => channel['sketch'].emit('version', version));
 	sketch.on('gain', (gain) => channel['sketch'].emit('gain', gain));

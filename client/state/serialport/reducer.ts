@@ -1,31 +1,32 @@
 import { assign } from 'lodash';
 
 import {
-	PORTS_UPDATEPORTS,
-	PORTS_SELECTPORT,
-	PORTS_CONNECTIONSTATUS,
-	PORTS_CONNECTIONINFO
+	SERIALPORT_CONNECT,
+	SERIALPORT_UPDATE_PORTLIST,
+	SERIALPORT_UPDATE_CONNECTION_STATUS,
+	SERIALPORT_UPDATE_CONNECTION
 } from '../action-types';
 
 export default function(state = {
-	selectedPort: 'No Port selected',
-	connectionStatus: 'default',
-	connectionInfo: null,
-	connection: null,
-	list: []
+	connection: { status: 'error' },
+	portlist: []
 }, action) {
 	switch (action.type) {
 
-		case PORTS_UPDATEPORTS:
-			return assign({}, state, { list: action.ports });
+		case SERIALPORT_UPDATE_PORTLIST:
+			return assign({}, state, { portlist: action.ports });
 
-		case PORTS_SELECTPORT:
-			return assign({}, state, { selectedPort: action.comName });
+		// case SERIALPORT_CONNECT
+		// 	return assign({}, state, { selectedPort: action.comName });
 
-		case PORTS_CONNECTIONSTATUS:
-			return assign({}, state, { connectionStatus: action.status });
-
-		case PORTS_CONNECTIONINFO:
+		case SERIALPORT_UPDATE_CONNECTION_STATUS:
+			if (action.status === 'error') {
+				return assign({}, state, { connection: null });
+			} else  {
+				return assign({}, state, { connection: assign({}, state.connection, { status: action.status }) });
+			}
+			
+		case SERIALPORT_UPDATE_CONNECTION:
 			return assign({}, state, { connection: action.connection });
 
 		default:

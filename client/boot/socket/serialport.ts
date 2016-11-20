@@ -8,22 +8,19 @@ import {
 
  import {
 	updatePorts,
-	connectionStatus,
-	GET_list,
+	update_connection_status,
 	GET_connection
 } from '../../state/serialport/actions';
 
 import {
-	updateConnection
+	update_connection
 } from '../../state/serialport/actions';
 
 import Notification from '../../state/notifications/notification';
 
 
 import {
-	get_version,
 	set_sketch_status,
-	set_version,
 	post_flash
 } from '../../state/sketch/actions';
 
@@ -68,9 +65,11 @@ export default function() {
 		} );
 
 	channel['serialport'].on('close', (connection) => {
-			Store.dispatch( updateConnection(connection) );
+			Store.dispatch( update_connection(connection) );
 			Store.dispatch(set_sketch_status('error'));
 		});
 
-	channel['serialport'].on('connection', (status) => { Store.dispatch( connectionStatus( status ) ) });
+	channel['serialport'].on('open', (connection) => { 
+		Store.dispatch( update_connection( connection ) ) 
+	});
 }

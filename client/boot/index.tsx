@@ -11,7 +11,6 @@ import boot_socket from './socket';
 
 
  import {
-	GET_list,
 	GET_connection
 } from '../state/serialport/actions';
 
@@ -20,7 +19,7 @@ import {
 } from '../state/os/actions'; 
 
 import { 
-  get_version
+  get_sketch
 } from '../state/sketch/actions'; 
 
 declare var window: any;
@@ -29,6 +28,8 @@ declare var window: any;
 export default function boot() {
 
 	boot_socket();
+
+	window.store = Store;
 
 	window.channel1 = []; 
     window.channel2 = []; 
@@ -48,8 +49,8 @@ export default function boot() {
 			); 
 
 
-		Store.dispatch( GET_list() );
+		// Store.dispatch( GET_list() );
 		Store.dispatch( GET_connection() );
 		Store.dispatch( get_os() );
-		Store.dispatch( get_version() );
+		Store.dispatch( get_sketch() );
 }
