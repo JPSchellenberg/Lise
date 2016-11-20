@@ -9,7 +9,7 @@
 			"stopOnEntry": false,
 			"args": [],
 			"cwd": "${workspaceRoot}",
-			"preLaunchTask": "make",
+			"preLaunchTask": "npm",
 			"runtimeExecutable": null,
 			"runtimeArgs": [
 				"--nolazy"
