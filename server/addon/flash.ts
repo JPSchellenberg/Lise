@@ -15,9 +15,11 @@ try {
 
 
 export function post_flash(req: express.Request, res: express.Response, next: express.NextFunction) {
+	if (!req.body.board || !req.body.comName) { res.status(422).end(); return; }
+
 	try {
 		let flasher = new avrgirl({
-			board: 'leonardo',
+			board: req.body.board,
 			port: req.body.comName
 		});
 		flasher.flash(__dirname + '/../hex/adafruit_differential.hex', (err) => {
