@@ -16,6 +16,7 @@
     "node": "registry:dt/node#6.0.0+20160807145350",
     "page": "registry:dt/page#0.0.0+20160810004438",
     "react": "registry:dt/react#0.14.0+20160805125551",
+    "react-bootstrap": "registry:dt/react-bootstrap#0.0.0+20161107151335",
     "react-dom": "registry:dt/react-dom#0.14.0+20160412154040",
     "react-redux": "registry:dt/react-redux#4.4.0+20160724070751",
     "redux": "registry:dt/redux#3.5.2+20160703092728",
