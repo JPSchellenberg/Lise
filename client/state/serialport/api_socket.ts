@@ -1,28 +1,10 @@
 import * as socket from 'socket.io-client';
 import Store from '../../core/store';
 
-import { 
-	showNotification,
-	hideNotification
- } from '../../state/notifications/actions';
-
- import {
-	updatePorts,
-	update_connection_status,
-	GET_connection
-} from '../../state/serialport/actions';
-
 import {
+	update_ports,
 	update_connection
-} from '../../state/serialport/actions';
-
-import Notification from '../../state/notifications/notification';
-
-
-import {
-	set_sketch_status,
-	post_flash
-} from '../../state/sketch/actions';
+} from './actions';
 
 declare var window: any;
 
@@ -35,7 +17,6 @@ export default function() {
 
 		if (window.recording) {
 			try {
-				data = JSON.parse(data.split(" ")[1]);
 				if (!window.lastTime) {
 					window.lastTime = data.time;
 				}
@@ -51,25 +32,21 @@ export default function() {
 				}
 			} catch (err) {}
 		}
-
 	});
 
 	channel['serialport'].on('update_ports', (ports) => {
-			Store.dispatch( updatePorts(ports) );
-
-			const notification = new Notification('SerialPorts', 'success');
-			Store.dispatch( showNotification( notification ) );
-			setTimeout(() => { 
-				Store.dispatch( hideNotification( notification.id ));
-			}, 2000);
+			Store.dispatch( update_ports(ports) );
 		} );
 
 	channel['serialport'].on('close', (connection) => {
-			Store.dispatch( update_connection(connection) );
-			Store.dispatch(set_sketch_status('error'));
+			Store.dispatch( update_connection( null ) );
 		});
 
 	channel['serialport'].on('open', (connection) => { 
 		Store.dispatch( update_connection( connection ) ) 
 	});
+
+	channel['serialport'].on('update_connection', (connection) => {
+		Store.dispatch( update_connection( connection ) );
+	})
 }

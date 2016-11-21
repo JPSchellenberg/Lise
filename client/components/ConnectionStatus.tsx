@@ -28,7 +28,14 @@ export class ConnectionStatus extends React.Component<IConnectionStatusProps, IC
 	}
 
 	componentWillReceiveProps(nextProps) {
-		this.setState({ showModal: nextProps.sketch.showModal });
+		if ( nextProps.sketch !== null) {
+			if ( nextProps.sketch.name === 'no sketch') {
+				this.setState({ showModal: true });
+			} else {
+				this.setState({ showModal: false });
+			}
+		}
+		
 	}
 
 	render() {
@@ -37,9 +44,9 @@ export class ConnectionStatus extends React.Component<IConnectionStatusProps, IC
 						onClick={() => { this.setState({ showModal: true })  }}
 						className={classnames({
 							'btn': true,
-							'btn-success': (this.props.sketch.status === 'success'),
-							'btn-warning': (this.props.sketch.status === 'pending'),
-							'btn-danger': (this.props.sketch.status === "error")
+							'btn-success': (this.props.sketch !== null),
+							'btn-warning': (this.props.sketch !== null ? this.props.sketch.name === "no sketch" : false),
+							'btn-danger': (this.props.sketch === null)
 						})}> 
 						<i className="glyphicon glyphicon-flash"></i> 
 						<Modal show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
@@ -51,7 +58,7 @@ export class ConnectionStatus extends React.Component<IConnectionStatusProps, IC
       					<div className="modal-body">
 							Es wurde kein kompatibler Sketch auf dem Arduino gefunden. Möchten Sie den momentanen Sketch überschreiben?
 							Bitte wählen Sie dazu aus der folgenden Liste ihr Modell aus.
-							<Panel header="Verfügbare Arduinos">
+							<Panel header="Unterstützte Arduino-Modelle">
 								<ListGroup>
 									<ListGroupItem active>Leonardo</ListGroupItem>
 								</ListGroup>
@@ -60,9 +67,18 @@ export class ConnectionStatus extends React.Component<IConnectionStatusProps, IC
 						</div>
  						<div className="modal-footer">
        				 		<button type="button" className="btn btn-danger" onClick={() => {this.setState({ showModal: false }) } }>Abbrechen</button>
-        					<button 
-							onClick={() => { this.props.flash( this.props.connection.path , 'leonardo')}}
-							type="button" className="btn btn-success">Überschreiben</button>
+        					<button
+							onClick={() => { 
+								if (this.props.connection !== null) {
+									this.props.flash( this.props.connection.path , 'leonardo')
+								}
+								
+							}}
+							type="button" className={classnames({
+								"btn": true,
+								"btn-success": true,
+								"disabled": this.props.connection === null
+							})}>Überschreiben</button>
       					</div>
 					</div>
 						</Modal>

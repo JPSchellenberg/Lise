@@ -32,7 +32,7 @@ export class PortSelect extends React.Component<IPortSelectProps, IPortSelectSta
 				<div className="dropup">
 				<div className="btn-group">
 				<button 
-				onClick={() => { this.props.get_portlist() }}
+				onClick={() => { /*this.props.get_portlist()*/ }}
 				className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span>{
 						this.props.connection

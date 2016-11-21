@@ -11,7 +11,7 @@ import boot_socket from './socket';
 
 
  import {
-	GET_connection
+	get_connection
 } from '../state/serialport/actions';
 
 import { 
@@ -47,10 +47,4 @@ export default function boot() {
 				 ,
 				document.getElementById('root')
 			); 
-
-
-		// Store.dispatch( GET_list() );
-		Store.dispatch( GET_connection() );
-		Store.dispatch( get_os() );
-		Store.dispatch( get_sketch() );
 }

@@ -50,22 +50,16 @@ export function get_gain() {
 export function get_sketch() {
 	return (dispatch) => {
 
-			dispatch( update_sketch_status( 'pending' ) );
-
 			API.get_sketch()
 			.then(res => { 
 				if (res.status === 200) {
 					return res.json()
 				} else {
-					dispatch( update_sketch_status( 'error' ) );
-					return;
+					throw new Error();
 				}
 			})
 			.then(sketch => {
-				if (sketch) {
-					dispatch( update_sketch( sketch ) );
-				}
-				
+					// dispatch( update_sketch( sketch ) );
 			})
 			.catch(err => { debugger; });  
 		}
@@ -78,12 +72,12 @@ export function update_sketch(sketch: any) {
 	};
 }
 
-export function update_sketch_status(status: string) {
-	return {
-		type: SKETCH_UPDATE_STATUS,
-		status
-	};
-}
+// export function update_sketch_status(status: string) {
+// 	return {
+// 		type: SKETCH_UPDATE_STATUS,
+// 		status
+// 	};
+// }
 
 export function get_samplerate() {
 	return (dispatch) => {
@@ -116,12 +110,12 @@ export function update_gain(gain: number) {
 	};
 }
 
-export function set_sketch_status(status: string) {
-	return {
-		type: SKETCH_SET_STATUS,
-		status
-	}
-}
+// export function set_sketch_status(status: string) {
+// 	return {
+// 		type: SKETCH_SET_STATUS,
+// 		status
+// 	}
+// }
 
 export function post_flash(comName: string, board: string) {
 	return (dispatch) => {
@@ -130,17 +124,14 @@ export function post_flash(comName: string, board: string) {
 			.then(res => { 
 				if (res.status === 200) { 
 					return res.json();
-					// dispatch( get_version() ); 
 				} else {
-					throw Error('Did not work');
+					throw new Error();
 				}
 			})
 			.then(info => {
 				dispatch( update_sketch(info.sketch) );
-				dispatch( update_sketch_status( 'success') );
 			})
 			.catch(err => {
-				dispatch( update_sketch_status( 'error') );
 			 });  
 		}
 }

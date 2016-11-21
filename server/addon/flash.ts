@@ -29,21 +29,10 @@ export function post_flash(req: express.Request, res: express.Response, next: ex
 				if (err) {
 					res.status(503).json(JSON.stringify(err));
 				} else {
-					let resSend = false;
-					sketch.on('version', (version) => {
-						if (!resSend) {
-							res.status(200).json({
-								connection: serialport.connection,
-								sketch: version
-							});
-							resSend = true;
-						}
-					});
-
+					res.status(200).end();
 					setTimeout(() => {
 						serialport.connect(req.body.comName);
-					}, 1000);
-					
+					},1000);
 				}
 			});
 		});

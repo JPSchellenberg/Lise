@@ -9,13 +9,13 @@ export function get_portlist() {
 	});
 }
 
-export function GET_connection() {
+export function get_connection() {
 	return fetch( window.location.href + 'api/v0/serialport/connection' , {
 		method: 'get'
 	});
 }
 
-export function POST_connection(connection: any) {
+export function post_connection(connection: any) {
 	return fetch( window.location.href + 'api/v0/serialport/connection' , {
 		method: 'post',
 		headers: {

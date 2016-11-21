@@ -5,10 +5,6 @@ import {
 	SERIALPORT_UPDATE_CONNECTION
 } from '../action-types';
 
-import {
-	set_sketch_status
-} from '../sketch/actions';
-
 import * as API 	from './api';
 
 export function get_portlist() {
@@ -19,54 +15,45 @@ export function get_portlist() {
 				return res.json()
 			})
 			.then((json) => {
-				dispatch( updatePorts(json) );
+				// dispatch( update_ports(json) );
 			})
 			.catch(err => { debugger; });  
 		}
 }
 
-export function GET_connection() {
+export function get_connection() {
 	return (dispatch) => {
 
-			dispatch( update_connection_status('pending') );
-
-			API.GET_connection()
-			.then(res => { 
-				return res.json()
-			})
+			API.get_connection()
+			.then(res => res.json())
 			.then((json) => {
-				dispatch( update_connection(json) );
-				dispatch( update_connection_status('success') );
+				// dispatch( update_connection( json ) );
 			})
 			.catch(err => {
-				dispatch( update_connection( null ) );
-				dispatch( update_connection_status('error') );
+				// dispatch( update_connection( null ) );
 			 });  
 		}
+		
 }
 
 export function post_connection(connection: any) {
+
 	return (dispatch) => {
 
-			dispatch( update_connection_status('pending') );
-
-			API.POST_connection(connection)
-			.then(res => { 
-				return res.json()
-			})
+			API.post_connection(connection)
+			.then(res => res.json())
 			.then((json) => {
-				dispatch( update_connection(json) );
-				dispatch( update_connection_status('success') );
+				// dispatch( update_connection(json) );
 			})
 			.catch(err => { 
-				dispatch( update_connection(null) );
-				dispatch( update_connection_status('error') );
+				// dispatch( update_connection(null) );
 			 });  
 		}
+
 }
 
 
-export function updatePorts(ports: any) {
+export function update_ports(ports: any) {
 	return dispatch => {
 			dispatch({
 				type: SERIALPORT_UPDATE_PORTLIST,
@@ -75,13 +62,6 @@ export function updatePorts(ports: any) {
 
 	}
 }
-
-// export function connect_port(comName: string) {
-// 	return (dispatch) => {
-// 		dispatch( POST_connection({"comName": comName}) );
-// 		dispatch( setPort(comName) );
-// 	}
-// }
 
 export function setPort(comName: string) {
 		return {

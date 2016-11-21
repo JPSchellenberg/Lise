@@ -25,10 +25,8 @@ import {
 
 import { showSettings as reconstruction_showSettings } from '../modules/reconstruction/actions';
 
-import Modal from '../components/Modal';
-
 import {
-	GET_connection
+	get_connection
 } from '../state/serialport/actions';
 
 declare var window: any; // remove and implement enviroment-module
@@ -64,7 +62,6 @@ interface IProps {
 interface IState {
 }
 
-let test = false;
 export class Layout extends React.Component<IProps, IState> {
 	constructor(props: IProps) {
 		super(props);
@@ -74,11 +71,6 @@ export class Layout extends React.Component<IProps, IState> {
 
 		return (
 			<div id="app">		
-				<Modal 
-				show={this.props.modal.show} 
-				content={this.props.modal.content}
-				/>
-				
 				<Navigation/>
 				<Notifications />
 
@@ -157,7 +149,7 @@ function mapStateToProps(state): IProps {
 		linechartSettings: state.LineChart.settings,
 		// serialport: state.serialport,
 		// sketch: state.sketch,
-		sketch_status: state.sketch.status,
+		// sketch_status: state.sketch.status,
 		os: state.os,
 		modal: state.modal,
 
@@ -176,7 +168,7 @@ function mapDispatchToProps(dispatch) {
 	  sketch_get_gain: () => dispatch( sketch_get_gain() ),
 	  sketch_get_samplerate: () => dispatch( sketch_get_samplerate() ),
 
-	//   get_serialport_list: () => dispatch( GET_list() ),
+	//   get_serialport_list: () => dispatch( get_list() ),
 
 	  reconstructionToggleSettings: () => dispatch( reconstruction_showSettings() )
   };

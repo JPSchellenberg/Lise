@@ -1,6 +1,6 @@
 import * as socket from 'socket.io-client';
 import Store from '../../core/store';
-import { update_sketch } from '../../state/sketch/actions';
+import { update_sketch } from './actions';
 
 const sketch: SocketIOClient.Socket = socket.connect(window.location.href + 'sketch');
 
