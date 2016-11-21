@@ -22,12 +22,20 @@ export class Serialport extends EventEmitter {
 	public addPort(port: serialport.portConfig): number { return this.mPorts.push(port); }
 
 	public connect(comName: string): serialport.SerialPort {
+
+		if (this.mConnection) { this.mConnection.close(); }
+
 		this.mConnection = new serialport.SerialPort(
-				comName, {
-				baudRate: 9600,
-				parser: serialport.parsers.readline("\n")
-			});
+				comName, 
+				{
+					baudRate: 9600,
+					parser: serialport.parsers.readline("\n"),
+					autoOpen: false
+				});
 		this.setupListeners();
+
+		this.mConnection.open();
+		
 		return this.mConnection;
 	}
 
@@ -41,10 +49,20 @@ export class Serialport extends EventEmitter {
 
 	private setupListeners(): void {
 		if (this.mConnection) {
-			this.mConnection.on('data', (data) => this.emit('data', data));
+			this.mConnection.on('data', (data) => { 
+				data = data.split(" ");
+				switch (data[0]) {
+					case 'version':
+						this.emit('version', JSON.parse(data[1]));
+					break;
+					case 'data':
+						this.emit('data', JSON.parse(data[1]));
+					break;
+				}
+			});
 			this.mConnection.on('error', (error) => this.emit('error', error));
 			this.mConnection.on('open', () => { 
-				this.emit('open') 
+				this.emit('open', this.mConnection);
 			});
 			this.mConnection.on('close', () => { 
 				this.closeConnection();
@@ -62,7 +80,6 @@ export class Serialport extends EventEmitter {
 				this.mPorts = ports;
 			});
 		} catch(err) {}
-
 	}
 }
 

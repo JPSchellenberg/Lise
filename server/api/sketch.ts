@@ -39,9 +39,14 @@ export function post_gain(req: express.Request, res: express.Response, next: exp
 	}
 }
 
-export function get_version(req: express.Request, res: express.Response, next: express.NextFunction) {
+export function get_sketch(req: express.Request, res: express.Response, next: express.NextFunction) {
 	try {
-		res.status(200).end(JSON.stringify(sketch.version));
+		if (sketch.version) {
+			res.status(200).end(JSON.stringify(sketch.version));
+		} else {
+			res.status(404).end();
+		}
+		
 	} catch (err) {
 		res.json(err);
 	}

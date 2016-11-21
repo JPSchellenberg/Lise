@@ -28,10 +28,22 @@ export function get_connection(req: express.Request, res: express.Response, next
 export function post_connection(req: express.Request, res: express.Response, next: express.NextFunction) {
 	try {
 		if (os.arch() !== 'mips') {
-			serialport.connect(req.body.comName);
-
-			serialport.connection.on('error', (err) => res.status(503).end(err.toString()));
+			if (serialport.connection) {
+				serialport.on('close', () => { // wait for connection to close
+					serialport.connect(req.body.comName); 
+					serialport.connection.on('error', (err) => res.status(503).end(err.toString()));
+					serialport.connection.on('open', () => res.status(200).json(serialport.connection));
+				})
+				serialport.closeConnection(); // close old connection before reopening
+			} else {
+				serialport.connect(req.body.comName);
+				serialport.connection.on('error', (err) => res.status(503).end(err.toString()));
 			serialport.connection.on('open', () => res.status(200).json(serialport.connection));
+			}
+			
+			
+
+			
 		} else {
 			res.status(200).json(serialport.connection);
 		}

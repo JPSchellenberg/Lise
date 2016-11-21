@@ -15,8 +15,8 @@ export function GET_samplerate() {
 	});
 }
 
-export function GET_version() {
-	return fetch( window.location.href + 'api/v0/sketch/version' , {
+export function get_sketch() {
+	return fetch( window.location.href + 'api/v0/sketch' , {
 		method: 'get'
 	});
 }
