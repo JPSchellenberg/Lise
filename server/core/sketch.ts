@@ -17,10 +17,16 @@ class Sketch extends EventEmitter {
 		this.mGain = 1;
 		this.mSamplerate = 20;
 		this.mSerialport = serialport;
-		this.mVersion = {
-			name: 'no sketch',
-			version: "0.0.0"
-		};
+		this.mVersion = null;
+
+		this.mSerialport.on('open', () => { 
+			this.getVersion(); 
+		});
+
+		this.mSerialport.on('version', (version) => {
+			this.version = version;
+			clearTimeout(this.mTimeoutTimer);
+		});
 	}
 
 	private mGain: number;
@@ -48,18 +54,10 @@ class Sketch extends EventEmitter {
 		this.emit('gain', gain); 
 	}
 
-	public getVersion(cb?: (version: any) => void) {
-		this.mSerialport.on('data', (data) => {
-			data = data.split(" ");
-			if (data[0] === 'version') {
-				this.version = JSON.parse(data[1]);
-				clearTimeout(this.mTimeoutTimer);
-				if (cb) { cb(this.mVersion); }
-			}
-		});
+	public getVersion() {
 		this.mSerialport.connection.write('v');
 		this.mTimeoutTimer = setTimeout(() => {
-			this.version = { "name": "no sketch found", "version": "0.0.0" };
+			this.version = { "name": "no sketch", "version": "0.0.0" };	                                             
 		}, 2000);
 	}
 }

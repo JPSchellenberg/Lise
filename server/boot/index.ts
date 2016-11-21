@@ -20,8 +20,6 @@ export default function() {
 	boot_socket(http_server);
 
 	boot_addon();
-
-	serialport.on('open', () => { sketch.getVersion() });
 	
 	console.log('BOOT: end sequence');
 }
