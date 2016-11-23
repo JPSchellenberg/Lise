@@ -62,3 +62,12 @@ export function delete_connection(req: express.Request, res: express.Response, n
 		res.status(503).end(JSON.stringify(err));
 	}
 }
+
+export function post_write(req: express.Request, res: express.Response, next: express.NextFunction) {
+	try {
+		serialport.write(req.body.command);
+		res.status(200).end();
+	} catch(err) {
+		res.status(404).end();
+	}
+}
