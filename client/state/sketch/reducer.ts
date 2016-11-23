@@ -11,7 +11,10 @@ import {
 	// SKETCH__STATUS
 } from '../action-types';
 
-export default function(state = null, action) {
+export default function(state = {
+	status: 'init',
+	sketch: null
+}, action) {
 	switch (action.type) {
 
 		case SKETCH_UPDATE_SAMPLERATE:
@@ -24,15 +27,10 @@ export default function(state = null, action) {
 			return assign({}, state, { gain: action.gain });
 
 		case SKETCH_UPDATE_SKETCH:
-				return action.sketch;
+				return assign({}, state, { sketch: action.sketch });
 			
-		// case SKETCH_UPDATE_STATUS:
-		// 	return assign({}, state, { status: action.status });
-
-		case SERIALPORT_UPDATE_CONNECTION:
-			if (action.connection === null) { return null; }
-			else { return state; }
-			
+		case SKETCH_UPDATE_STATUS:
+			return assign({}, state, { status: action.status });
 			
 		default:
 			return state;
