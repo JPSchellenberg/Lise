@@ -83,3 +83,18 @@ export function update_connection(connection: any) {
 		connection
 	}
 }
+
+export function write(command: string) {
+		return (dispatch) => {
+
+			API.post_write(command)
+			.then(res => {
+				if (res.status !== 200) {
+					throw new Error('status not 200');
+				}
+			})
+			.catch(err => { 
+				debugger;
+			 });  
+		}
+}

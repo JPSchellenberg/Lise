@@ -20,10 +20,11 @@ export default function() {
 				if (!window.lastTime) {
 					window.lastTime = data.time;
 				}
-				window.channel1.push([((data.time - window.lastTime) / 1000), data.channel1 / 1000]);
-				window.channel2.push([((data.time - window.lastTime) / 1000), data.channel2 / 1000]);
-				window.storage1.push([((data.time - window.lastTime) / 1000), data.channel1 / 1000]);
-				window.storage2.push([((data.time - window.lastTime) / 1000), data.channel2 / 1000]);
+				let time = ((data.time - window.lastTime) / 1000);
+				window.channel1.push([time, data.channel1]);
+				window.channel2.push([time, data.channel2]);
+				window.storage1.push([time, data.channel1]);
+				window.storage2.push([time, data.channel2]);
 				if (window.channel1.length > 300) {
 					window.channel1.shift();
 				}

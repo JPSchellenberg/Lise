@@ -61,9 +61,14 @@ export class Serialport extends EventEmitter {
 
 	private setupListeners(): void {
 		if (this.mConnection) {
-			this.mConnection.on('data', (data) => { 
-				data = data.split(" ");
-				this.emit(data[0], JSON.parse(data[1]));
+			this.mConnection.on('data', (data) => {
+				try {
+					data = data.split(" ");
+					this.emit(data[0], JSON.parse(data[1]));
+				} catch(err) {
+					
+				}
+				
 			});
 			this.mConnection.on('error', (error) => this.emit('error', error));
 			this.mConnection.on('open', () => { 

@@ -25,3 +25,14 @@ export function post_connection(connection: any) {
 		body: JSON.stringify(connection)
 	});
 }
+
+export function post_write(command: string) {
+	return fetch( window.location.href + 'api/v0/serialport/write' , {
+		method: 'post',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		},
+		body: JSON.stringify({ command })
+	});
+}

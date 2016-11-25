@@ -27,10 +27,16 @@ export default function(state = {
 			return assign({}, state, { gain: action.gain });
 
 		case SKETCH_UPDATE_SKETCH:
-				return assign({}, state, { sketch: action.sketch });
+				if (action.sketch === null) { return assign({}, state, {sketch: null, status: 'error'}); }
+				else { return assign({}, state, { sketch: action.sketch, status: 'success' }); }
 			
 		case SKETCH_UPDATE_STATUS:
 			return assign({}, state, { status: action.status });
+
+		case SERIALPORT_UPDATE_CONNECTION:
+			if (action.connection === null) { return assign({}, state, {status: 'init'}) }
+			else { return assign({}, state, { status: 'pending'}); }
+			
 			
 		default:
 			return state;
