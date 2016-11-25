@@ -22,7 +22,6 @@ export function get_sketch() {
 }
 
 export function POST_samplerate(samplerate: number) {
-	samplerate = (1000/samplerate);
 	return fetch( window.location.href + 'api/v0/sketch/samplerate/'+samplerate , {
 		method: 'post',
 		headers: {
