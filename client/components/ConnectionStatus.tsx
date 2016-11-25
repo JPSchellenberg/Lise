@@ -44,9 +44,9 @@ export class ConnectionStatus extends React.Component<IConnectionStatusProps, IC
 						onClick={() => { this.setState({ showModal: true })  }}
 						className={classnames({
 							'btn': true,
-							'btn-success': (this.props.sketch !== null),
-							'btn-warning': (this.props.sketch !== null ? this.props.sketch.name === "no sketch" : false),
-							'btn-danger': (this.props.sketch === null)
+							'btn-success': (this.props.sketch.status === "success"),
+							'btn-warning': (this.props.sketch.status === "pending"),
+							'btn-danger': (this.props.sketch.status !== "success" && this.props.sketch.status !== "pending")
 						})}> 
 						<i className="glyphicon glyphicon-flash"></i> 
 						<Modal show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
