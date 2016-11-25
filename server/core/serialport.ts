@@ -39,6 +39,18 @@ export class Serialport extends EventEmitter {
 		return this.mConnection;
 	}
 
+	public write(command: string): boolean {
+		if (this.mConnection) {
+			try {
+				this.mConnection.write(command);
+				return true;
+			} catch(err) {
+				return false;
+			}
+			
+		}
+	}
+
 	public closeConnection(): void {
 		try {
 			this.mConnection.close();
@@ -49,16 +61,14 @@ export class Serialport extends EventEmitter {
 
 	private setupListeners(): void {
 		if (this.mConnection) {
-			this.mConnection.on('data', (data) => { 
-				data = data.split(" ");
-				switch (data[0]) {
-					case 'version':
-						this.emit('version', JSON.parse(data[1]));
-					break;
-					case 'data':
-						this.emit('data', JSON.parse(data[1]));
-					break;
+			this.mConnection.on('data', (data) => {
+				try {
+					data = data.split(" ");
+					this.emit(data[0], JSON.parse(data[1]));
+				} catch(err) {
+					
 				}
+				
 			});
 			this.mConnection.on('error', (error) => this.emit('error', error));
 			this.mConnection.on('open', () => { 

@@ -19,6 +19,7 @@ export default function(server) {
 	serialport.on('error', (error) => channel['serialport'].emit('error', error));
 	serialport.on('close', () => channel['serialport'].emit('close', serialport.connection));
 	serialport.on('open', (connection) => channel['serialport'].emit('update_connection', connection));
+	serialport.on('update', (update) => channel['serialport'].emit('update', update));
 	channel['serialport'].on('connection', (socket) => {
 		socket.emit('update_connection', serialport.connection );
 		socket.emit('update_ports', serialport.ports );
@@ -29,6 +30,11 @@ export default function(server) {
 	sketch.on('samplerate', (samplerate) => channel['sketch'].emit('samplerate', samplerate));
 	channel['sketch'].on('connection', (socket) => {
 		socket.emit('version', sketch.version);
+		// socket.emit('update', {
+		// 	gain1: sketch.gain1(),
+		// 	gain2: sketch.gain2(),
+		// 	samplerate: sketch.samplerate()
+		// });
 	});
 
 	channel['general'].on('connection', (socket) => {
