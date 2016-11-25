@@ -15,14 +15,13 @@ export function GET_samplerate() {
 	});
 }
 
-export function GET_version() {
-	return fetch( window.location.href + 'api/v0/sketch/version' , {
+export function get_sketch() {
+	return fetch( window.location.href + 'api/v0/sketch' , {
 		method: 'get'
 	});
 }
 
 export function POST_samplerate(samplerate: number) {
-	samplerate = (1000/samplerate);
 	return fetch( window.location.href + 'api/v0/sketch/samplerate/'+samplerate , {
 		method: 'post',
 		headers: {
@@ -44,13 +43,16 @@ export function POST_gain(gain: number) {
 	});
 }
 
-export function POST_flash(comName: string) {
+export function POST_flash(comName: string, board: string) {
 	return fetch( window.location.href + 'api/v0/sketch/flash' , {
 		method: 'post',
 		headers: {
 			'Accept': 'application/json',
 			'Content-Type': 'application/json'
 		},
-		body: JSON.stringify({ comName })
+		body: JSON.stringify({ 
+			comName,
+			board
+		})
 	});
 }

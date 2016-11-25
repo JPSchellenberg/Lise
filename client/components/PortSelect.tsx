@@ -1,26 +1,29 @@
 ///<reference path='../../typings/index.d.ts'/>
-
 import * as React from 'react';
+import { connect } from 'react-redux'; 
 
 import * as classnames from 'classnames';
 
-declare var $: any;
+import ConnectionStatus from './ConnectionStatus';
+import InputManager     from './InputManager';
+
+import {
+	get_portlist,
+	post_connection
+} from '../state/serialport/actions';
 
 interface IPortSelectProps {
-	serialport: any;
-  ports: any;
-  connectionStatus: string;
-  selectedPort: string;
-  connectPort: (comName: string) => void;
-  connectionInfo: any;
-  sketch: any;
-  get_list: any;
+	portlist?: Array<any>;
+	connection?: any;
+
+	get_portlist?: () => void;
+	post_connection?: (comName: string) => void;
 }
 
 interface IPortSelectState {
 }
 
-export default class PortSelect extends React.Component<IPortSelectProps, IPortSelectState> {
+export class PortSelect extends React.Component<IPortSelectProps, IPortSelectState> {
 	constructor(props: IPortSelectProps) {
 		super(props);
 	}
@@ -30,42 +33,56 @@ export default class PortSelect extends React.Component<IPortSelectProps, IPortS
 				<div className="dropup">
 				<div className="btn-group">
 				<button 
-				onClick={() => { this.props.get_list() }}
+				onClick={() => { /*this.props.get_portlist()*/ }}
 				className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span>{
-						this.props.serialport.connection
+						this.props.connection
 						?
-						this.props.serialport.connection.path
+						this.props.connection.path
 						:
 						'No Port selected'
 					} <span className="caret"></span></span>
 				</button>
 				<ul className="dropdown-menu" aria-labelledby="dropdownMenu2">
 					{
-						this.props.ports
-						.filter(port => port.comName.indexOf('Bluetooth') === -1)
+						this.props.portlist.length === 0 
+						?
+						<li><a>No port found</a></li>
+						:
+						this.props.portlist
 						.map(
 							port => 
 							<li 
 							onClick={ () => { 
-								this.props.connectPort(port.comName) } 
+								this.props.post_connection(port.comName) } 
 							}
 							key={port.comName}><a>{port.comName}</a></li>
 							)
 					}
 				</ul>
-					<div 
-						onClick={() => {}}
-						className={classnames({
-							'btn': true,
-							'btn-success': (this.props.sketch.status === 'success'),
-							'btn-warning': (this.props.sketch.status === 'pending'),
-							'btn-danger': (this.props.sketch.status === "error")
-						})}> 
-						<i className="glyphicon glyphicon-flash"></i> 
-					</div>
+					<ConnectionStatus />
+					<InputManager />
 				</div>
 			</div>
 			);
 	}
 };
+
+function mapStateToProps(state): IPortSelectProps {   
+    return {    
+		portlist: state.serialport.portlist,
+		connection: state.serialport.connection
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+	  get_portlist: () => dispatch( get_portlist() ),
+	  post_connection: (comName: string) => dispatch( post_connection({comName}) )
+  };
+}
+
+export default connect<IPortSelectProps, {}, {}>(
+  mapStateToProps,
+  mapDispatchToProps
+)(PortSelect);

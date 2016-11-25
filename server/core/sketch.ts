@@ -14,53 +14,62 @@ class Sketch extends EventEmitter {
 	constructor(serialport: Serialport) {
 		super();
 
-		this.mGain = 1;
 		this.mSamplerate = 20;
 		this.mSerialport = serialport;
-		this.mVersion = {
-			name: 'no sketch',
-			version: "0.0.0"
-		};
+		this.mVersion = null;
+
+		this.mSerialport.on('open', () => { 
+			this.getVersion(); 
+		});
+
+		this.mSerialport.on('version', (version) => {
+			this.version = version;
+			clearTimeout(this.mTimeoutTimer);
+		});
+
+		this.mSerialport.on('close', () => {
+			this.version = null;
+		});
+
+		this.mSerialport.on('update', (update) =>{
+			switch(update.name) {
+				case 'samplerate': 
+					this.mSamplerate = update.value;
+					break;
+				case 'channel1': 
+					this.mGain1 = 'g'+update.value;
+					break;
+				case 'channel2':
+					this.mGain2 = 'h'+update.value;
+					break;
+			}
+		});
 	}
 
-	private mGain: number;
+	private mGain1: string;
+	private mGain2: string;
 	private mSamplerate: number;
 	private mSerialport: Serialport;
 	private mVersion: SketchVersion;
 	private mTimeoutTimer: NodeJS.Timer;
 
 	public get samplerate(): number { return this.mSamplerate; }
-	public get gain(): number { return this.mGain; }
+	public get gain1(): string { return this.mGain1; }
+	public get gain2(): string { return this.mGain2; }
 	public get version(): SketchVersion { return this.mVersion; }
 	public set version(version: SketchVersion) { 
 		this.mVersion = version;
 		this.emit('version', version);
 	}
 
-	public set samplerate(samplerate: number) { 
-		this.mSerialport.connection.write('s'+samplerate);
-		this.mSamplerate = samplerate; 
-		this.emit('samplerate', samplerate); 
-	}
-	public set gain(gain: number) { 
-		this.mSerialport.connection.write('g'+gain);
-		this.mGain = gain; 
-		this.emit('gain', gain); 
-	}
-
-	public getVersion(cb?: (version: any) => void) {
-		this.mSerialport.on('data', (data) => {
-			data = data.split(" ");
-			if (data[0] === 'version') {
-				this.version = JSON.parse(data[1]);
-				clearTimeout(this.mTimeoutTimer);
-				if (cb) { cb(this.mVersion); }
-			}
-		});
-		this.mSerialport.connection.write('v');
-		this.mTimeoutTimer = setTimeout(() => {
-			this.version = { "name": "no sketch found", "version": "0.0.0" };
-		}, 2000);
+	public getVersion() {
+		if (this.mSerialport.connection) {
+			this.mSerialport.connection.write('v');
+			this.mTimeoutTimer = setTimeout(() => {
+				this.version = null;                                             
+			}, 2000);
+		}
+		
 	}
 }
 

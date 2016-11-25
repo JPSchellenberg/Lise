@@ -1,5 +1,6 @@
 import * as express from 'express';
 import serialport from '../core/serialport';
+import sketch 		from '../core/sketch';
 
 let 
 	avrgirl,
@@ -15,18 +16,29 @@ try {
 
 
 export function post_flash(req: express.Request, res: express.Response, next: express.NextFunction) {
+	if (!req.body.board || !req.body.comName) { res.status(422).end(); return; }
+
 	try {
-		let flasher = new avrgirl({
-			board: 'leonardo',
-			port: req.body.comName
+		serialport.on('close', () => {
+
+			let flasher = new avrgirl({
+				board: req.body.board,
+				port: req.body.comName
+			});
+			flasher.flash(__dirname + '/../hex/adafruit_differential.hex', (err) => {
+				if (err) {
+					res.status(503).json(JSON.stringify(err));
+				} else {
+					res.status(200).end();
+					setTimeout(() => {
+						serialport.connect(req.body.comName);
+					},1000);
+				}
+			});
 		});
-		flasher.flash(__dirname + '/../hex/adafruit_differential.hex', (err) => {
-			if (err) {
-				res.status(503).json(JSON.stringify(err));
-			} else {
-				res.status(200).end();
-			}
-		});
+
+		serialport.closeConnection();
+
 	} catch(err) { 
 		res.status(503).json(JSON.stringify(err)); 
 	}

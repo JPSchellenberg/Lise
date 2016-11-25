@@ -1,8 +1,7 @@
 import * as socketio 	from 'socket.io';
 import serialport 	from '../core/serialport';
 import sketch			from '../core/sketch';
-
-import test			from '../core/test';
+import * as os 			from 'os';
 
 export default function(server) {
 	console.log("BOOT: socket");
@@ -12,19 +11,38 @@ export default function(server) {
 	const channel = {
 		'serialport': socket.of('/serialport'),
 		'sketch': socket.of('/sketch'),
-		'test': socket.of('/test')
+		'general': socket.of('/general')
 	};
 
 	serialport.on('data', (data) => channel['serialport'].emit('data', data));
 	serialport.on('update_ports', (ports) => channel['serialport'].emit('update_ports', ports));
 	serialport.on('error', (error) => channel['serialport'].emit('error', error));
 	serialport.on('close', () => channel['serialport'].emit('close', serialport.connection));
+	serialport.on('open', (connection) => channel['serialport'].emit('update_connection', connection));
+	serialport.on('update', (update) => channel['serialport'].emit('update', update));
+	channel['serialport'].on('connection', (socket) => {
+		socket.emit('update_connection', serialport.connection );
+		socket.emit('update_ports', serialport.ports );
+	});
 
 	sketch.on('version', (version) => channel['sketch'].emit('version', version));
 	sketch.on('gain', (gain) => channel['sketch'].emit('gain', gain));
 	sketch.on('samplerate', (samplerate) => channel['sketch'].emit('samplerate', samplerate));
+	channel['sketch'].on('connection', (socket) => {
+		socket.emit('version', sketch.version);
+		// socket.emit('update', {
+		// 	gain1: sketch.gain1(),
+		// 	gain2: sketch.gain2(),
+		// 	samplerate: sketch.samplerate()
+		// });
+	});
 
-	test.on('test', (test) => channel['test'].emit('test', test));
+	channel['general'].on('connection', (socket) => {
+		socket.emit('os', {
+			"arch": os.arch(),
+			"platform": os.platform()
+		});
+	});
 
 	if (process.env.TEST) { 
 		setInterval(() => {

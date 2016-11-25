@@ -2,7 +2,9 @@ import {
 	SKETCH_UPDATE_SAMPLERATE,
 	SKETCH_UPDATE_GAIN,
 	SKETCH_SETVERSION,
-	SKETCH_SET_STATUS
+	SKETCH_SET_STATUS,
+	SKETCH_UPDATE_SKETCH,
+	SKETCH_UPDATE_STATUS
 } from '../action-types';
 
 import * as API 	from './api';
@@ -45,36 +47,37 @@ export function get_gain() {
 		}
 }
 
-export function get_version() {
+export function get_sketch() {
 	return (dispatch) => {
 
-			dispatch( set_sketch_status( 'warning' ) );
-
-			API.GET_version()
+			API.get_sketch()
 			.then(res => { 
 				if (res.status === 200) {
 					return res.json()
+				} else {
+					throw new Error();
 				}
 			})
-			.then(version => {
-				dispatch( set_version(version) );
-				if (version.version !== '0.0.0') {
-					dispatch( set_sketch_status( 'success' ) );
-				} else {
-					dispatch( set_sketch_status( 'error' ) );
-				}
-				
+			.then(sketch => {
+					// dispatch( update_sketch( sketch ) );
 			})
 			.catch(err => { debugger; });  
 		}
 }
 
-export function set_version(version: any) {
+export function update_sketch(sketch: any) {
 	return { 
-		type: SKETCH_SETVERSION,
-		version 
+		type: SKETCH_UPDATE_SKETCH,
+		sketch
 	};
 }
+
+// export function update_sketch_status(status: string) {
+// 	return {
+// 		type: SKETCH_UPDATE_STATUS,
+// 		status
+// 	};
+// }
 
 export function get_samplerate() {
 	return (dispatch) => {
@@ -107,26 +110,28 @@ export function update_gain(gain: number) {
 	};
 }
 
-export function set_sketch_status(status: string) {
-	return {
-		type: SKETCH_SET_STATUS,
-		status
-	}
-}
+// export function set_sketch_status(status: string) {
+// 	return {
+// 		type: SKETCH_SET_STATUS,
+// 		status
+// 	}
+// }
 
-export function post_flash(comName: string) {
+export function post_flash(comName: string, board: string) {
 	return (dispatch) => {
 
-			API.POST_flash(comName)
+			API.POST_flash(comName, board)
 			.then(res => { 
 				if (res.status === 200) { 
-					dispatch( get_version() ); 
+					return res.json();
 				} else {
-					// dispatch()
+					throw new Error();
 				}
 			})
+			.then(info => {
+				dispatch( update_sketch(info.sketch) );
+			})
 			.catch(err => {
-				debugger;
 			 });  
 		}
 }

@@ -1,107 +1,100 @@
 import {
-	PORTS_UPDATEPORTS,
-	PORTS_SELECTPORT,
-	PORTS_CONNECTIONSTATUS,
-	PORTS_CONNECTIONINFO
+	SERIALPORT_UPDATE_PORTLIST,
+	SERIALPORT_CONNECT,
+	SERIALPORT_UPDATE_CONNECTION_STATUS,
+	SERIALPORT_UPDATE_CONNECTION
 } from '../action-types';
 
-import {
-	set_sketch_status
-} from '../sketch/actions';
-
-import Communication from '../../lib/Communication';
 import * as API 	from './api';
 
-export function GET_list() {
+export function get_portlist() {
 	return (dispatch) => {
 
-			API.GET_list()
+			API.get_portlist()
 			.then(res => { 
 				return res.json()
 			})
 			.then((json) => {
-				dispatch( updatePorts(json) );
+				// dispatch( update_ports(json) );
 			})
 			.catch(err => { debugger; });  
 		}
 }
 
-export function GET_connection() {
+export function get_connection() {
 	return (dispatch) => {
 
-			dispatch( connectionStatus('warning') );
-
-			API.GET_connection()
-			.then(res => { 
-				return res.json()
-			})
+			API.get_connection()
+			.then(res => res.json())
 			.then((json) => {
-				dispatch( updateConnection(json) );
-				dispatch( connectionStatus('success') );
+				// dispatch( update_connection( json ) );
 			})
 			.catch(err => {
-				dispatch( updateConnection( null ) );
-				dispatch( connectionStatus('danger') );
+				// dispatch( update_connection( null ) );
 			 });  
 		}
+		
 }
 
-export function POST_connection(connection: any) {
+export function post_connection(connection: any) {
+
 	return (dispatch) => {
 
-			dispatch( connectionStatus('warning') );
-
-			API.POST_connection(connection)
-			.then(res => { 
-				return res.json()
-			})
+			API.post_connection(connection)
+			.then(res => res.json())
 			.then((json) => {
-				dispatch( updateConnection(json) );
-				dispatch( connectionStatus('success') );
+				// dispatch( update_connection(json) );
 			})
 			.catch(err => { 
-				dispatch( updateConnection({}) );
-				dispatch( connectionStatus('danger') );
+				// dispatch( update_connection(null) );
 			 });  
 		}
+
 }
 
 
-export function updatePorts(ports: any) {
+export function update_ports(ports: any) {
 	return dispatch => {
 			dispatch({
-				type: PORTS_UPDATEPORTS,
+				type: SERIALPORT_UPDATE_PORTLIST,
 				ports
 			});
 
 	}
 }
 
-export function connectPort(comName: string) {
-	return (dispatch) => {
-		dispatch( set_sketch_status('pending') );
-		dispatch( POST_connection({"comName": comName}) );
-		dispatch( setPort(comName) );
-	}
-}
-
 export function setPort(comName: string) {
 		return {
-		type: PORTS_SELECTPORT,
+		type: SERIALPORT_CONNECT,
 		comName
 	};
 }
 
-export function connectionStatus(status: string) {
+export function update_connection_status(status: string) {
 	return {
-		type: PORTS_CONNECTIONSTATUS,
+		type: SERIALPORT_UPDATE_CONNECTION_STATUS,
 		status
 	}
 }
 
-export function updateConnection(connection: any) {
+export function update_connection(connection: any) {
 	return {
-		type: PORTS_CONNECTIONINFO,
+		type: SERIALPORT_UPDATE_CONNECTION,
 		connection
 	}
+}
+
+export function write(command: string) {
+		return (dispatch) => {
+
+			API.post_write(command)
+			.then(res => {
+				if (res.status !== 200) {
+					throw new Error('status not 200');
+				}
+			})
+			.catch(err => { 
+				debugger;
+			 });  
+		}
 }

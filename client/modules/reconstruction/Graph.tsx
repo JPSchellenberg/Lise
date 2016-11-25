@@ -42,7 +42,6 @@ export default class ReconstructionGraph extends React.Component < IProps, IStat
 
           d3.select('#divPlot').style('width', "100%").style('height', "600px")
           test = d3render( d3.select('#divPlot') );
-          // this.setState(data);
 	}
 
   componentWillUnmount() {

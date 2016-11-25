@@ -27,17 +27,10 @@ export function get_connection(req: express.Request, res: express.Response, next
 
 export function post_connection(req: express.Request, res: express.Response, next: express.NextFunction) {
 	try {
-		if (os.arch() !== 'mips') {
+		if (serialport.connection) { serialport.closeConnection(); }
 			serialport.connect(req.body.comName);
-
-			serialport.connection.on('error', (err) => res.status(503).end(err.toString()));
-			serialport.connection.on('open', () => res.status(200).json(serialport.connection));
-		} else {
-			res.status(200).json(serialport.connection);
-		}
-
-
-	} catch (err) {
+			res.status(200).end();
+		} catch (err) {
 		res.status(503).end(JSON.stringify(err));
 	}
 }
@@ -48,5 +41,14 @@ export function delete_connection(req: express.Request, res: express.Response, n
 		res.status(200).end();
 	} catch (err) {
 		res.status(503).end(JSON.stringify(err));
+	}
+}
+
+export function post_write(req: express.Request, res: express.Response, next: express.NextFunction) {
+	try {
+		serialport.write(req.body.command);
+		res.status(200).end();
+	} catch(err) {
+		res.status(404).end();
 	}
 }

@@ -1,16 +1,26 @@
+version: 1.0.0-prerelease.{build}
+
+environment:
+  VERSION: APPVEYOR_BUILD_VERSION
+
 artifacts:
   - path: dist
     name: dist
     type: zip
 
+branches:
+  only:
+    - master
+    - /build\/*/
+
 platform:
-  - x64
+  - x86
 
 init:
   - git config --global core.autocrlf input
 
 install:
-  - ps: Install-Product node 6 x64
+  - ps: Install-Product node 6 x86
   - git reset --hard HEAD
   - npm install npm -g
   - npm install electron-builder@next # force install next version to test electron-builder
@@ -18,14 +28,16 @@ install:
   - npm prune
 
 build_script:
+  - git describe --dirty
   - node --version
   - npm --version
+  - del node_modules\eventemitter3\index.d.ts
   - node_modules\.bin\webpack -p --config webpack.js --progress --colors
   - node_modules\.bin\tsc server\index.ts --sourceMap --inlineSources --module commonjs --target es5 --outDir build\server
   - copy client\index.html build\client\index.html 
   - copy electron\* build\ 
   - xcopy /E /I client\assets build\client\
   - rename build app
-  - node_modules\.bin\build app\ -w
+  - node_modules\.bin\build app\ --win --ia32
 
 test: off

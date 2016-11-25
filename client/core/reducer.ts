@@ -8,7 +8,7 @@ import notifications            from '../state/notifications/reducer';
 import serialport               from '../state/serialport/reducer';
 import sketch                   from '../state/sketch/reducer';
 import os                       from '../state/os/reducer';
-import modal                    from '../state/modal/reducer';
+import input                    from '../state/input/reducer';
 
 const rootReducer = combineReducers({
     controlPanel: controlPanel,
@@ -19,7 +19,7 @@ const rootReducer = combineReducers({
     serialport,
     sketch,
     os,
-    modal
+    input
 });
 
 export default rootReducer;
