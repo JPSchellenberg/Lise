@@ -9,10 +9,15 @@ import {
 	toggle_modal
 } from '../../state/input/actions';
 
+import {
+	write
+} from '../../state/serialport/actions';
+
 interface InputManagerProps {
 	input?: any;
 
 	toggle_modal?: () => void;
+	write?: (command: string) => void;
 }
 
 interface InputManagerState {
@@ -24,13 +29,13 @@ export class InputManager extends React.Component<InputManagerProps, InputManage
 	}
 
 	render() {
-		if ( this.props.input.status === 'ok' ) {
+		if ( this.props.input.status === 'success' ) {
 			return (
 				<div 
 				onClick={() => { this.props.toggle_modal() }}
 				className="btn btn-default"> 
 					<i className="glyphicon glyphicon-cog"></i> 
-					<Modal toggle_modal={() => { this.props.toggle_modal() }} showModal={this.props.input.showModal} input_list={this.props.input.input_list} />
+					<Modal write={this.props.write} settings={this.props.input.settings} toggle_modal={() => { this.props.toggle_modal() }} showModal={this.props.input.showModal} input_list={this.props.input.input_list} />
 				</div>
 			);
 		} else {
@@ -42,13 +47,14 @@ export class InputManager extends React.Component<InputManagerProps, InputManage
 
 function mapStateToProps(state): InputManagerProps {   
     return {   
-		input: state.input 
+			input: state.input
     };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-	  toggle_modal: () => dispatch( toggle_modal() )
+	  toggle_modal: () => dispatch( toggle_modal() ),
+		write: (command) => dispatch ( write(command) )
   };
 }
 

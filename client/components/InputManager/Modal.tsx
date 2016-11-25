@@ -13,15 +13,39 @@ interface InputManagerModalProps {
 	showModal?: boolean;
 	input_list?: Array<Input>;
 	toggle_modal?: () => void;
+  settings?: any;
+  write?: (command: string) => void;
 }
 
 interface InputManagerModalState {
+  gain1?: string;
+  gain2?: string;
+  samplerate?: string;
 }
 
 export default class InputManagerModal extends React.Component<InputManagerModalProps, InputManagerModalState> {
 	constructor(props: InputManagerModalProps) {
 		super(props);
+
+    this.state = {
+      gain1: this.props.settings.gain1,
+      gain2: this.props.settings.gain2,
+      samplerate: this.props.settings.samplerate
+    };
+
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleInput = this.handleInput.bind(this);
 	}
+
+  handleSelect(name, event) {
+    let change = {};
+    change[name] = event.target.value;
+    this.setState(change);
+  }
+
+  handleInput(event) {
+    this.setState({ samplerate: event.target.value });
+  }
 
 	render() {
 		return (
@@ -48,7 +72,7 @@ export default class InputManagerModal extends React.Component<InputManagerModal
         <td>ADS1115 Channel 1</td>
         <td><FormGroup controlId="formControlsSelect">
       <ControlLabel>Gain</ControlLabel>
-      <FormControl componentClass="select" placeholder="select">
+      <FormControl onChange={(e) => this.handleSelect('gain1', e)} componentClass="select" placeholder="select" value={this.state.gain1} >
         <option value="g0">2/3x</option>
         <option value="g1">1x</option>
 		<option value="g2">2x</option>
@@ -63,7 +87,7 @@ export default class InputManagerModal extends React.Component<InputManagerModal
         <td>ADS1115 Channel 2</td>
         <td><FormGroup controlId="formControlsSelect">
       <ControlLabel>Gain</ControlLabel>
-      <FormControl componentClass="select" placeholder="select">
+      <FormControl onChange={(e) => this.handleSelect('gain2', e)} componentClass="select" placeholder="select" value={this.state.gain2} >
         <option value="h0">2/3x</option>
         <option value="h1">1x</option>
 		<option value="h2">2x</option>
@@ -90,7 +114,7 @@ export default class InputManagerModal extends React.Component<InputManagerModal
         <td>Samplerate</td>
         <td><FormGroup>
       <InputGroup>
-        <FormControl type="number" />
+        <FormControl onChange={this.handleInput} type="number" value={this.state.samplerate} />
         <InputGroup.Addon>1/s</InputGroup.Addon>
       </InputGroup>
     </FormGroup></td>
@@ -100,7 +124,13 @@ export default class InputManagerModal extends React.Component<InputManagerModal
 				</div>
  				<div className="modal-footer">
 				 <button type="button" className="btn btn-danger" onClick={this.props.toggle_modal}>Abbrechen</button>
-        		 <button type="button" className="btn btn-success">Speichern</button>
+        		 <button onClick={() => {
+               this.props.write(this.state.gain1);
+               this.props.write(this.state.gain2);
+               this.props.write('s'+this.state.samplerate);
+               this.props.toggle_modal();
+             }
+             } type="button" className="btn btn-success">Speichern</button>
       			</div>
 			</div>
 		</Modal>);
