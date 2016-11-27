@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var socket = require('socket.io-client');
+
+var serialport = socket.connect('http://localhost:3000/serialport');
+
+
+var num_missing = 0;
+
+serialport.on('data', (data) => console.log("data", data));
+serialport.on('update', (update) => console.log('update', update));
+serialport.on('update_ports', (ports) => console.log('update_ports', ports));
+serialport.on('error', (error) => console.log('error', error));
+serialport.on('close', () => console.log('close'));
+serialport.on('open', (connection) => console.log('open', connection));
+serialport.on('missing', () => { num_missing++});
+
+
+
+process.on('SIGINT', () => {
+	console.warn('Missed values: '+num_missing);
+  process.exit(1);
+});
