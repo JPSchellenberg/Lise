@@ -7,7 +7,7 @@ Adafruit_ADS1115 ads1;  /* Use this for the 16-bit version */
 Adafruit_ADS1115 ads2;
 RTC_Millis rtc;
 
-long _samplerate = 1000;
+long _samplerate = 50;
 boolean _ads1115 = false;
 boolean _rtc = false;
 
