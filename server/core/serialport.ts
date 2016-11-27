@@ -28,7 +28,7 @@ export class Serialport extends EventEmitter {
 		this.mConnection = new serialport.SerialPort(
 				comName, 
 				{
-					baudRate: 9600,
+					baudRate: 57600,
 					parser: serialport.parsers.readline("\n"),
 					autoOpen: false
 				});
@@ -66,7 +66,7 @@ export class Serialport extends EventEmitter {
 					data = data.split(" ");
 					this.emit(data[0], JSON.parse(data[1]));
 				} catch(err) {
-					
+					this.emit('missing');
 				}
 				
 			});
