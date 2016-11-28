@@ -27,7 +27,6 @@ export function get_connection(req: express.Request, res: express.Response, next
 
 export function post_connection(req: express.Request, res: express.Response, next: express.NextFunction) {
 	try {
-		if (serialport.connection) { serialport.closeConnection(); }
 			serialport.connect(req.body.comName);
 			res.status(200).end();
 		} catch (err) {

@@ -1,6 +1,7 @@
-import * as express from 'express';
-import * as bodyParser		from 'body-parser';
 import * as _debug 		from 'debug';
+
+import * as express 	from 'express';
+import * as bodyParser	from 'body-parser';
 
 const debug = _debug('boot:express');
 
@@ -13,8 +14,7 @@ export default function (server: express.Application) {
 
 	server.use(bodyParser.urlencoded({
 		extended: true
-	}));
-	
+	}));	
 	
 	debug('booting static-fileserver');
 

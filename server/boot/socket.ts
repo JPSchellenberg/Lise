@@ -22,9 +22,14 @@ export default function(server) {
 	serialport.on('close', () => channel['serialport'].emit('close', serialport.connection));
 	serialport.on('open', (connection) => channel['serialport'].emit('update_connection', connection));
 	serialport.on('update', (update) => channel['serialport'].emit('update', update));
+	serialport.on('sketch', (sketch) => channel['serialport'].emit('sketch', sketch));
+	serialport.on('sensor', (sensor) => channel['serialport'].emit('sensor', sensor));
+	
 	channel['serialport'].on('connection', (socket) => {
 		socket.emit('update_connection', serialport.connection );
 		socket.emit('update_ports', serialport.ports );
+		socket.emit('sensor', serialport.sensors);
+		socket.emit('sketch', serialport.sketch);
 	});
 
 	channel['general'].on('connection', (socket) => {
