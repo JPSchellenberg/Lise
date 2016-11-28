@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import * as classnames from 'classnames';
 
 import ConnectionStatus from './ConnectionStatus';
+import SensorManager     from './SensorManager';
 
 import {
 	get_portlist,
@@ -60,6 +61,7 @@ export class PortSelect extends React.Component<IPortSelectProps, IPortSelectSta
 					}
 				</ul>
 					<ConnectionStatus />
+					<SensorManager />
 				</div>
 			</div>
 			);
