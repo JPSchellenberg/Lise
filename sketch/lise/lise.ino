@@ -3,6 +3,9 @@
 #include <Adafruit_ADS1015.h>
 #include <RTClib.h>
 
+#define VERSION "1.0.0-prerelease.6"
+#define NAME "Lise_Main"
+
 Adafruit_ADS1115 ads1;  /* Use this for the 16-bit version */
 Adafruit_ADS1115 ads2;
 RTC_Millis rtc;
@@ -87,13 +90,13 @@ void scan_I2C(void) {
 
 void print_sensor_list(void) {
   Serial.print("sensor [");
-  if (_ads1115) { Serial.print("ads1115,"); }
-  if (_rtc) { Serial.print("rtc,"); }
-  Serial.print("time]");
+  if (_ads1115) { Serial.print("\"ads1115\","); }
+  if (_rtc) { Serial.print("\"rtc\","); }
+  Serial.print("\"time\"]");
 }
 
 void handle_command(char command) {
-  if (command == 'v') { Serial.print("version {\"name\":\"adafruit_ads1115_differential\",\"version\":\"0.0.4\"}"); Serial.print("\n"); Serial.flush(); }
+  if (command == 'v') { Serial.print("sketch {\"name\":\""); Serial.print(NAME); Serial.print("\",\"version\":\""); Serial.print(VERSION); Serial.print("\"}"); Serial.print("\n"); Serial.flush(); }
       
       if (command == 's') { 
         _samplerate = 1000/Serial.parseInt();
