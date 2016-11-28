@@ -3,8 +3,12 @@ import serialport 	from '../core/serialport';
 import sketch			from '../core/sketch';
 import * as os 			from 'os';
 
+import * as _debug 		from 'debug';
+
+const debug = _debug('boot:socket');
+
 export default function(server) {
-	console.log("BOOT: socket");
+	debug('booting socket');
 
 	const socket = socketio(server);
 

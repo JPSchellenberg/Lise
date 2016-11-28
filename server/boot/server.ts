@@ -1,9 +1,13 @@
 import * as express from 'express';
 import * as bodyParser		from 'body-parser';
+import * as _debug 		from 'debug';
+
+const debug = _debug('boot:express');
 
 export default function (server: express.Application) {
+	debug('booting express-server');
 
-	console.log("BOOT: server -> body-parser");
+	debug('booting bodyParser');
 
 	server.use(bodyParser.json());
 
@@ -12,7 +16,7 @@ export default function (server: express.Application) {
 	}));
 	
 	
-	console.log("BOOT: server -> static-fileserver");
+	debug('booting static-fileserver');
 
 	server.get('*', express.static(__dirname+'/../../client'));
 

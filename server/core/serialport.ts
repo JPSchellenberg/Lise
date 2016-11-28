@@ -1,16 +1,27 @@
+import * as _debug 			from 'debug';
+
 import * as serialport		from 'serialport';
 import * as EventEmitter 	from 'eventemitter3';
+
+const debug = _debug('serialport:wrapper');
+const debug_event = _debug('serialport:event');
+const debug_connection = _debug('serialport:connection');
 
 export class Serialport extends EventEmitter {
 	constructor() {
 		super();
+		debug('constructor start');
 
 		this.mConnection = null;
 		this.mPorts = new Array();
+				debug('receiving sketch timed out');
+			debug_event('sketch',sketch);
+			debug_event('sensor', sensors);
 
 		// start polling ports:
 		setInterval(() => this.poll_ports(), 1000);
 
+		debug('constructor end');
 	}
 
 	private mConnection: serialport.SerialPort;
@@ -22,10 +33,12 @@ export class Serialport extends EventEmitter {
 	public addPort(port: serialport.portConfig): number { return this.mPorts.push(port); }
 
 	public connect(comName: string): serialport.SerialPort {
+		debug_connection('connecting to '+comName);
 
 		if (this.mConnection) { this.mConnection.close(); }
 
 		this.mConnection = new serialport.SerialPort(
+			debug_connection('opening connection');
 				comName, 
 				{
 					baudRate: 57600,
@@ -42,6 +55,7 @@ export class Serialport extends EventEmitter {
 	public write(command: string): boolean {
 		if (this.mConnection) {
 			try {
+				debug('writing command: "' + command +'"');
 				this.mConnection.write(command);
 				return true;
 			} catch(err) {
@@ -53,6 +67,7 @@ export class Serialport extends EventEmitter {
 
 	public closeConnection(): void {
 		try {
+			debug_connection('closing connection');
 			this.mConnection.close();
 			this.mConnection = null;
 		} catch(err) {}
@@ -60,6 +75,7 @@ export class Serialport extends EventEmitter {
 	}
 
 	private setupListeners(): void {
+		debug('setting up listeners');
 		if (this.mConnection) {
 			this.mConnection.on('data', (data) => {
 				try {
@@ -72,11 +88,13 @@ export class Serialport extends EventEmitter {
 			});
 			this.mConnection.on('error', (error) => this.emit('error', error));
 			this.mConnection.on('open', () => { 
+				debug_connection('open');
 				this.emit('open', this.mConnection);
 			});
 			this.mConnection.on('close', () => { 
 				this.closeConnection();
 				this.emit('close');
+				debug_connection('close');
 			});
 		}
 	}
