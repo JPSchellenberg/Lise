@@ -5,13 +5,9 @@ import * as classnames from 'classnames';
 
 import { Modal, ListGroup, ListGroupItem, Panel } from 'react-bootstrap';
 
-import { post_flash } from '../state/sketch/actions';
-
 interface IConnectionStatusProps {
 	sketch?: any;
 	connection?: any;
-
-	flash?: any;
 }
 
 interface IConnectionStatusState {
@@ -44,9 +40,9 @@ export class ConnectionStatus extends React.Component<IConnectionStatusProps, IC
 						onClick={() => { this.setState({ showModal: true })  }}
 						className={classnames({
 							'btn': true,
-							'btn-success': (this.props.sketch.status === "success"),
-							'btn-warning': (this.props.sketch.status === "pending"),
-							'btn-danger': (this.props.sketch.status !== "success" && this.props.sketch.status !== "pending")
+							'btn-success': (this.props.sketch !== null && this.props.connection !== null),
+							'btn-warning': (this.props.sketch === null && this.props.connection !== null),
+							'btn-danger': (this.props.connection === null)
 						})}> 
 						<i className="glyphicon glyphicon-flash"></i> 
 						<Modal show={this.state.showModal} onHide={() => this.setState({ showModal: false })}>
@@ -69,10 +65,6 @@ export class ConnectionStatus extends React.Component<IConnectionStatusProps, IC
        				 		<button type="button" className="btn btn-danger" onClick={() => {this.setState({ showModal: false }) } }>Abbrechen</button>
         					<button
 							onClick={() => { 
-								if (this.props.connection !== null) {
-									this.props.flash( this.props.connection.path , 'leonardo')
-								}
-								
 							}}
 							type="button" className={classnames({
 								"btn": true,
@@ -89,14 +81,13 @@ export class ConnectionStatus extends React.Component<IConnectionStatusProps, IC
 
 function mapStateToProps(state): IConnectionStatusProps {   
     return {    
-		sketch: state.sketch,
+		sketch: state.serialport.sketch,
 		connection: state.serialport.connection
     };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-	  flash: (comName: string, board: string) => dispatch( post_flash(comName, board) )
   };
 }
 
