@@ -42,7 +42,7 @@ export default class LineChart extends React.Component < IProps, IState > {
 	render() {
 		return ( 
 		<div className="row">
-									<div className="col-xs-12 col-sm-12 col-md-10 col-md-offset-1">
+									<div className="col-xs-12 col-sm-12 col-md-12">
 			<div className = "panel panel-default" >
 				<div className = "panel-heading" > 
 					<div className="row">
