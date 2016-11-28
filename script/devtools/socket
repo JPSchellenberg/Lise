@@ -15,8 +15,6 @@ serialport.on('close', () => console.log('close'));
 serialport.on('open', (connection) => console.log('open', connection));
 serialport.on('missing', () => { num_missing++});
 
-
-
 process.on('SIGINT', () => {
 	console.warn('Missed values: '+num_missing);
   process.exit(1);

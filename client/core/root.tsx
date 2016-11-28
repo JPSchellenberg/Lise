@@ -16,13 +16,6 @@ import Gain 				from '../components/Gain';
 
 import { showSettings } 	from '../modules/line-chart/actions';
 
-import {
-	post_samplerate as sketch_post_samplerate,
-	post_gain as sketch_post_gain,
-	get_gain as sketch_get_gain,
-	get_samplerate as sketch_get_samplerate
-}							from '../state/sketch/actions';
-
 import { showSettings as reconstruction_showSettings } from '../modules/reconstruction/actions';
 
 import {
@@ -161,14 +154,6 @@ function mapStateToProps(state): IProps {
 function mapDispatchToProps(dispatch) {
   return {
 	  linechartToggleSettings: () => dispatch( showSettings() ),
-
-	  sketch_post_samplerate: (samplerate: number) => dispatch( sketch_post_samplerate(samplerate) ),
-	  sketch_post_gain: (gain: number) => dispatch( sketch_post_gain(gain) ),
-
-	  sketch_get_gain: () => dispatch( sketch_get_gain() ),
-	  sketch_get_samplerate: () => dispatch( sketch_get_samplerate() ),
-
-	//   get_serialport_list: () => dispatch( get_list() ),
 
 	  reconstructionToggleSettings: () => dispatch( reconstruction_showSettings() )
   };
