@@ -1,6 +1,5 @@
 import * as express from 'express';
 import serialport from '../core/serialport';
-import sketch 		from '../core/sketch';
 
 let 
 	avrgirl,

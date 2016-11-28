@@ -3,8 +3,14 @@ import Store from '../../core/store';
 
 import {
 	update_ports,
-	update_connection
+	update_connection,
+	update_sketch
 } from './actions';
+
+import {
+	update_sensor_list
+} from '../sensors/actions';
+
 
 declare var window: any;
 
@@ -50,4 +56,12 @@ export default function() {
 	channel['serialport'].on('update_connection', (connection) => {
 		Store.dispatch( update_connection( connection ) );
 	})
+
+	channel['serialport'].on('sketch', ( sketch ) => {
+		Store.dispatch( update_sketch( sketch ) );
+	});
+
+	channel['serialport'].on('sensor', (sensors) => {
+		Store.dispatch( update_sensor_list( sensors ));
+	});
 }

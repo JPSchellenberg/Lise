@@ -9,19 +9,6 @@ import Store from '../core/store';
 import Bootscreen from '../components/Bootscreen';
 import boot_socket from './socket';
 
-
- import {
-	get_connection
-} from '../state/serialport/actions';
-
-import { 
-  get_os 
-} from '../state/os/actions'; 
-
-import { 
-  get_sketch
-} from '../state/sketch/actions'; 
-
 declare var window: any;
 
 
