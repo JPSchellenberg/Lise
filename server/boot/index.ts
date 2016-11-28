@@ -2,7 +2,6 @@ import * as _debug 		from 'debug';
 
 import server 			from '../core/server';
 import serialport		from '../core/serialport';
-import sketch			from '../core/sketch';
 
 import boot_server 		from './server';
 import boot_api 		from '../api';

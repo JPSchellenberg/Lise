@@ -1,6 +1,5 @@
 import * as socketio 	from 'socket.io';
 import serialport 	from '../core/serialport';
-import sketch			from '../core/sketch';
 import * as os 			from 'os';
 
 import * as _debug 		from 'debug';
@@ -14,7 +13,6 @@ export default function(server) {
 
 	const channel = {
 		'serialport': socket.of('/serialport'),
-		'sketch': socket.of('/sketch'),
 		'general': socket.of('/general')
 	};
 
@@ -27,18 +25,6 @@ export default function(server) {
 	channel['serialport'].on('connection', (socket) => {
 		socket.emit('update_connection', serialport.connection );
 		socket.emit('update_ports', serialport.ports );
-	});
-
-	sketch.on('version', (version) => channel['sketch'].emit('version', version));
-	sketch.on('gain', (gain) => channel['sketch'].emit('gain', gain));
-	sketch.on('samplerate', (samplerate) => channel['sketch'].emit('samplerate', samplerate));
-	channel['sketch'].on('connection', (socket) => {
-		socket.emit('version', sketch.version);
-		// socket.emit('update', {
-		// 	gain1: sketch.gain1(),
-		// 	gain2: sketch.gain2(),
-		// 	samplerate: sketch.samplerate()
-		// });
 	});
 
 	channel['general'].on('connection', (socket) => {
