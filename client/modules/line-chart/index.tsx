@@ -3,6 +3,9 @@ import * as React from 'react';
 import { assign } from 'lodash'; 
 import { showSettings } from './actions';
 
+import { DropdownButton, MenuItem, ButtonGroup } from 'react-bootstrap';
+
+import Data from './Data';
 import Settings from '../../components/settings';
 import Chart from './Chart';
 
@@ -10,6 +13,7 @@ interface IProps {
 	settings: any;
 	showSettings: boolean;
 	toggleSettings: () => void;
+	input_list: any;
 }
 
 interface IState {
@@ -40,17 +44,37 @@ export default class LineChart extends React.Component < IProps, IState > {
 
 
 	render() {
+		let sensors = [];
+		for (let sensor_name in this.props.input_list) {
+			sensors.push(<li className="dropdown-header">{sensor_name}</li>);
+			for (let i = 0; i<this.props.input_list[sensor_name].length; i++) {
+				sensors.push(
+					<MenuItem 
+					onClick={() => Data.addChannel(sensor_name,this.props.input_list[sensor_name][i], i)}
+				eventKey="3">{this.props.input_list[sensor_name][i]}</MenuItem>
+				)
+
+			}
+			sensors.push(<MenuItem divider />);
+		}
 		return ( 
 		<div className="row">
 									<div className="col-xs-12 col-sm-12 col-md-12">
 			<div className = "panel panel-default" >
 				<div className = "panel-heading" > 
 					<div className="row">
-						<div className="col-xs-11">
+						<div className="col-xs-10">
 							Line Chart
 						</div>
-						<div className="col-xs-1">
-							
+						<div className="col-xs-2">
+							<ButtonGroup>
+								<DropdownButton bsStyle="default" title={"X"} key={0} id={0}>
+									{sensors}
+								</DropdownButton>
+								<DropdownButton bsStyle="default" title={"Y"} key={1} id={1}>
+									{sensors}
+								</DropdownButton>
+							</ButtonGroup>
 						</div>
 					</div>
 				</div> 
