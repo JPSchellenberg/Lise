@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import { d3render, plotData }     from './d3render';
 
+import Data from './Data';
+
 declare var d3: any;
 declare var window: any;
 
@@ -54,12 +56,15 @@ export default class ReconstructionGraph extends React.Component < IProps, IStat
 
   update() {
 
+    const data = Data.getData();
+    const normalizationValue = 100;
+
       if (test.scales) {
         let rows = [];
-			    if (window.channel1.length > this.props.count*2) {
-            let length = window.channel1.length > this.props.length ? this.props.length : window.channel1.length;
+			    if (data.length > this.props.count*2) {
+            let length = data.length > this.props.length ? this.props.length : data.length;
             for (let i=this.props.count*2; i < length; i++) {
-              rows.push({x: window.channel1[i][1]/this.props.normalizationValue, y: window.channel1[i-this.props.count][1]/this.props.normalizationValue, z: window.channel1[i-(this.props.count*2)][1]/this.props.normalizationValue});
+              rows.push({x: data[i]/normalizationValue, y: data[i-this.props.count]/normalizationValue, z: data[i-(this.props.count*2)]/normalizationValue});
             }
             plotData(rows, test.scales, test.axisKeys, test.scene, this.props.sphereRadius, this.props.color);
           } else {

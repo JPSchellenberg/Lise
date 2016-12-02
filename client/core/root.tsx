@@ -41,6 +41,7 @@ interface IProps {
 	modal?: any;
 	get_serialport_list?: any;
 	sketch_status?: string;
+	input_list?: any;
 
 	sketch_post_samplerate?: any;
 	sketch_post_gain?: any;
@@ -76,9 +77,11 @@ export class Layout extends React.Component<IProps, IState> {
 							showSettings={this.props.linechartShowSettings}
 
 							toggleSettings={this.props.linechartToggleSettings}
+
+							input_list={this.props.input_list}
 						/>
 						<Reconstruction 
-							normalizationValue={this.props.linechartSettings.YAxis.max/10}
+							normalizationValue={1}
 							settings={this.props.reconstructionSettings}
 							showSettings={this.props.reconstructionShowSettings}
 							toggleSettings={this.props.reconstructionToggleSettings}
@@ -145,6 +148,7 @@ function mapStateToProps(state): IProps {
 		// sketch_status: state.sketch.status,
 		os: state.os,
 		modal: state.modal,
+		input_list: state.inputs,
 
 		reconstructionSettings: state.reconstruction.settings,
 		reconstructionShowSettings: state.reconstruction.showSettings

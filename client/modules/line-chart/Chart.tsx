@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import Data from './Data';
 declare var Flotr: any;
 
 interface IProps {
@@ -24,6 +25,7 @@ export default class LineChart extends React.Component < IProps, IState > {
 	updatingInterval: any;
 
 	componentDidMount() {
+		Data;
 		this.updatingInterval = setInterval(this.update, 80);
 		this.update();
 	}
@@ -39,13 +41,9 @@ export default class LineChart extends React.Component < IProps, IState > {
 	update() {
 		if (this.props.xaxis && this.props.yaxis) {
 
-
 			Flotr.draw(
 				document.getElementById('flotrGraph'), 
-					[
-					{ data : window.channel1, label : 'Channel 1'},
-					{ data : window.channel2, label : 'Channel 2'}
-					]
+					Data.getData()
 					, {
 					title: this.props.general.title,
 					colors: ['#2980b9', '#27ae60', '#e74c3c', '#34495d', '#f39c11'],
