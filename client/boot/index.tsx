@@ -9,12 +9,16 @@ import Store from '../core/store';
 import Bootscreen from '../components/Bootscreen';
 import boot_socket from './socket';
 
+import Data from '../core/data';
+
 declare var window: any;
 
 
 export default function boot() {
 
 	boot_socket();
+
+	Data;
 
 	window.store = Store;
 
