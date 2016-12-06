@@ -6,10 +6,8 @@ node_js:
 env:
  - NODE_ENV=production
 
-install:
-  - npm install
-
 script: 
+  - npm install
   - make openwrt
 
 deploy:
