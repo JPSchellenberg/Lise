@@ -1,0 +1,23 @@
+language: node_js
+node_js:
+  - "5.11.1"
+
+env:
+ - NODE_ENV=production
+ - VERSION=$(shell git describe)
+
+install:
+  - npm install
+
+script: 
+  - make openwrt
+
+deploy:
+  provider: releases
+  api_key: M+Mq0YckVvLY9ZB1rIYrGIdxyiO/elB1YSJWUL8RwJ6pOfamM9MtEcUKYnr9dySXsymHFeuv5Z6/oUVwO+Ms3wAl2JFRPPIvekEW0hIi6MpjY1lxB1vs6fIfUZQSFABiPc5QSaxTdnWlIY+7RCxhAeOMl6E/UdkmESuOFT4nYe/68rasSRC8OtvN5mW7k2bZAH1pG7ywX4kkujyB1zWj95Wb7hBKgxs313GwCEg1bYBmkoDIQqeHi1TuJ7oF1vEThnNqieOX59iCvF9yJzO+Rh8bUaI72Y5iaq/tJDwER7aUUQ+t/TwtumHbci3InqBVn3ZT+8m7OBVDJmup028Db0ymf26n0TRFfgwnTWcQtlaawNlfBH/qxxQQjK9ljAEgMwJEPsq3MW90UpYi9icNpRWUcbPXtmCecvOmXzPceEum0/pkDWy/FHCqDepwvAZ+WgDcb/8yb7ZKgm9M9KfqrgfG171SwEKIO26ovg7ZNnr4xg1BawEZu0ovzbqNkLxWACBUsHDPsZOOLx+87jbJcvWbVS8AWA94sWTNj7sr2iBQcloizDE0JRtImvkA2DJfn3CitflbuWvmUBX11pTEGOm00tdSAt7sr8JcABKu1OZr9cA7QBaNjR+24jZXKNl8LaI8kaaC2e53ai/PpFmOcBbEVTGInwLb4n6F1gAdmFI=
+  file: dist/openWRT/Lise-$(VERSION).tar.gz
+  skip_cleanup: true
+  on:
+    tags: true
+
+
