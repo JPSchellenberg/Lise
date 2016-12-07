@@ -20,6 +20,7 @@ class ReconstructionData {
 
 	handleData(data) {
 		fdata.push( (data['ads1115'][0]) );
+		if (fdata.length > 200) { fdata.shift(); }
 	}
 
 	getData(): Array<number> {

@@ -17,6 +17,7 @@ class LineChartData {
 	handleData(data) {
 		this.mData.forEach( (channel, index) => {
 			channel.data.push(  [ (data['time'][0] - _data.recordingStartTime)/1000 , (data[channel.sensor][channel.channel]/1000) ] )
+			if (channel.data.length > 300) { channel.data.shift(); }
 		});
 	}
 
