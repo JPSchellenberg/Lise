@@ -13,7 +13,7 @@ export default function(server) {
 
 	const channel = {
 		'serialport': socket.of('/serialport'),
-		'general': socket.of('/general')
+		'system': socket.of('/system')
 	};
 
 	serialport.on('data', (data) => channel['serialport'].emit('data', data));
@@ -32,7 +32,7 @@ export default function(server) {
 		socket.emit('sketch', serialport.sketch);
 	});
 
-	channel['general'].on('connection', (socket) => {
+	channel['system'].on('connection', (socket) => {
 		socket.emit('os', {
 			"arch": os.arch(),
 			"platform": os.platform()
