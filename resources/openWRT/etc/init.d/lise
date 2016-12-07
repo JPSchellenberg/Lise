@@ -3,5 +3,5 @@
 START=51
 
 start() {
-	/usr/bin/nodejs /srv/lise/server/index.js
+	/usr/bin/node /srv/lise/server/index.js
 }
