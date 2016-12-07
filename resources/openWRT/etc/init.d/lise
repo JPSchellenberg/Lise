@@ -1,0 +1,7 @@
+#!/bin/sh /etc/rc.common
+
+START=51
+
+start() {
+	/usr/bin/node /srv/lise/server/index.js
+}

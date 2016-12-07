@@ -1,8 +1,0 @@
-#!/usr/bin/env node
-
-var socket = require('socket.io-client');
-
-var test = socket.connect('http://localhost:3000/serialport');
-
-test.on('data', (data) => console.log(data));
-test.on('update', (update) => console.log(update));

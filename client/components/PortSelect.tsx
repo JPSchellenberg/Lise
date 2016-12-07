@@ -4,9 +4,6 @@ import { connect } from 'react-redux';
 
 import * as classnames from 'classnames';
 
-import ConnectionStatus from './ConnectionStatus';
-import InputManager     from './InputManager';
-
 import {
 	get_portlist,
 	post_connection
@@ -30,8 +27,7 @@ export class PortSelect extends React.Component<IPortSelectProps, IPortSelectSta
 	
 	render() {
 		return ( 
-				<div className="dropup">
-				<div className="btn-group">
+				<div>
 				<button 
 				onClick={() => { /*this.props.get_portlist()*/ }}
 				className="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -60,10 +56,7 @@ export class PortSelect extends React.Component<IPortSelectProps, IPortSelectSta
 							)
 					}
 				</ul>
-					<ConnectionStatus />
-					<InputManager />
 				</div>
-			</div>
 			);
 	}
 };

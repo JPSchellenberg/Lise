@@ -9,18 +9,11 @@ import Store from '../core/store';
 import Bootscreen from '../components/Bootscreen';
 import boot_socket from './socket';
 
+import Data from '../core/data';
 
- import {
-	get_connection
-} from '../state/serialport/actions';
-
-import { 
-  get_os 
-} from '../state/os/actions'; 
-
-import { 
-  get_sketch
-} from '../state/sketch/actions'; 
+import {
+	get_os
+} from '../state/os/actions';
 
 declare var window: any;
 
@@ -29,14 +22,7 @@ export default function boot() {
 
 	boot_socket();
 
-	window.store = Store;
-
-	window.channel1 = []; 
-    window.channel2 = []; 
-    window.storage1 = []; 
-    window.storage2 = []; 
-    window.recording = false; 
-
+	Data;
 			ReactDOM.render(
 				<Provider store={Store}>
 					<div>
@@ -47,4 +33,6 @@ export default function boot() {
 				 ,
 				document.getElementById('root')
 			); 
+
+	Store.dispatch( get_os() );
 }

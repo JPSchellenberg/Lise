@@ -1,47 +1,111 @@
+import * as os from 'os';
+import * as _debug 			from 'debug';
+
 import * as serialport		from 'serialport';
 import * as EventEmitter 	from 'eventemitter3';
+
+const debug = _debug('serialport:wrapper');
+const debug_event = _debug('serialport:event');
+const debug_connection = _debug('serialport:connection');
 
 export class Serialport extends EventEmitter {
 	constructor() {
 		super();
+		debug('constructor start');
 
 		this.mConnection = null;
 		this.mPorts = new Array();
+		this.mSketch = null;
+		this.mSensors = [];
+
+		this.on('open', () => {
+			this.write('v'); // get version
+			this.write('i'); // get sensors
+			this.mTimeoutTimer = setTimeout(() => {
+				debug('receiving sketch timed out');
+				if (os.arch() !== 'mips') { // do not close connection on openwrt
+					this.sketch = null;
+					this.sensors = []; 
+					this.closeConnection();  
+				}
+				                                       
+			}, 5000);
+		});
+
+		this.on('sketch', (sketch) => {
+			debug_event('sketch',sketch);
+			this.sketch = sketch;
+			clearTimeout(this.mTimeoutTimer);
+		});
+
+		this.on('sensor', (sensors) => {
+			debug_event('sensor', sensors);
+			this.sensors = sensors;
+		})
 
 		// start polling ports:
-		setInterval(() => this.poll_ports(), 1000);
+		if (os.arch() !== 'mips' ) { // do not poll on openwrt
+			setInterval(() => this.poll_ports(), 1000);
+		}
 
+		debug('constructor end');
 	}
 
 	private mConnection: serialport.SerialPort;
 	private mPorts: Array<serialport.portConfig>;
+	private mSketch: any;
+	private mSensors: Array<string>; 
+	private mTimeoutTimer: NodeJS.Timer;
 
 	public get connection(): serialport.SerialPort { return this.mConnection; }
 	public get ports(): Array<serialport.portConfig> { return this.mPorts; }
 
-	public addPort(port: serialport.portConfig): number { return this.mPorts.push(port); }
+	public set sketch(sketch: any) { this.mSketch = sketch; }
+	public get sketch(): any { return this.mSketch; }
+
+	public set sensors(sensors: Array<string>) { this.mSensors = sensors; }
+	public get sensors(): Array<string> { return this.mSensors; }
+
+	public addPort(port: serialport.portConfig): number { 
+		debug('adding port',port);
+		return this.mPorts.push(port); 
+	}
 
 	public connect(comName: string): serialport.SerialPort {
+		debug_connection('connecting to '+comName);
 
-		if (this.mConnection) { this.mConnection.close(); }
+		const self = this;
+		if (this.mConnection !== null) { 
+			debug_connection('found existing connection -> closing connection');
+			this.mConnection.on('close', () => connect(comName));
+			this.closeConnection(); 
+		} else {
+			return connect(comName);
+		}
 
-		this.mConnection = new serialport.SerialPort(
+		function connect(comName: string) {
+			debug_connection('opening connection');
+			self.mConnection = new serialport.SerialPort(
 				comName, 
 				{
-					baudRate: 9600,
+					baudRate: 57600,
 					parser: serialport.parsers.readline("\n"),
 					autoOpen: false
 				});
-		this.setupListeners();
+			
+			self.setupListeners();
 
-		this.mConnection.open();
+			self.mConnection.open();
+
+			return self.mConnection;
+		}
 		
-		return this.mConnection;
 	}
 
 	public write(command: string): boolean {
 		if (this.mConnection) {
 			try {
+				debug('writing command: "' + command +'"');
 				this.mConnection.write(command);
 				return true;
 			} catch(err) {
@@ -53,30 +117,33 @@ export class Serialport extends EventEmitter {
 
 	public closeConnection(): void {
 		try {
+			debug_connection('closing connection');
 			this.mConnection.close();
-			this.mConnection = null;
 		} catch(err) {}
 		
 	}
 
 	private setupListeners(): void {
+		debug('setting up listeners');
 		if (this.mConnection) {
 			this.mConnection.on('data', (data) => {
+				debug_connection('receiving data', data);
 				try {
 					data = data.split(" ");
 					this.emit(data[0], JSON.parse(data[1]));
 				} catch(err) {
-					
+					this.emit('missing');
 				}
 				
 			});
 			this.mConnection.on('error', (error) => this.emit('error', error));
 			this.mConnection.on('open', () => { 
+				debug_connection('open');
 				this.emit('open', this.mConnection);
 			});
 			this.mConnection.on('close', () => { 
-				this.closeConnection();
-				this.emit('close');
+				debug_connection('close');
+				this.mConnection = null; this.emit('close'); 
 			});
 		}
 	}

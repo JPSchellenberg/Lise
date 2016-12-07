@@ -1,0 +1,19 @@
+{
+  "name": "lise-server",
+  "version": "1.0.0-prerelease.5",
+  "description": "Low-cost interface for science experiments",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JPSchellenberg/Lise"
+  },
+  "author": "Jan Philip Schellenberg",
+  "license": "",
+  "dependencies": {
+    "body-parser": "1.15.2",
+    "debug": "^2.3.3",
+    "eventemitter3": "2.0.2",
+    "express": "4.14.0",
+    "mime": "1.3.4",
+    "socket.io": "1.5.1"
+  }
+}

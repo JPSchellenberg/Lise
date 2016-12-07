@@ -14,14 +14,10 @@ import PortSelect 			from '../components/PortSelect';
 import Samplerate 			from '../components/Samplerate';
 import Gain 				from '../components/Gain';
 
-import { showSettings } 	from '../modules/line-chart/actions';
+import ConnectionStatus from '../components/ConnectionStatus';
+import SensorManager     from '../components/SensorManager';
 
-import {
-	post_samplerate as sketch_post_samplerate,
-	post_gain as sketch_post_gain,
-	get_gain as sketch_get_gain,
-	get_samplerate as sketch_get_samplerate
-}							from '../state/sketch/actions';
+import { showSettings } 	from '../modules/line-chart/actions';
 
 import { showSettings as reconstruction_showSettings } from '../modules/reconstruction/actions';
 
@@ -48,6 +44,7 @@ interface IProps {
 	modal?: any;
 	get_serialport_list?: any;
 	sketch_status?: string;
+	input_list?: any;
 
 	sketch_post_samplerate?: any;
 	sketch_post_gain?: any;
@@ -83,9 +80,11 @@ export class Layout extends React.Component<IProps, IState> {
 							showSettings={this.props.linechartShowSettings}
 
 							toggleSettings={this.props.linechartToggleSettings}
+
+							input_list={this.props.input_list}
 						/>
 						<Reconstruction 
-							normalizationValue={this.props.linechartSettings.YAxis.max/10}
+							normalizationValue={1}
 							settings={this.props.reconstructionSettings}
 							showSettings={this.props.reconstructionShowSettings}
 							toggleSettings={this.props.reconstructionToggleSettings}
@@ -97,6 +96,8 @@ export class Layout extends React.Component<IProps, IState> {
 						<div className="container-fluid">
 						<div className="row">
 							<div className="hidden-xs hidden-sm col-md-4">
+								<div className="dropup">
+									<div className="btn-group">
 								{
 									(this.props.os.arch !== 'mips' && this.props.os.platform !== 'linux') 
 									?
@@ -104,6 +105,10 @@ export class Layout extends React.Component<IProps, IState> {
 									: 
 									null
 							}
+								<ConnectionStatus />
+								<SensorManager />
+							</div>
+							</div>
 							</div>
 							<div className="col-xs-10 col-md-4">
 								<div className="navbar-form">
@@ -152,6 +157,7 @@ function mapStateToProps(state): IProps {
 		// sketch_status: state.sketch.status,
 		os: state.os,
 		modal: state.modal,
+		input_list: state.inputs,
 
 		reconstructionSettings: state.reconstruction.settings,
 		reconstructionShowSettings: state.reconstruction.showSettings
@@ -161,14 +167,6 @@ function mapStateToProps(state): IProps {
 function mapDispatchToProps(dispatch) {
   return {
 	  linechartToggleSettings: () => dispatch( showSettings() ),
-
-	  sketch_post_samplerate: (samplerate: number) => dispatch( sketch_post_samplerate(samplerate) ),
-	  sketch_post_gain: (gain: number) => dispatch( sketch_post_gain(gain) ),
-
-	  sketch_get_gain: () => dispatch( sketch_get_gain() ),
-	  sketch_get_samplerate: () => dispatch( sketch_get_samplerate() ),
-
-	//   get_serialport_list: () => dispatch( get_list() ),
 
 	  reconstructionToggleSettings: () => dispatch( reconstruction_showSettings() )
   };

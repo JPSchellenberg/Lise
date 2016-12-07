@@ -1,0 +1,50 @@
+#!/bin/ash
+
+echo Installing Lise
+
+NUM_STEPS=10
+
+# Installing dependencies
+echo [1/$NUM_STEPS] installing node
+mv ./resources/bin/nodejs /usr/bin/nodejs
+echo [2/$NUM_STEPS] installing nginx
+mv ./resources/bin/nginx /usr/sbin/nginx
+
+echo [3/#NUM_STEPS] installing libraries
+mv ./resources/lib/ /usr/lib/
+
+echo [4/$NUM] installing lise
+mkdir -p /srv/lise/client 
+mkdir -p /srv/lise/server
+mv ./client/* /srv/lise/client/
+mv ./server/* /srv/lise/server/
+
+# Configuring
+echo [5/$NUM_STEPS] moving sysvinit files
+mv ./resources/etc/init.d/* /etc/init.d/
+
+echo [6/$NUM_STEPS] moving nginx-config
+mkdir -p /etc/nginx/
+mv ./resources/etc/nginx/ /etc/nginx/
+
+echo [7/$NUM_STEPS] linking sysvinit: nginx
+ln -s /etc/init.d/nginx /etc/rc.d/S50nginx
+
+echo [8/$NUM_STEPS] linking sysvinit: lise
+ln -s /etc/init.d/lise /etc/rc.d/S51lise
+
+echo [9/$NUM_STEPS] disabling uhttpd
+rm /etc/rc.d/S50uhttpd
+
+#echo [10/$NUM_STEPS] adding respawn 
+#echo /usr/bin/nodejs $(pwd)/server/index.js > /etc/rc.local
+
+# echo [10/$NUM_STEPS] disabling bridge
+echo "::sysinit:/etc/init.d/rcS S boot
+::shutdown:/etc/init.d/rcS K shutdown
+#ttyATH0::askfirst:/bin/ash --login" > /etc/inittab
+
+echo *** Installation succesful ***
+echo *** Rebooting.. please wait 1-2 minutes ***
+
+reboot

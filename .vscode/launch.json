@@ -2,23 +2,24 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Server",
+			"name": "Server:development",
 			"type": "node",
 			"request": "launch",
 			"program": "${workspaceRoot}/server/index.ts",
 			"stopOnEntry": false,
 			"args": [],
 			"cwd": "${workspaceRoot}",
-			"preLaunchTask": "npm",
+			"preLaunchTask": "build:server",
 			"runtimeExecutable": null,
 			"runtimeArgs": [
 				"--nolazy"
 			],
 			"env": {
 				"NODE_ENV": "development",
-				"PORT": 3000
+				"PORT": 3000,
+				"DEBUG": "*"
 			},
-			"console": "internalConsole",
+			"console": "integratedTerminal",
 			"sourceMaps": true,
 			"outDir": "${workspaceRoot}/build/server"
 		}

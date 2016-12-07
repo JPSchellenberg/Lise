@@ -2,7 +2,8 @@ import {
 	SERIALPORT_UPDATE_PORTLIST,
 	SERIALPORT_CONNECT,
 	SERIALPORT_UPDATE_CONNECTION_STATUS,
-	SERIALPORT_UPDATE_CONNECTION
+	SERIALPORT_UPDATE_CONNECTION,
+	SERIALPORT_UPDATE_SKETCH
 } from '../action-types';
 
 import * as API 	from './api';
@@ -97,4 +98,11 @@ export function write(command: string) {
 				debugger;
 			 });  
 		}
+}
+
+export function update_sketch(sketch: any) {
+	return { 
+		type: SERIALPORT_UPDATE_SKETCH,
+		sketch
+	};
 }

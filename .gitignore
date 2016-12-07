@@ -4,3 +4,4 @@ build
 node_modules
 typings
 tmp
+!resources/openWRT/lib/node_modules/serialport

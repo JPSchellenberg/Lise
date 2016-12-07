@@ -6,20 +6,20 @@ import reconstruction           from '../modules/reconstruction/reducer';
 import page                     from '../state/page/reducer';
 import notifications            from '../state/notifications/reducer';
 import serialport               from '../state/serialport/reducer';
-import sketch                   from '../state/sketch/reducer';
 import os                       from '../state/os/reducer';
-import input                    from '../state/input/reducer';
+import sensors                  from '../state/sensors/reducer';
+import inputs                   from '../state/inputs/reducer';
 
 const rootReducer = combineReducers({
-    controlPanel: controlPanel,
+    controlPanel,
     LineChart,
     reconstruction,
     page,
     notifications,
     serialport,
-    sketch,
     os,
-    input
+    sensors,
+    inputs
 });
 
 export default rootReducer;

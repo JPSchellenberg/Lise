@@ -7,6 +7,8 @@ import {
 	stop
  } from '../../state/control-panel/actions';
 
+import Data from '../../core/data';
+
 interface IProps {	
 }
 
@@ -24,28 +26,21 @@ export default class List extends React.Component<IProps, IState> {
 							<li
 							className="btn btn-success"
 							onClick={() => { 
-								window.recording = true; 
-								window.channel1 = [];
-								window.channel2 = [];
-								window.lastTime = false;
+								Data.startRecording();
 							}}
 							> 
 								Start 
 							</li>
 							<li 
 							className="btn btn-warning"
-							onClick={() => { window.recording = false; }}
+							onClick={() => { Data.stopRecording(); }}
 							>
 							Stop
 							</li>
 							<li
 							className="btn btn-danger"
 							onClick={() => {
-								window.channel1 = [];
-								window.channel2 = [];
-								window.storage1 = [];
-								window.storage2 = [];
-								window.lastTime = false;
+								Data.reset();
 							} }
 							>
 							 Reset 
