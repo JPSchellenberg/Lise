@@ -48,11 +48,11 @@ module.exports = {
     },
     proxy: {
       '/socket.io': {
-        target: 'http://localhost:3000',
+        target: process.env.PROXY_SERVER ? process.env.PROXY_SERVER : 'http://localhost:3000',
         secure: false
       },
       '/api/v0/*': {
-        target: 'http://localhost:3000',
+        target: process.env.PROXY_SERVER ? process.env.PROXY_SERVER : 'http://localhost:3000',
         secure: false
       }
     }
