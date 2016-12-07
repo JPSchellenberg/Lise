@@ -11,6 +11,10 @@ import boot_socket from './socket';
 
 import Data from '../core/data';
 
+import {
+	get_os
+} from '../state/os/actions';
+
 declare var window: any;
 
 
@@ -19,15 +23,6 @@ export default function boot() {
 	boot_socket();
 
 	Data;
-
-	window.store = Store;
-
-	window.channel1 = []; 
-    window.channel2 = []; 
-    window.storage1 = []; 
-    window.storage2 = []; 
-    window.recording = false; 
-
 			ReactDOM.render(
 				<Provider store={Store}>
 					<div>
@@ -38,4 +33,6 @@ export default function boot() {
 				 ,
 				document.getElementById('root')
 			); 
+
+	Store.dispatch( get_os() );
 }
