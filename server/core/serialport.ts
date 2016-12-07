@@ -1,3 +1,4 @@
+import * as os from 'os';
 import * as _debug 			from 'debug';
 
 import * as serialport		from 'serialport';
@@ -22,10 +23,13 @@ export class Serialport extends EventEmitter {
 			this.write('i'); // get sensors
 			this.mTimeoutTimer = setTimeout(() => {
 				debug('receiving sketch timed out');
-				this.sketch = null;
-				this.sensors = []; 
-				this.closeConnection();                                         
-			}, 2000);
+				if (os.arch() !== 'mips') { // do not close connection on openwrt
+					this.sketch = null;
+					this.sensors = []; 
+					this.closeConnection();  
+				}
+				                                       
+			}, 5000);
 		});
 
 		this.on('sketch', (sketch) => {
@@ -40,7 +44,9 @@ export class Serialport extends EventEmitter {
 		})
 
 		// start polling ports:
-		setInterval(() => this.poll_ports(), 1000);
+		if (os.arch() !== 'mips' ) { // do not poll on openwrt
+			setInterval(() => this.poll_ports(), 1000);
+		}
 
 		debug('constructor end');
 	}
@@ -60,7 +66,10 @@ export class Serialport extends EventEmitter {
 	public set sensors(sensors: Array<string>) { this.mSensors = sensors; }
 	public get sensors(): Array<string> { return this.mSensors; }
 
-	public addPort(port: serialport.portConfig): number { return this.mPorts.push(port); }
+	public addPort(port: serialport.portConfig): number { 
+		debug('adding port',port);
+		return this.mPorts.push(port); 
+	}
 
 	public connect(comName: string): serialport.SerialPort {
 		debug_connection('connecting to '+comName);
@@ -118,6 +127,7 @@ export class Serialport extends EventEmitter {
 		debug('setting up listeners');
 		if (this.mConnection) {
 			this.mConnection.on('data', (data) => {
+				debug_connection('receiving data', data);
 				try {
 					data = data.split(" ");
 					this.emit(data[0], JSON.parse(data[1]));
