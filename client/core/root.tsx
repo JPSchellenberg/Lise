@@ -14,6 +14,9 @@ import PortSelect 			from '../components/PortSelect';
 import Samplerate 			from '../components/Samplerate';
 import Gain 				from '../components/Gain';
 
+import ConnectionStatus from '../components/ConnectionStatus';
+import SensorManager     from '../components/SensorManager';
+
 import { showSettings } 	from '../modules/line-chart/actions';
 
 import { showSettings as reconstruction_showSettings } from '../modules/reconstruction/actions';
@@ -93,6 +96,8 @@ export class Layout extends React.Component<IProps, IState> {
 						<div className="container-fluid">
 						<div className="row">
 							<div className="hidden-xs hidden-sm col-md-4">
+								<div className="dropup">
+									<div className="btn-group">
 								{
 									(this.props.os.arch !== 'mips' && this.props.os.platform !== 'linux') 
 									?
@@ -100,6 +105,10 @@ export class Layout extends React.Component<IProps, IState> {
 									: 
 									null
 							}
+								<ConnectionStatus />
+								<SensorManager />
+							</div>
+							</div>
 							</div>
 							<div className="col-xs-10 col-md-4">
 								<div className="navbar-form">
