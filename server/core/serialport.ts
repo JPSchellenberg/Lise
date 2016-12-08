@@ -89,7 +89,7 @@ export class Serialport extends EventEmitter {
 			self.mConnection = new serialport.SerialPort(
 				comName, 
 				{
-					baudRate: 57600,
+					baudRate: 115200,
 					parser: serialport.parsers.readline("\n"),
 					autoOpen: false
 				});
