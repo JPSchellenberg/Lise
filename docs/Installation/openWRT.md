@@ -18,8 +18,16 @@ Dies ist eine Anleitung zum Installieren auf einem Arduino-Yun. Vorraussetzung f
 ```
     tar -xzf openwrt.tar.gz
 ```
-  6. Anschließend kann das install-script ausgeführt werden:
+  6. Anschließend muss man in den entpackten Ordner wechseln:
+``` 
+  cd openwrt/
+```
+  7. Nun muss das install-script ausführbar gemacht werden:
+```
+  chmod u+x install
+```
+  8. Jetzt kann das install-script ausgeführt werden:
 ``` 
   ./install
 ```
-  7. Der Yun sollte bei erfolgreicher Installation neu starten. Nach ca. 1,5 Minuten ist das Programm über `http://<ip_des_arduinos>` zu erreichen.
+  9. Der Yun sollte bei erfolgreicher Installation neu starten. Nach ca. 1,5 Minuten ist das Programm über `http://<ip_des_arduinos>` zu erreichen.
