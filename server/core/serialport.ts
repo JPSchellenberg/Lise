@@ -107,6 +107,7 @@ export class Serialport extends EventEmitter {
 		if (this.mConnection) {
 			try {
 				debug('writing command: "' + command +'"');
+				command = command+'\n';
 				this.mConnection.write(command);
 				return true;
 			} catch(err) {
