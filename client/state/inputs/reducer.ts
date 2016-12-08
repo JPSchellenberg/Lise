@@ -2,7 +2,7 @@ import { assign } from 'lodash';
 
 import sensors from '../../core/sensors';
 
-const _sensors = sensors["1.0.0-prerelease.6"];
+const _sensors = sensors["1.0.0-prerelease.7"];
 
 import {
 	SENSORS_UPDATE_SENSOR_LIST
