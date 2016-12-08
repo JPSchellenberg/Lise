@@ -3,8 +3,9 @@
 #include <Adafruit_ADS1015.h>
 #include <RTClib.h>
 
-#define VERSION "1.0.0-prerelease.6"
+#define VERSION "1.0.0-prerelease.7"
 #define NAME "Lise_Main"
+#define DEBUG true
 
 Adafruit_ADS1115 ads1;  /* Use this for the 16-bit version */
 Adafruit_ADS1115 ads2;
@@ -14,38 +15,58 @@ long _samplerate = 20;
 long ms_time_to_wait = 50;
 boolean _ads1115 = true;
 boolean _rtc = false;
+boolean _transmitData = false;
 adsGain_t ads1gain;
 adsGain_t ads2gain;
 float gain_bit_factor_ads1 = 0.1875; //default immer mit der niedrigsten Verstärkung beginnen !!
 float gain_bit_factor_ads2 = 0.1875; //default
+String command = "";
+boolean createCommand = true;
 
 void setup(void)
 {
   Serial1.begin(115200);
   while (!Serial1) {}
+  if (DEBUG) {
+      Serial1.begin(115200);
+      pinMode(7, OUTPUT);
+      digitalWrite(7, LOW);
+  }
   ads1.begin();
   ads2.begin();
   ads1.setGain(GAIN_TWOTHIRDS);  //default
   ads2.setGain(GAIN_TWOTHIRDS);  //default
   rtc.begin(DateTime(F(__DATE__), F(__TIME__)));
   lastReading = millis();
+  pinMode(13, OUTPUT);
   scan_I2C(); //Muss das in der HAuptschleife sein? Braucht immer Zeit. Vlt. besser im Serial1Command aufgehoben. Habs mal rausgenommen, schon sind 30ms gewonnen!!!
 }                 // und nur beim init reingemacht. Vorerst unnötig, wichtig ist dass der AD/Wandler richtig funktioniert!! SCheint jetzt so zu sein..
 
 
 
 void loop(void)
-{
+{ 
   ms_time_to_wait = 1000L / _samplerate;
   while (Serial1.available() > 0) {
-    char command = (char)Serial1.read();
-    handle_command(command);
+    char commandChar = (char)Serial1.read();
+    if (DEBUG) { 
+      int c = (int)commandChar;
+      if (c != -1) {                      // got anything?
+        Serial.write(c);                  //    write to USB-CDC
+      }
+    }
+    if (isAlpha(commandChar)) { command += commandChar; } else {
+      handle_command();
+    }
+    
   }
 
   if (millis () - lastReading >= ms_time_to_wait)   //
   {
     lastReading = millis ();
-    measure();
+    if (_transmitData) {
+      measure();
+    }
     //   scan_I2C(); //Muss das in der HAuptschleife sein? Braucht immer Zeit. Vlt. besser im Serial1Command aufgehoben
     //    Bildschirmbutton Bus neu lesen?
   }
@@ -113,33 +134,34 @@ void scan_I2C(void) {
       if (address == 72) {
         if (_ads1115 == false) {
           _ads1115 = true;
-          print_sensor_list();
-          Serial1.print("\n");
+//          print_sensor_list();
+//          Serial1.print("\n");
         }
       }
       if (address == 104) {
         if (_rtc == false) {
           _rtc = true;
-          print_sensor_list();
-          Serial1.print("\n");
+//          print_sensor_list();
+//          Serial1.print("\n");
         }
       }
-    } else {
-      if (address == 72) {
-        if (_ads1115 == true) {
-          _ads1115 = false;
-          print_sensor_list();
-          Serial1.print("\n");
-        }
-      }
-      if (address == 104) {
-        if (_rtc == true) {
-          _rtc = false;
-          print_sensor_list();
-          Serial1.print("\n");
-        }
-      }
-    }
+    } 
+//    else {
+//      if (address == 72) {
+//        if (_ads1115 == true) {
+//          _ads1115 = false;
+//          print_sensor_list();
+//          Serial1.print("\n");
+//        }
+//      }
+//      if (address == 104) {
+//        if (_rtc == true) {
+//          _rtc = false;
+//          print_sensor_list();
+//          Serial1.print("\n");
+//        }
+//      }
+//    }
   }
 }
 
@@ -154,8 +176,8 @@ void print_sensor_list(void) {
   Serial1.print("\"time\"]");
 }
 
-void handle_command(char command) {
-  if (command == 'v') {
+void handle_command() {
+  if (command == "version") {
     Serial1.print("sketch {\"name\":\"");
     Serial1.print(NAME);
     Serial1.print("\",\"version\":\"");
@@ -164,13 +186,23 @@ void handle_command(char command) {
     Serial1.print("\n");
     Serial1.flush();
   }
+  
+  if (command == "lisestart") { // strate datauebertragung ... linux ist vollstaendig gebootet
+    _transmitData = true;
+    digitalWrite(13, HIGH);
+  }
+  
+  if (command == "lisestop") { // strate datauebertragung ... linux ist vollstaendig gebootet
+    _transmitData = false;
+    digitalWrite(13, LOW);
+  }
 
-  if (command == 's') {
+  if (command == "samplerate") {
     _samplerate = Serial1.parseInt();
     Serial1.print("update {\"name\":\"samplerate\",\"value\":"); Serial1.print(1000 / _samplerate); Serial1.print("}\n"); Serial1.flush();
   }
 
-  if (command == 'g') {
+  if (command == "gain") {
     int gain = Serial1.parseInt();
     if (gain <= 5) {           // range value:
       switch (gain) {
@@ -208,7 +240,7 @@ void handle_command(char command) {
     }
   }
 
-  if (command == 'h') {
+  if (command == "gainh") {
     int gain = Serial1.parseInt();
     if (gain <= 5) {           // range value:
       switch (gain) {
@@ -245,9 +277,11 @@ void handle_command(char command) {
       Serial1.print("update {\"name\":\"channel1\",\"parameter\":\"gain\",\"value\":"); Serial1.print(ads2gain); Serial1.print("}\n"); Serial1.flush();
     }
   }
-  if (command == 'i') {
+  if (command == "sensor") {
     print_sensor_list();
     Serial1.print("\n");
   }
+  
+  command = "";
 }
 

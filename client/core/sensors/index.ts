@@ -1,5 +1,5 @@
-import v100_p6 from './version/1.0.0-prerelease.6';
+import v100_p7 from './version/1.0.0-prerelease.7';
 
 export default {
-	"1.0.0-prerelease.6": v100_p6
+	"1.0.0-prerelease.7": v100_p7
 };

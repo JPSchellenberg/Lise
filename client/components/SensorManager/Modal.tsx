@@ -65,7 +65,7 @@ export default class SensorManagerModal extends React.Component<SensorManagerMod
         							<FormControl 
 											value={this.state.samplerate} 
 											onChange={this.handleInput} 
-											onBlur={() => { this.props.write('s'+this.state.samplerate)}}
+											onBlur={() => { this.props.write('samplerate='+this.state.samplerate)}}
 											type="number" />
       							</Col>
     							</FormGroup>

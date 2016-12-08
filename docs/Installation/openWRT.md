@@ -4,18 +4,30 @@ Dies ist eine Anleitung zum Installieren auf einem Arduino-Yun. Vorraussetzung f
   1. Download von [Lise-openWRT](http://lise.education/download/Lise-openWRT.zip)
   2. Upload der Dateien auf den Yun:
 ```
-    scp -r <lokaler_ordner> root@arduino.local:/srv/lise
+    scp openwrt.tar.gz root@<ip_des_arduinos>:/root
 ```
   3. Um alle benötigten Dateien auf dem Yun zu installieren muss sich per ssh mit dem Yun verbunden werden. Dieser Befehl verlangt in der Regel ein Passwort. Bei einem neuen Yun ist dieses Passwort "arduino". Nach Eingabe des Passwort befindet man sich auf dem Yun.
 ```
-    ssh root@arduino.local
+    ssh root@<ip_des_arduinos>
 ```
-  4. Auf dem Yun muss nun in den Ordner `/srv/lise` gewechselt werden
+  4. Auf dem Yun muss nun in den Ordner `/root` gewechselt werden
 ```
-    cd /srv/lise
+    cd /root
 ```
-  5. Im order `/srv/lise` muss nun nur noch folgender Befehl ausgeführt werden:
+  5. Im order `/root` muss nun die Software entpackt werden:
 ```
-    ./install
+    tar -xzf openwrt.tar.gz
 ```
-  6. Der Yun sollte bei erfolgreicher Installation neu starten. Nach ca. 1,5 Minuten ist das Programm über `http://arduino.local:3000` zu erreichen.
+  6. Anschließend muss man in den entpackten Ordner wechseln:
+``` 
+  cd openwrt/
+```
+  7. Nun muss das install-script ausführbar gemacht werden:
+```
+  chmod u+x install
+```
+  8. Jetzt kann das install-script ausgeführt werden:
+``` 
+  ./install
+```
+  9. Der Yun sollte bei erfolgreicher Installation neu starten. Nach ca. 1,5 Minuten ist das Programm über `http://<ip_des_arduinos>` zu erreichen.

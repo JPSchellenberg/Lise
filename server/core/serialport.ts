@@ -19,8 +19,9 @@ export class Serialport extends EventEmitter {
 		this.mSensors = [];
 
 		this.on('open', () => {
-			this.write('v'); // get version
-			this.write('i'); // get sensors
+			this.write("version"); // get version
+			this.write("sensor"); // get sensors
+			this.write("lisestart"); // start_lise
 			this.mTimeoutTimer = setTimeout(() => {
 				debug('receiving sketch timed out');
 				if (os.arch() !== 'mips') { // do not close connection on openwrt
@@ -88,7 +89,7 @@ export class Serialport extends EventEmitter {
 			self.mConnection = new serialport.SerialPort(
 				comName, 
 				{
-					baudRate: 57600,
+					baudRate: 115200,
 					parser: serialport.parsers.readline("\n"),
 					autoOpen: false
 				});
@@ -106,6 +107,7 @@ export class Serialport extends EventEmitter {
 		if (this.mConnection) {
 			try {
 				debug('writing command: "' + command +'"');
+				command = command+'\n';
 				this.mConnection.write(command);
 				return true;
 			} catch(err) {

@@ -18,7 +18,7 @@ export default {
 				"parameter": [
 					{
 						"name": "gain",
-						"command": (gain: number) => { return "g"+gain; },
+						"command": (gain: number) => { return "gain="+gain; },
 						"defaultValue": 1,
 						"type": "enum",
 						"options": [
@@ -39,7 +39,7 @@ export default {
 				"parameter": [
 					{
 						"name": "gain",
-						"command": (gain: number) => { return "h"+gain; },
+						"command": (gain: number) => { return "gainh="+gain; },
 						"defaultValue": 1,
 						"type": "enum",
 						"options": [
