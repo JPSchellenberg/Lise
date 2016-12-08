@@ -19,8 +19,9 @@ export class Serialport extends EventEmitter {
 		this.mSensors = [];
 
 		this.on('open', () => {
-			this.write('v'); // get version
-			this.write('i'); // get sensors
+			this.write("version"); // get version
+			this.write("sensor"); // get sensors
+			this.write("lisestart"); // start_lise
 			this.mTimeoutTimer = setTimeout(() => {
 				debug('receiving sketch timed out');
 				if (os.arch() !== 'mips') { // do not close connection on openwrt
