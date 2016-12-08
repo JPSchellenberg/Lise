@@ -31,7 +31,7 @@ echo [7/$NUM_STEPS] linking sysvinit: nginx
 ln -s /etc/init.d/nginx /etc/rc.d/S50nginx
 
 echo [8/$NUM_STEPS] linking sysvinit: lise
-ln -s /etc/init.d/lise /etc/rc.d/S51lise
+ln -s /etc/init.d/lise /etc/rc.d/S99lise
 
 echo [9/$NUM_STEPS] disabling uhttpd
 rm /etc/rc.d/S50uhttpd
