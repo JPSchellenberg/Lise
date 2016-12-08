@@ -7,13 +7,14 @@ NUM_STEPS=10
 # Installing dependencies
 echo [1/$NUM_STEPS] installing node
 mv ./resources/bin/nodejs /usr/bin/nodejs
+mv ./resources/bin/node /usr/bin/node
 echo [2/$NUM_STEPS] installing nginx
 mv ./resources/bin/nginx /usr/sbin/nginx
 
-echo [3/#NUM_STEPS] installing libraries
-mv ./resources/lib/ /usr/lib/
+echo [3/$NUM_STEPS] installing libraries
+mv ./resources/lib/* /usr/lib/
 
-echo [4/$NUM] installing lise
+echo [4/$NUM_STEPS] installing lise
 mkdir -p /srv/lise/client 
 mkdir -p /srv/lise/server
 mv ./client/* /srv/lise/client/
@@ -24,8 +25,8 @@ echo [5/$NUM_STEPS] moving sysvinit files
 mv ./resources/etc/init.d/* /etc/init.d/
 
 echo [6/$NUM_STEPS] moving nginx-config
-mkdir -p /etc/nginx/
-mv ./resources/etc/nginx/ /etc/nginx/
+mkdir -p /etc/nginx
+mv ./resources/etc/nginx/* /etc/nginx/
 
 echo [7/$NUM_STEPS] linking sysvinit: nginx
 ln -s /etc/init.d/nginx /etc/rc.d/S50nginx
