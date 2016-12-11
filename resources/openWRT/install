@@ -2,7 +2,7 @@
 
 echo Installing Lise
 
-NUM_STEPS=9
+NUM_STEPS=11
 
 # Installing dependencies
 echo [1/$NUM_STEPS] installing node
@@ -38,6 +38,12 @@ echo [9/$NUM_STEPS] disabling bridge
 echo "::sysinit:/etc/init.d/rcS S boot
 ::shutdown:/etc/init.d/rcS K shutdown
 #ttyATH0::askfirst:/bin/ash --login" > /etc/inittab
+
+echo [10/$NUM_STEPS] merging sketch with bootloader
+merge-sketch-with-bootloader.lua ./resources/hex/sketch.hex
+
+echo [11/$NUM_STEPS] flashing sketch
+run-avrdude ./resources/hex/sketch.hex
 
 echo *** Installation succesful ***
 echo *** Rebooting.. please wait 1-2 minutes ***
