@@ -69,10 +69,8 @@ export class Layout extends React.Component<IProps, IState> {
 		return (
 			<div id="app">		
 				<Navigation/>
-				<Notifications />
-
 				<div className="container">
-				
+				<div className="row" style={{'marginTop': '60px'}}></div>
 
 						<LineChart 
 							settings={this.props.linechartSettings}
@@ -95,7 +93,7 @@ export class Layout extends React.Component<IProps, IState> {
 					<div className="navbar navbar-inverse navbar-fixed-bottom">
 						<div className="container-fluid">
 						<div className="row">
-							<div className="hidden-xs hidden-sm col-md-4">
+							{/*<div className="hidden-xs hidden-sm col-md-4">
 								<div className="dropup">
 									<div className="btn-group">
 								{
@@ -109,32 +107,13 @@ export class Layout extends React.Component<IProps, IState> {
 								<SensorManager />
 							</div>
 							</div>
-							</div>
-							<div className="col-xs-10 col-md-4">
-								<div className="navbar-form">
+							</div>*/}
+							<div className="hidden-xs hidden-sm col-md-4"></div>
+							<div className="col-xs-12 col-md-4">
+								{/*<div className="navbar-form">*/}
 									<ControlPanel />
-								</div>
+								{/*</div>*/}
 							</div>
-							<ul className="nav navbar-nav navbar-right">
-								<li>
-									<div className="navbar-form">
-										{/*<Samplerate 
-										get_samplerate={this.props.sketch_get_samplerate}
-										sketch={this.props.sketch} 
-										setSamplerate={this.props.sketch_post_samplerate}
-										/>*/}
-									</div>
-								</li>
-							<li>
-								<div className="navbar-form">
-									{/*<Gain
-									get_gain={this.props.sketch_get_gain}
-									setGain={this.props.sketch_post_gain}
-									gain={this.props.sketch.gain}
-									/>*/}
-								</div>
-							</li>
-							</ul>
 						</div>
 					</div>
 					</div>

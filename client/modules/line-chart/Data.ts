@@ -10,6 +10,9 @@ class LineChartData {
 		});
 
 		this.mData = new Array();
+
+		this.addChannel('ads1115', 'Differential 1', 0);
+		this.addChannel('ads1115', 'Differential 2', 1);
 	}
 
 	mData: any;
