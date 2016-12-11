@@ -2,7 +2,7 @@
 
 echo Installing Lise
 
-NUM_STEPS=10
+NUM_STEPS=9
 
 # Installing dependencies
 echo [1/$NUM_STEPS] installing node
@@ -34,13 +34,7 @@ ln -s /etc/init.d/nginx /etc/rc.d/S50nginx
 echo [8/$NUM_STEPS] linking sysvinit: lise
 ln -s /etc/init.d/lise /etc/rc.d/S99lise
 
-echo [9/$NUM_STEPS] disabling uhttpd
-rm /etc/rc.d/S50uhttpd
-
-#echo [10/$NUM_STEPS] adding respawn 
-#echo /usr/bin/nodejs $(pwd)/server/index.js > /etc/rc.local
-
-# echo [10/$NUM_STEPS] disabling bridge
+echo [9/$NUM_STEPS] disabling bridge
 echo "::sysinit:/etc/init.d/rcS S boot
 ::shutdown:/etc/init.d/rcS K shutdown
 #ttyATH0::askfirst:/bin/ash --login" > /etc/inittab
