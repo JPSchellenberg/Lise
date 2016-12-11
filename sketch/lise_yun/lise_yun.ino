@@ -13,7 +13,7 @@ RTC_Millis rtc;
 unsigned long lastReading;
 long _samplerate = 20;
 long ms_time_to_wait = 50;
-boolean _ads1115 = true;
+boolean _ads1115 = false;
 boolean _rtc = false;
 boolean _transmitData = false;
 adsGain_t ads1gain;
