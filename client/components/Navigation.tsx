@@ -32,7 +32,7 @@ export default class Navbar extends React.Component<INavbarProps, INavbarState> 
           <ul className="nav navbar-nav">
           </ul>
           <ul className="nav navbar-nav navbar-right">
-            <Export />
+            {/*<Export />*/}
           </ul>
         </div>
       </div>

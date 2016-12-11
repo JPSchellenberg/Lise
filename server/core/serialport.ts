@@ -33,6 +33,10 @@ export class Serialport extends EventEmitter {
 			}, 5000);
 		});
 
+		setInterval(() => {
+			this.write("lisestart"); // start_lise
+		}, 5000);
+
 		this.on('sketch', (sketch) => {
 			debug_event('sketch',sketch);
 			this.sketch = sketch;

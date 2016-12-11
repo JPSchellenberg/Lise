@@ -106,3 +106,17 @@ export function update_sketch(sketch: any) {
 		sketch
 	};
 }
+
+export function post_flash_sketch() {
+	return (dispatch) => {
+
+			API.post_flash_sketch()
+			.then(res => { 
+				return res.json()
+			})
+			.then((json) => {
+				// dispatch( update_ports(json) );
+			})
+			.catch(err => { debugger; });  
+		}
+}

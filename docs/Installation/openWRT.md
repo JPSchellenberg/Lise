@@ -1,33 +1,36 @@
 # Installation auf openWRT
-Dies ist eine Anleitung zum Installieren auf einem Arduino-Yun. Vorraussetzung für die Installation ist, dass sich der Ardunio-Yun angeschaltet im Netzwerk befindet.
+Dies ist eine Anleitung zum Installieren auf einem Arduino-Yun.
 
-  1. Download von [Lise-openWRT](http://lise.education/download/Lise-openWRT.zip)
-  2. Upload der Dateien auf den Yun:
+  1. [Lise-openWRT](http://lise.education/download/Lise-openWRT-latest.tar.gz) downloaden und die `.tar.gz` entpacken.
+
+  2. Verbinden mit dem Arduino-Yun via WLAN. In der Regel erstellt der Arduino-Yun ein WLAN-Netzwerk mit dem Namen `ArduinoYun-XXXXXXXXXXXX` wobei die X durch Zahlen oder Buchstaben ersetzt werden.
+  
+  3. Upload der Dateien auf den Yun:
 ```
-    scp openwrt.tar.gz root@<ip_des_arduinos>:/root
+    scp openwrt.tar.gz root@192.168.240.1:/root
 ```
-  3. Um alle benötigten Dateien auf dem Yun zu installieren muss sich per ssh mit dem Yun verbunden werden. Dieser Befehl verlangt in der Regel ein Passwort. Bei einem neuen Yun ist dieses Passwort "arduino". Nach Eingabe des Passwort befindet man sich auf dem Yun.
+  4. Um alle benötigten Dateien auf dem Yun zu installieren muss sich per ssh mit dem Yun verbunden werden. Dieser Befehl verlangt in der Regel ein Passwort. Bei einem neuen Yun ist dieses Passwort "arduino". Nach Eingabe des Passwort befindet man sich auf dem Yun.
 ```
-    ssh root@<ip_des_arduinos>
+    ssh root@192.168.240.1
 ```
-  4. Auf dem Yun muss nun in den Ordner `/root` gewechselt werden
+  5. Auf dem Yun muss nun in den Ordner `/root` gewechselt werden
 ```
     cd /root
 ```
-  5. Im order `/root` muss nun die Software entpackt werden:
+  6. Im order `/root` muss nun die Software entpackt werden:
 ```
     tar -xzf openwrt.tar.gz
 ```
-  6. Anschließend muss man in den entpackten Ordner wechseln:
+  7. Anschließend muss man in den entpackten Ordner wechseln:
 ``` 
   cd openwrt/
 ```
-  7. Nun muss das install-script ausführbar gemacht werden:
+  8. Nun muss das install-script ausführbar gemacht werden:
 ```
-  chmod u+x install
+  chmod +x install
 ```
-  8. Jetzt kann das install-script ausgeführt werden:
+  9. Jetzt kann das install-script ausgeführt werden:
 ``` 
   ./install
 ```
-  9. Der Yun sollte bei erfolgreicher Installation neu starten. Nach ca. 1,5 Minuten ist das Programm über `http://<ip_des_arduinos>` zu erreichen.
+  10. Der Yun sollte bei erfolgreicher Installation neu starten. Nach ca. 1,5 Minuten ist das Programm über `http://192.168.240.1:8080` zu erreichen.

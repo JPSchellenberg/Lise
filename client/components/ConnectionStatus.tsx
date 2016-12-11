@@ -5,9 +5,15 @@ import * as classnames from 'classnames';
 
 import { Modal, ListGroup, ListGroupItem, Panel } from 'react-bootstrap';
 
+import {
+	post_flash_sketch
+} from '../state/serialport/actions';
+
 interface IConnectionStatusProps {
 	sketch?: any;
 	connection?: any;
+
+	flash?: any;
 }
 
 interface IConnectionStatusState {
@@ -24,20 +30,17 @@ export class ConnectionStatus extends React.Component<IConnectionStatusProps, IC
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if ( nextProps.sketch !== null) {
-			if ( nextProps.sketch.name === 'no sketch') {
+		if ( nextProps.sketch === null) {
 				this.setState({ showModal: true });
 			} else {
 				this.setState({ showModal: false });
 			}
-		}
-		
 	}
 
 	render() {
 		return (
 			<div 
-						onClick={() => { this.setState({ showModal: true })  }}
+						onClick={() => { if (this.props.sketch === null) { this.setState({ showModal: true }) }  }}
 						className={classnames({
 							'btn': true,
 							'btn-success': (this.props.sketch !== null && this.props.connection !== null),
@@ -54,18 +57,12 @@ export class ConnectionStatus extends React.Component<IConnectionStatusProps, IC
       					<div className="modal-body">
 							Es wurde kein kompatibler Sketch auf dem Arduino gefunden. Möchten Sie den momentanen Sketch überschreiben?
 							Bitte wählen Sie dazu aus der folgenden Liste ihr Modell aus.
-							<Panel header="Unterstützte Arduino-Modelle">
-								<ListGroup>
-									<ListGroupItem active>Leonardo</ListGroupItem>
-								</ListGroup>
-							</Panel>
 
 						</div>
  						<div className="modal-footer">
        				 		<button type="button" className="btn btn-danger" onClick={() => {this.setState({ showModal: false }) } }>Abbrechen</button>
         					<button
-							onClick={() => { 
-							}}
+							onClick={() => { this.props.flash() }}
 							type="button" className={classnames({
 								"btn": true,
 								"btn-success": true,
@@ -88,6 +85,7 @@ function mapStateToProps(state): IConnectionStatusProps {
 
 function mapDispatchToProps(dispatch) {
   return {
+	  flash: () => dispatch( post_flash_sketch() )
   };
 }
 
