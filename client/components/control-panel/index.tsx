@@ -22,30 +22,31 @@ export default class List extends React.Component<IProps, IState> {
 	
 	render() {
 		return (
-					<ul className="nav navbar-nav">
-							<li
-							className="btn btn-success"
+					<div className="col-xs-12">
+
+							<div
+							className="btn btn-success col-xs-4"
 							onClick={() => { 
 								Data.startRecording();
 							}}
 							> 
 								Start 
-							</li>
-							<li 
-							className="btn btn-warning"
+							</div>
+							<div 
+							className="btn btn-warning col-xs-4"
 							onClick={() => { Data.stopRecording(); }}
 							>
 							Stop
-							</li>
-							<li
-							className="btn btn-danger"
+							</div>
+							<div
+							className="btn btn-danger col-xs-4"
 							onClick={() => {
 								Data.reset();
 							} }
 							>
 							 Reset 
-							</li>
-					</ul>
+							</div>
+					</div>
 		);
 	}
 }
