@@ -36,3 +36,13 @@ export function post_write(command: string) {
 		body: JSON.stringify({ command })
 	});
 }
+
+export function post_flash_sketch() {
+	return fetch( window.location.href + 'api/v0/sketch/flash' , {
+		method: 'post',
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json'
+		}
+	});
+}
