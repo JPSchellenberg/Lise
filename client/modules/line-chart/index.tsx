@@ -66,7 +66,7 @@ export default class LineChart extends React.Component < IProps, IState > {
 						<div className="col-xs-10">
 							Line Chart
 						</div>
-						<div className="col-xs-2">
+						{/*<div className="col-xs-2">
 							<ButtonGroup>
 								<DropdownButton bsStyle="default" title={"X"} key={0} id={0}>
 									{sensors}
@@ -75,7 +75,7 @@ export default class LineChart extends React.Component < IProps, IState > {
 									{sensors}
 								</DropdownButton>
 							</ButtonGroup>
-						</div>
+						</div>*/}
 					</div>
 				</div> 
 				<div className="panel-body" style={{height: "500px"}}>
