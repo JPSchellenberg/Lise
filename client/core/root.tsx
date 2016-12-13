@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 
 import Navigation 			from '../components/Navigation';
 import Version 		 		from '../components/Version';
-import Notifications 		from '../components/Notifications';
 
 import LineChart 			from '../modules/line-chart';
 import Reconstruction 		from '../modules/reconstruction';

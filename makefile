@@ -1,7 +1,8 @@
 openwrt:
-	npm run build:server:production
+	# npm run build:server:production
+	mkdir -p dist/server
+	cp server/server.js dist/server/index.js; cp server/package.json dist/server/package.json; cd dist/server/; npm install
 	npm run build:client
-	rm -r dist/openWRT
 	mkdir -p dist/openWRT/Lise-openWRT-v$(shell git describe)/openwrt/resources 
 	cp -r dist/client dist/openWRT/Lise-openWRT-v$(shell git describe)/openwrt/
 	cp -r dist/server dist/openWRT/Lise-openWRT-v$(shell git describe)/openwrt/
