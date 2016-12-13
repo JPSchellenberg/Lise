@@ -6,12 +6,15 @@ class Data extends EventEmitter {
 	constructor() {
 		super();
 
-		this.connection = socketio.connect( window.location.href + 'serialport' );
+		this.connection = socketio.connect( window.location.href );
 
 		this.connection.on('data', (data) => {
-				if (this.mRecordingStartTime === null) { this.mRecordingStartTime = data.time[0] }
 				if (this.mRecording) {
-					this.emit('data', data);
+					data = data.split(" ");
+					if (this.mRecordingStartTime === null) { this.mRecordingStartTime = JSON.parse(data[1]).time[0] }
+					this.emit(data[0], JSON.parse(data[1]));
+					
+					// this.emit('data', data);
 				}
 				
 		});
