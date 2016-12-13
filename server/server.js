@@ -25,4 +25,4 @@ function broadcast_data(data) {
 	websocket.emit('data', data);
 };
 
-write_serialport('lisestart\n');
+connection.on('open', function() { write_serialport('lisestart\n'); });
