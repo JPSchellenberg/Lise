@@ -13,8 +13,6 @@ class Data extends EventEmitter {
 					data = data.split(" ");
 					if (this.mRecordingStartTime === null) { this.mRecordingStartTime = JSON.parse(data[1]).time[0] }
 					this.emit(data[0], JSON.parse(data[1]));
-					
-					// this.emit('data', data);
 				}
 				
 		});
