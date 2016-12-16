@@ -3,5 +3,5 @@
 START=99
 
 start() {
-	/usr/bin/nodejs /srv/lise/server/index.js &
+	/usr/bin/webserial /dev/ttyATH0 3001 &
 }
