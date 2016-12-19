@@ -118,19 +118,22 @@ public:
     void read_serialport(void) {
         std::string line;
         std::ifstream serialport( m_serialport.c_str() );
-        if (serialport.is_open()) {
-            while ( getline (serialport,line) ) {
-                boost::container::set<connection_hdl>::const_iterator it;
-                for (it = m_connections.begin(); it != m_connections.end(); ++it) {
-                    try {
-                        m_server.send(*it, line , websocketpp::frame::opcode::text);
-                    } catch (websocketpp::exception const & e) {
-                        std::cout << e.what() << std::endl;
-                    } 
-                }
+        //if (serialport.is_open()) {
+            while ( true ) {
+                if ( !serialport.is_open() ) { serialport.open( m_serialport.c_str() ); }
+                if ( getline (serialport,line) ) {
+                    boost::container::set<connection_hdl>::const_iterator it;
+                    for (it = m_connections.begin(); it != m_connections.end(); ++it) {
+                        try {
+                            m_server.send(*it, line , websocketpp::frame::opcode::text);
+                        } catch (websocketpp::exception const & e) {
+                            std::cout << e.what() << std::endl;
+                        } 
+                    }
+                }   
             }
-            serialport.close();
-        }
+            //serialport.close();
+        //}
     }
 
 private:
