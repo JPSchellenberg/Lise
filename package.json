@@ -1,6 +1,6 @@
 {
   "name": "lise",
-  "version": "1.0.0-prerelease.10",
+  "version": "1.0.0-prerelease.11",
   "description": "Low-cost interface for science experiments",
   "main": "./app/electron.js",
   "repository": {
