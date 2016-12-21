@@ -1,0 +1,15 @@
+#!/bin/ash
+
+echo linking sysvinit: nginx
+/etc/init.d/nginx enable
+
+echo disabling bridge
+echo "::sysinit:/etc/init.d/rcS S boot 
+::shutdown:/etc/init.d/rcS K shutdown 
+#ttyATH0::askfirst:/bin/ash --login
+::respawn:/usr/bin/webserial /dev/ttyATH0 3001" > /etc/inittab
+
+echo *** Installation succesful ***
+echo *** Rebooting.. please wait 1-2 minutes ***
+
+reboot

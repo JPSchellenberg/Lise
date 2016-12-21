@@ -7,7 +7,7 @@ Dies ist eine Anleitung zum Installieren auf einem Arduino-Yun.
   
   3. Upload der Dateien auf den Yun:
 ```
-    scp openwrt.tar.gz root@192.168.240.1:/root
+    scp Lise-core-(version).ipk root@192.168.240.1:/root
 ```
   4. Um alle benötigten Dateien auf dem Yun zu installieren muss sich per ssh mit dem Yun verbunden werden. Dieser Befehl verlangt in der Regel ein Passwort. Bei einem neuen Yun ist dieses Passwort "arduino". Nach Eingabe des Passwort befindet man sich auf dem Yun.
 ```
@@ -19,18 +19,6 @@ Dies ist eine Anleitung zum Installieren auf einem Arduino-Yun.
 ```
   6. Im order `/root` muss nun die Software entpackt werden:
 ```
-    tar -xzf openwrt.tar.gz
+    opkg install Lise-core-(version).ipk
 ```
-  7. Anschließend muss man in den entpackten Ordner wechseln:
-``` 
-  cd openwrt/
-```
-  8. Nun muss das install-script ausführbar gemacht werden:
-```
-  chmod +x install
-```
-  9. Jetzt kann das install-script ausgeführt werden:
-``` 
-  ./install
-```
-  10. Der Yun sollte bei erfolgreicher Installation neu starten. Nach ca. 1,5 Minuten ist das Programm über `http://192.168.240.1:8080` zu erreichen.
+  10. Der Yun sollte nun neu gestartet werden. Nach ca. 1,5 Minuten ist das Programm über `http://192.168.240.1:8080` zu erreichen.

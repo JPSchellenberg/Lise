@@ -1,0 +1,11 @@
+Package: lise-core
+Version: 1.0.0-prerelease.11
+Depends: 
+Section: bin
+Status: unknown hold not-installed
+Essential: no
+Priority: optional
+Maintainer: JPSchellenberg <jps@lise.education>
+Homepage: http://Lise.education/
+Architecture: ar71xx
+Description:  Low-cost interface for science experiments
